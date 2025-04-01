@@ -18,30 +18,30 @@ Esto permitiría:
 2. Probar con una arquitectura diferente, ya que hasta ahora todas las aplicaciones han sido monolíticas con un solo backend.
 
 # Casos de uso
-![alt text](Diagrama_casos_de_uso.png)
+![alt text](Docs/Diagrama_casos_de_uso.png)
 
 # Vistas/Pantallas
 ## Vistas del cliente
-![alt text](Imagenes/1.png)
+![alt text](Docs/Imagenes/1.png)
 ### Todas las casa que hay disponibles
-![alt text](Imagenes/Listado_Casas.png)
+![alt text](Docs/Imagenes/Listado_Casas.png)
 ### Formulario para hacer la reserva
-![](Imagenes/Form_Reserva.png)
+![](Docs/Imagenes/Form_Reserva.png)
 ### Ver la casa y sus caracteristicas
-![alt text](Imagenes/Cliente_Casa.png)
+![alt text](Docs/Imagenes/Cliente_Casa.png)
 ### Historial de reservas que ha hecho el cliente
-![alt text](Imagenes/ReservasCliente.png)
+![alt text](Docs/Imagenes/ReservasCliente.png)
 
 ## Vista Administrador
-![alt text](Imagenes/6.png)
+![alt text](Docs/Imagenes/6.png)
 ### Pantalla de inicio del Admin, aqui aparecera un dashboard con graficas sobre las reservas el dinero total que ha conseguido, etc.
-![alt text](Imagenes/Daashboard.png)
+![alt text](Docs/Imagenes/Daashboard.png)
 
 ### Las casas que tiene un administrador paraa gestionar
-![alt text](Imagenes/CasasAdmin.png)
+![alt text](Docs/Imagenes/CasasAdmin.png)
 
 ### Formulario Para añadir una nueva casa
-![alt text](Imagenes/Form_Casa.png)
+![alt text](Docs/Imagenes/Form_Casa.png)
 
 ### Ver la casa y las reservas que ha tenido
-![alt text](Imagenes/Admin_Casa.png)
+![alt text](Docs/Imagenes/Admin_Casa.png)

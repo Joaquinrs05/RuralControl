@@ -1,0 +1,138 @@
+@startuml Proyecto integrado
+
+package "Backend: Users API" {
+    class User {
+        +int id
+        +string name
+        +string surname1
+        +string surname2
+        +string alias
+        +Date birth_date
+        +string email
+        +string password
+        +createAccount()
+        +updateAccount()
+        +deleteAccount()
+        +getProfile()
+    }
+
+    class AuthService {
+        +login(email: string, password: string): AuthToken
+        +register(user: UserDTO): bool
+    }
+
+    class AuthToken {
+        +string token
+        +Date expiresAt
+    }
+
+    class UserDTO {
+        +string name
+        +string surname1
+        +string surname2
+        +string alias
+        +Date birth_date
+        +string email
+        +string password
+    }
+}
+
+package "Backend: Houses and Reservations API" {
+    class House {
+        +int id
+        +string title
+        +string description
+        +float pricePerNight
+        +string location
+        +List<string> images
+        +addHouse()
+        +updateHouse()
+        +deleteHouse()
+        +getHouseDetails()
+    }
+
+    class Reservation {
+        +int id
+        +Date startDate
+        +Date endDate
+        +string status
+        +float totalPrice
+        +House house
+        +User customer
+        +createReservation()
+        +updateReservation()
+        +cancelReservation()
+    }
+
+    enum ReservationStatus {
+        PENDING
+        CONFIRMED
+        CANCELLED
+        COMPLETED
+    }
+
+    class HouseService {
+        +getAvailableHouses(): List<House>
+        +getHouseDetails(houseId: int): House
+    }
+
+    class ReservationService {
+        +createReservation(reservation: Reservation): bool
+        +cancelReservation(reservationId: int): bool
+        +getReservationsForUser(userId: int): List<Reservation>
+    }
+}
+
+package "Frontend" {
+    class HouseListComponent {
+        +displayHouses()
+        +filterHouses(criteria: string)
+    }
+
+    class HouseDetailComponent {
+        +displayHouseDetails(houseId: int)
+        +createReservationForm(houseId: int)
+    }
+
+    class ReservationListComponent {
+        +displayUserReservations(userId: int)
+        +cancelReservation(reservationId: int)
+    }
+
+    class AuthComponent {
+        +loginForm()
+        +registerForm()
+    }
+
+    class UserProfileComponent {
+        +displayUserProfile(userId: int)
+        +updateUserProfile(userId: int)
+    }
+
+    class HouseService {
+        +getAvailableHouses(): Observable<List<House>>
+        +getHouseDetails(houseId: int): Observable<House>
+    }
+
+    class ReservationService {
+        +createReservation(reservation: Reservation): Observable<boolean>
+        +cancelReservation(reservationId: int): Observable<boolean>
+        +getReservationsForUser(userId: int): Observable<List<Reservation>>
+    }
+
+    class AuthService {
+        +login(user: UserDTO): Observable<AuthToken>
+        +register(user: UserDTO): Observable<boolean>
+    }
+}
+
+User -> AuthService : login()
+User -> AuthService : register()
+Reservation --> ReservationStatus : status
+Reservation --> House : house
+Reservation --> User : customer
+House -> HouseService : getAvailableHouses()
+Reservation -> ReservationService : createReservation()
+Reservation -> ReservationService : getReservationsForUser()
+
+@enduml
