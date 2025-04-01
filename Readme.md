@@ -7,7 +7,8 @@ Este proyecto consiste en una aplicación web, en la que los propietarios de cas
 
 El backend estará hecho en **Laravel**, con **Sanctum** para poder autenticar a los usuarios, y el frontend estará hecho en **Angular**.
 
-Mi idea de estructura para el proyecto será por ahora, tener dos apis separadas en lugar de una estructura monolítica. Para ello, debería tener:
+Mi idea de estructura para el proyecto será por ahora, tener dos apis separadas en lugar de una estructura monolítica. Para ello, debería tener: 
+
 -Una api para los usuarios.
 - Una api para las reservas, casas, etc.  
 
