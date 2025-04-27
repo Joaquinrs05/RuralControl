@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'surname1' => 'Sistema',
-            'surname2' => null,
+            'surname2' => 'prueba',
             'alias' => 'admin',
             'birth_date' => '1990-01-01',
             'email' => 'admin@example.com',
