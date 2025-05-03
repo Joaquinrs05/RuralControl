@@ -1,0 +1,62 @@
+<div class="register-container">
+  <h2>Crear una cuenta</h2>
+
+  @if (errorMessage()) {
+    <h4 class="error">{{ errorMessage() }}</h4>
+  }
+
+  <form [formGroup]="registerForm()" (ngSubmit)="onSubmit()">
+    <div class="input-group">
+      <label for="name">Nombre:</label>
+      <input id="name" type="text" formControlName="name" />
+    </div>
+
+    <div class="input-group">
+      <label for="surname1">Primer apellido:</label>
+      <input id="surname1" type="text" formControlName="surname1" />
+    </div>
+
+    <div class="input-group">
+      <label for="surname2">Segundo apellido:</label>
+      <input id="surname2" type="text" formControlName="surname2" />
+    </div>
+
+    <div class="input-group">
+      <label for="alias">Alias:</label>
+      <input id="alias" type="text" formControlName="alias" />
+    </div>
+
+    <div class="input-group">
+      <label for="birth_date">Fecha de nacimiento:</label>
+      <input id="birth_date" type="date" formControlName="birth_date" />
+    </div>
+
+    <div class="input-group">
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" />
+    </div>
+
+    <div class="input-group">
+      <label for="password">Contraseña:</label>
+      <input id="password" type="password" formControlName="password" />
+    </div>
+
+    <div class="input-group">
+      <label for="password_confirmation">Confirmar contraseña:</label>
+      <input id="password_confirmation" type="password" formControlName="password_confirmation" />
+    </div>
+
+    <div class="row">
+      <button type="submit" [disabled]="registerForm().invalid || loading()">
+        @if (loading()) {
+          <span class="spinner"></span>
+        }
+        Registrarse
+      </button>
+    </div>
+
+    <div class="row mt-3">
+      <p>¿Ya tienes una cuenta? <a routerLink="/auth/login">Iniciar sesión</a></p>
+    </div>
+  </form>
+</div>
