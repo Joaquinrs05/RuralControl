@@ -1,0 +1,9 @@
+/* Estilos específicos para el componente home */
+:host {
+    display: block;
+    padding-top: 60px; /* Espacio para el header */
+  }
+  
+  .min-h-screen {
+    min-height: calc(100vh - 60px);
+  }

@@ -2,7 +2,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import jwt_decode from 'jwt-decode';
 import jwtDecode from 'jwt-decode';
 
 
@@ -24,7 +23,7 @@ export class AuthService {
   
   constructor() { 
     // Cargar usuario desde localStorage al iniciar
-    const storedToken = localStorage.getItem('auth_token');
+    const storedToken = localStorage.getItem('token');
     if (storedToken) {
       const user = this.getUserFromToken(storedToken);
       this.currentUserSignal.set(user);
@@ -46,28 +45,34 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/api/auth/login`, credentials).pipe(
       tap((response: any) => {
-        const token = response.token;
-        if (token) {
-          this.storeToken(token);
-          const decoded = jwtDecode(token);
-          console.log('Usuario decodificado:', decoded);
+        if (response && typeof response.token === 'string') {
+          this.storeToken(response.token);
+          try {
+            const decoded = jwtDecode(response.token);
+            console.log('Usuario decodificado:', decoded);
+          } catch (e) {
+            console.error('Error al decodificar el token:', e);
+          }
+        } else {
+          console.warn('No se recibió un token válido del backend.');
         }
       })
     );
   }
+  
   private storeToken(token: string) {
-    localStorage.setItem('auth_token', token);
+    localStorage.setItem('token', token);
     const user = this.getUserFromToken(token);
     this.currentUserSignal.set(user);
   }
   
   private getUserFromToken(token: string): User {
-    const decoded: any = jwt_decode(token);
+    const decoded: any = jwtDecode(token);
     return { token, name: decoded.name, email: decoded.email };
   }
   
   getToken(): string | null {
-    return localStorage.getItem('auth_token');
+    return localStorage.getItem('token');
   }
   
   isLoggedIn(): boolean {
@@ -75,7 +80,7 @@ export class AuthService {
   }
   
   logout() {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('token');
     this.currentUserSignal.set(null);
   }
 }

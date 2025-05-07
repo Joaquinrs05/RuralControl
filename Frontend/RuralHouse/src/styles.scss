@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Esto asegura que el contenido principal tenga espacio para el header fijo */
+  router-outlet + * {
+    display: block;
+    padding-top: 60px; /* Misma altura que el header */
+  }

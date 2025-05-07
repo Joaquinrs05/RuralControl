@@ -1,16 +1,29 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Routing\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
     // 🔐 Registro
     public function register(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'surname1' => 'nullable|string|max:255',
+            'surname2' => 'nullable|string|max:255',
+            'alias' => 'nullable|string|max:255|unique:users,alias',
+            'birth_date' => 'nullable|date',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
         $user = User::create([
             'name'       => $request->name,
             'surname1'   => $request->surname1,
@@ -21,12 +34,13 @@ class UserController extends Controller
             'password'   => Hash::make($request->password),
         ]);
 
-        $token = Auth::login($user);
+        $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'token'     => $token,
-            'expiresAt' => now()->addMinutes(config('jwt.ttl'))
-        ]);
+            'expiresAt' => now()->addMinutes(config('jwt.ttl'))->toDateTimeString(),
+            'user' => $user,
+        ], 201);
     }
 
     // 🔑 Login
@@ -34,21 +48,26 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = Auth::attempt($credentials)) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return response()->json([
             'token'     => $token,
-            'expiresAt' => now()->addMinutes(config('jwt.ttl'))
+            'expiresAt' => now()->addMinutes(config('jwt.ttl'))->toDateTimeString(),
+            'user' => Auth::user(),
         ]);
     }
 
     // 🚪 Logout
     public function logout()
     {
-        Auth::logout();
-        return response()->json(['message' => 'Logged out successfully']);
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return response()->json(['message' => 'Logged out successfully']);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Failed to logout, token not valid'], 500);
+        }
     }
 
     // 👤 Info usuario actual
@@ -60,18 +79,20 @@ class UserController extends Controller
     // ✏️ Actualizar perfil
     public function update(Request $request)
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
-        $user->update($request->all());
+        $user->update($request->only([
+            'name', 'surname1', 'surname2', 'alias', 'birth_date', 'email'
+        ]));
+
         return response()->json($user);
     }
 
     // 🗑️ Eliminar cuenta
     public function destroy()
     {
-          /** @var \App\Models\User $user */
         $user = Auth::user();
         $user->delete();
+        JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => 'User deleted']);
     }
 }

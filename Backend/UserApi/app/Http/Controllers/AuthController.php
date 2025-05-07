@@ -6,21 +6,23 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
+    // Registrar un nuevo usuario
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'surname1' => 'nullable|string|max:255',
             'surname2' => 'nullable|string|max:255',
-            'alias' => '|string|max:255|unique:users,alias',
-            'birth_date' => '|date',
+            'alias' => 'nullable|string|max:255|unique:users,alias',
+            'birth_date' => 'nullable|date',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:6|confirmed', // password_confirmation
-            'type' => '|string|in:admin,user', // admin o user
+            'password' => 'required|string|min:6|confirmed',
+            'type' => 'required|string|in:admin,user',
         ]);
 
         $user = User::create([
@@ -40,51 +42,61 @@ class AuthController extends Controller
             'message' => 'Usuario registrado correctamente',
             'user' => $user,
             'token' => $token,
+            'expiresAt' => now()->addMinutes(config('jwt.ttl'))->toDateTimeString(),
         ], 201);
     }
 
-    // Login de usuario
+    // Login del usuario
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Credenciales inválidas'], 401);
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'Credenciales inválidas'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'No se pudo crear el token'], 500);
         }
 
         return response()->json([
             'message' => 'Login exitoso',
-            'token' => $token, // 🔥 Aquí antes devolvías solo true, ahora el JWT real
-            'expiresAt' => now()->addMinutes(JWTAuth::factory()->getTTL())->toDateTimeString()
+            'token' => $token,
+            'expiresAt' => now()->addMinutes(config('jwt.ttl'))->toDateTimeString(),
         ]);
     }
 
     // Logout del usuario
-    public function logout()
+    public function logout(Request $request)
     {
-        JWTAuth::invalidate(JWTAuth::getToken());
-
-        return response()->json([
-            'message' => 'Logout exitoso',
-        ]);
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return response()->json(['message' => 'Logout exitoso']);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'No se pudo cerrar la sesión'], 500);
+        }
     }
 
-    // Refrescar el token (opcional pero útil)
+    // Refrescar token
     public function refresh()
     {
-        $newToken = JWTAuth::refresh(JWTAuth::getToken());
-
-        return response()->json([
-            'message' => 'Token refrescado',
-            'token' => $newToken,
-        ]);
+        try {
+            $newToken = JWTAuth::refresh(JWTAuth::getToken());
+            return response()->json([
+                'message' => 'Token refrescado',
+                'token' => $newToken,
+                'expiresAt' => now()->addMinutes(config('jwt.ttl'))->toDateTimeString(),
+            ]);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'No se pudo refrescar el token'], 500);
+        }
     }
 
-    // Obtener perfil del usuario autenticado
+    // Perfil del usuario autenticado
     public function profile()
     {
         return response()->json([
-            'user' => auth()->user(),
+            'user' => Auth::user(),
         ]);
     }
 }

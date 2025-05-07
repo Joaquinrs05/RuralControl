@@ -1,0 +1,16 @@
+<div class="house-card" [routerLink]="['/casa', house.id]">
+    <div class="house-image">
+      <img [src]="house.photo_path" [alt]="house.name">
+    </div>
+    <div class="house-info">
+      <h3 class="house-title">{{ house.name }}</h3>
+      <p class="house-description">{{ house.description | slice:0:100 }}{{ house.description.length > 100 ? '...' : '' }}</p>
+      <div class="house-rating">
+        <span class="stars">
+          <span class="filled-stars" [style.width.%]="house.average_rating * 20">★★★★★</span>
+          <span class="empty-stars">★★★★★</span>
+        </span>
+        <span class="rating-value">{{ house.average_rating.toFixed(1) }}</span>
+      </div>
+    </div>
+  </div>
