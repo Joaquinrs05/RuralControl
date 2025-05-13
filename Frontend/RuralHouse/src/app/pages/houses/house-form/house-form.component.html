@@ -1,0 +1,25 @@
+<div class="formulario-reserva">
+  <h2>Reserva para {{ house().name }}</h2>
+  <p><strong>Características:</strong> {{ house().description }}</p>
+
+  <h3>Datos del usuario</h3>
+  <p>Nombre: {{ user().name }}</p>
+  <p>Email: {{ user().email }}</p>
+
+  <form [formGroup]="reservaForm" (ngSubmit)="onSubmit()" novalidate>
+    <label for="fecha">Fecha de reserva:</label>
+    <input id="fecha" type="date" formControlName="fecha" required />
+    <div
+      *ngIf="
+        reservaForm.get('fecha')?.invalid && reservaForm.get('fecha')?.touched
+      "
+      style="color: red"
+    >
+      La fecha es obligatoria.
+    </div>
+
+    <button type="submit" class="btn btn-blue" [disabled]="reservaForm.invalid">
+      Enviar reserva
+    </button>
+  </form>
+</div>

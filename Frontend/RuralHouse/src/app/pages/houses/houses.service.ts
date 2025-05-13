@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { House } from './house.model';
+import { House } from '../../shared/models/house.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +45,14 @@ export class HouseService {
     created_at: '23',
     updated_at: 'ewq',
   };
+
+  showHouseRentalForm(id: number) {
+    this.#httpClient
+      .get(`${this.apiUrl}/${id}/rental-form`)
+      .subscribe((result) => {
+        console.log('Mostrar formulario de alquiler', result);
+      });
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
