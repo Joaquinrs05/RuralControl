@@ -21,8 +21,8 @@ import { User } from '../../../shared/models/user.model';
 @Component({
   selector: 'app-house-detail',
   imports: [
-    HouseCardComponent /* HeroItemNotFoundComponent */,
-    RouterLink,
+    /*   HouseCardComponent, HeroItemNotFoundComponent ,
+    RouterLink, */
     HouseFormComponent,
   ],
   /* template: ` @if(house()){

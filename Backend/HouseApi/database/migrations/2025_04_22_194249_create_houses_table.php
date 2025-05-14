@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // TODO en un futuro revisar que el usuario existe y que es admin 
     public function up(): void
     {
         Schema::create('houses', function (Blueprint $table) {

@@ -7,16 +7,24 @@
   <p>Email: {{ user().email }}</p>
 
   <form [formGroup]="reservaForm" (ngSubmit)="onSubmit()" novalidate>
-    <label for="fecha">Fecha de reserva:</label>
-    <input id="fecha" type="date" formControlName="fecha" required />
-    <div
-      *ngIf="
-        reservaForm.get('fecha')?.invalid && reservaForm.get('fecha')?.touched
-      "
-      style="color: red"
-    >
-      La fecha es obligatoria.
-    </div>
+    <label for="fecha_inicio">Fecha de inicio:</label>
+    <input
+      id="fecha_inicio"
+      type="date"
+      formControlName="fecha_inicio"
+      required
+    />
+
+    <label for="fecha_fin">Fecha de fin:</label>
+    <input id="fecha_fin" type="date" formControlName="fecha_fin" required />
+
+    <label for="num_personas">Número de personas:</label>
+    <input
+      id="num_personas"
+      type="number"
+      formControlName="num_personas"
+      min="1"
+    />
 
     <button type="submit" class="btn btn-blue" [disabled]="reservaForm.invalid">
       Enviar reserva

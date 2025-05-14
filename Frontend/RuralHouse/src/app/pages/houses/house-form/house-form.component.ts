@@ -7,7 +7,9 @@ import {
 } from '@angular/forms';
 import { House } from '../../../shared/models/house.model';
 import { User } from '../../../shared/models/user.model';
+import { Reservation } from '../../../shared/models/reservation.model';
 import { CommonModule } from '@angular/common';
+import { HouseService } from '../houses.service';
 
 @Component({
   selector: 'app-house-form',
@@ -21,12 +23,25 @@ export class HouseFormComponent {
   house = input.required<House>();
 
   private fb = inject(FormBuilder);
+  private houseService = inject(HouseService);
   reservaForm: FormGroup;
+
+  showModal = false;
 
   constructor() {
     this.reservaForm = this.fb.group({
-      fecha: ['', Validators.required],
+      fecha_inicio: ['', Validators.required],
+      fecha_fin: ['', Validators.required],
+      num_personas: ['', Validators.required],
     });
+  }
+
+  abrirModal() {
+    this.showModal = true;
+  }
+
+  cerrarModal() {
+    this.showModal = false;
   }
 
   onSubmit() {
@@ -36,9 +51,20 @@ export class HouseFormComponent {
 
     const datosReserva = {
       ...this.reservaForm.value,
-      user: this.user,
-      house: this.house,
+      user_id: this.user().id,
+      house_id: this.house().id,
     };
-    console.log('Reserva enviada:', datosReserva);
+    this.houseService.createReservation(datosReserva).subscribe({
+      next: () => {
+        alert('Reserva realizada con éxito');
+        this.reservaForm.reset();
+        this.cerrarModal();
+      },
+      error: () => {
+        console.error('Error al realizar la reserva', datosReserva);
+        alert('Error al realizar la reserva');
+      },
+    });
   }
 }
+

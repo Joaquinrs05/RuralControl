@@ -10,6 +10,8 @@ import { House } from '../../shared/models/house.model';
 export class HouseService {
   private apiUrl = 'http://127.0.0.1:8001/api/houses'; // Ajusta la URL según tu backend
 
+  private apiUrlReservation = 'http://127.0.0.1:8001/api/reservations'; // Ajusta la URL según tu backend
+
   readonly #httpClient = inject(HttpClient);
 
   #housesSignal = signal<House[]>([]); // It is the state of the heroes
@@ -60,5 +62,9 @@ export class HouseService {
       // Devuelve un resultado vacío para seguir ejecutando la aplicación
       return of(result as T);
     };
+  }
+
+  createReservation(reservation: any) {
+    return this.#httpClient.post(this.apiUrlReservation, reservation);
   }
 }
