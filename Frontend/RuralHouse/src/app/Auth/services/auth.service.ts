@@ -15,7 +15,7 @@ interface User {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8000';
+  private apiUrl = 'http://51.38.176.82:8000';
 
   private currentUserSignal = signal<User | null>(null);
   currentUser = computed(() => this.currentUserSignal());
