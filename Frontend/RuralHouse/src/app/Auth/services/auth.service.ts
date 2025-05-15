@@ -48,7 +48,6 @@ export class AuthService {
           this.storeToken(response.token);
           try {
             const decoded = jwtDecode(response.token);
-            console.log('Usuario decodificado:', decoded);
           } catch (e) {
             console.error('Error al decodificar el token:', e);
           }
@@ -67,7 +66,6 @@ export class AuthService {
 
   getUserFromToken(token: string): any {
     const decoded: any = jwtDecode(token);
-    console.log('Contenido decodificado del token:', decoded); // <-- Aquí
 
     return {
       id: decoded.sub, // O decoded.id si lo tienes así

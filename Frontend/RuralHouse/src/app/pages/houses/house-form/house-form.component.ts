@@ -10,6 +10,7 @@ import { User } from '../../../shared/models/user.model';
 import { Reservation } from '../../../shared/models/reservation.model';
 import { CommonModule } from '@angular/common';
 import { HouseService } from '../houses.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-house-form',
@@ -24,6 +25,7 @@ export class HouseFormComponent {
 
   private fb = inject(FormBuilder);
   private houseService = inject(HouseService);
+  private router = inject(Router);
   reservaForm: FormGroup;
 
   showModal = false;
@@ -59,6 +61,7 @@ export class HouseFormComponent {
         alert('Reserva realizada con éxito');
         this.reservaForm.reset();
         this.cerrarModal();
+        this.router.navigate(['/houses']);
       },
       error: () => {
         console.error('Error al realizar la reserva', datosReserva);
@@ -67,4 +70,3 @@ export class HouseFormComponent {
     });
   }
 }
-

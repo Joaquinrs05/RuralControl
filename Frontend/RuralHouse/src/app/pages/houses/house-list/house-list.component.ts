@@ -7,18 +7,24 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-house-list',
   imports: [HouseCardComponent, CommonModule],
-  template: ` <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-  >
-    @for (house of houses(); track house.id) {
-    <app-house-card
-      [house]="house"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 color-red-600 bg-red-600"
-    />
-    } @empty {
-    <h1 aria-hidden="true">There are no Heroes.</h1>
-    }
-  </div>`,
+  template: `
+    <div class="w-full max-w-7xl mx-auto px-4 py-8">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-items-center"
+      >
+        @for (house of houses(); track house.id) {
+        <app-house-card [house]="house" />
+        } @empty {
+        <h1
+          aria-hidden="true"
+          class="col-span-full text-center text-gray-500 text-xl"
+        >
+          No hay casas disponibles.
+        </h1>
+        }
+      </div>
+    </div>
+  `,
 })
 export class HouseListComponent {
   readonly #houseService = inject(HouseService);
