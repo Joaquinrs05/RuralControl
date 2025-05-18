@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, Output, EventEmitter } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -23,27 +23,24 @@ export class HouseFormComponent {
   user = input.required<User>();
   house = input.required<House>();
 
-  private fb = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
   private houseService = inject(HouseService);
   private router = inject(Router);
   reservaForm: FormGroup;
 
-  showModal = false;
+  @Output() close = new EventEmitter<void>();
 
   constructor() {
-    this.reservaForm = this.fb.group({
+    this.reservaForm = this.formBuilder.group({
       fecha_inicio: ['', Validators.required],
       fecha_fin: ['', Validators.required],
       num_personas: ['', Validators.required],
     });
   }
 
-  abrirModal() {
-    this.showModal = true;
-  }
-
+  // El control de visibilidad del modal se gestiona desde el componente padre (house-detail)
   cerrarModal() {
-    this.showModal = false;
+    this.close.emit();
   }
 
   onSubmit() {
@@ -58,6 +55,7 @@ export class HouseFormComponent {
     };
     this.houseService.createReservation(datosReserva).subscribe({
       next: () => {
+        // TODO: Mostrar un mensaje de éxito con libreria estilo SweetAlert
         alert('Reserva realizada con éxito');
         this.reservaForm.reset();
         this.cerrarModal();

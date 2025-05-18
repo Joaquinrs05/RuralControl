@@ -82,4 +82,8 @@ export class HouseDetailComponent {
   mostrarFormularioAlquiler() {
     this.showRentalForm = true;
   }
+
+  cerrarFormularioAlquiler() {
+    this.showRentalForm = false;
+  }
 }
