@@ -49,6 +49,13 @@ export class UserService {
     // ...otros campos si tienes en tu modelo User
   };
 
+  updateUser(user: User): Observable<User> {
+    const url = `${this.apiUrl}/${user.id}`;
+    return this.#httpClient.put<User>(url, user).pipe(
+      catchError(this.handleError<User>('updateUser'))
+    );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);

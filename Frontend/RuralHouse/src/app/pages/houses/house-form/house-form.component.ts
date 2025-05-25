@@ -59,7 +59,7 @@ export class HouseFormComponent {
         alert('Reserva realizada con éxito');
         this.reservaForm.reset();
         this.cerrarModal();
-        this.router.navigate(['/houses']);
+        this.router.navigate(['/home']);
       },
       error: () => {
         console.error('Error al realizar la reserva', datosReserva);

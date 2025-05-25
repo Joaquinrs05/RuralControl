@@ -12,11 +12,12 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class UserController extends Controller
 {
     // 👤 Info usuario actual autenticado
-    public function me()
+    public function profile()
     {
         return response()->json(Auth::user());
     }
 
+    //FIXME Revisar el show y profile porque creo que realmente los dos hacen lo mismo
     // Obtener usuario por ID (nuevo método)
     public function show($id)
     {
