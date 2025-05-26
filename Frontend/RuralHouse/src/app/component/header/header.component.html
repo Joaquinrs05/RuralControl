@@ -6,14 +6,22 @@
     <div class="company-name">
       <h1>{{ companyName }}</h1>
     </div>
-    <button class="profile-btn" (click)="profile()">{{ buttonText }}</button>
-    <!-- <nav class="nav-menu">
-      <ul>
-        <li><a routerLink="/">Inicio</a></li>
-        <li><a routerLink="/propiedades">Propiedades</a></li>
-        <li><a routerLink="/contacto">Contacto</a></li>
-      </ul>
-    </nav> -->
-    <!-- El botón Perfil se mueve después del nombre de la empresa -->
+    <div class="flex items-center gap-4">
+      <!-- Botón de perfil -->
+      <button 
+        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+        (click)="router.navigate(router.url === '/profile' ? ['/home'] : ['/profile'])"
+      >
+        {{ router.url === '/profile' ? 'Inicio' : 'Perfil' }}
+      </button>
+      
+      <!-- Botón de cerrar sesión -->
+      <button 
+        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+        (click)="logout()"
+      >
+        Cerrar sesión
+      </button>
+    </div>
   </div>
 </header>

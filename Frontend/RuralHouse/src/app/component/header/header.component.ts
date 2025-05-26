@@ -1,13 +1,19 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
   readonly router = inject(Router);
+  readonly authService = inject(AuthService);
+
   // Nombre de la empresa
   companyName: string = 'RuralControl';
 
@@ -24,5 +30,10 @@ export class HeaderComponent {
     } else {
       this.router.navigate(['/profile']);
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
   }
 }
