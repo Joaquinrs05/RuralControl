@@ -14,7 +14,7 @@ import { HouseService } from '../houses.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HouseFormComponent } from '../house-form/house-form.component';
-import { UserService } from '../../users/user.service';
+import { UserService } from '../../profile/user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { User } from '../../../shared/models/user.model';
 

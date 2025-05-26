@@ -51,9 +51,9 @@ export class UserService {
 
   updateUser(user: User): Observable<User> {
     const url = `${this.apiUrl}/${user.id}`;
-    return this.#httpClient.put<User>(url, user).pipe(
-      catchError(this.handleError<User>('updateUser'))
-    );
+    return this.#httpClient
+      .put<User>(url, user)
+      .pipe(catchError(this.handleError<User>('updateUser')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

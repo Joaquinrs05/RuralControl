@@ -1,17 +1,19 @@
 <header class="header">
-    <div class="header-container">
-      <div class="logo-container">
-        <img [src]="logoPath" alt="Logo de {{companyName}}" class="logo">
-      </div>
-      <div class="company-name">
-        <h1>{{companyName}}</h1>
-      </div>
-      <!-- <nav class="nav-menu">
-        <ul>
-          <li><a routerLink="/">Inicio</a></li>
-          <li><a routerLink="/propiedades">Propiedades</a></li>
-          <li><a routerLink="/contacto">Contacto</a></li>
-        </ul>
-      </nav> -->
+  <div class="header-container">
+    <div class="logo-container">
+      <img [src]="logoPath" alt="Logo de {{ companyName }}" class="logo" />
     </div>
-  </header>
+    <div class="company-name">
+      <h1>{{ companyName }}</h1>
+    </div>
+    <button class="profile-btn" (click)="profile()">{{ buttonText }}</button>
+    <!-- <nav class="nav-menu">
+      <ul>
+        <li><a routerLink="/">Inicio</a></li>
+        <li><a routerLink="/propiedades">Propiedades</a></li>
+        <li><a routerLink="/contacto">Contacto</a></li>
+      </ul>
+    </nav> -->
+    <!-- El botón Perfil se mueve después del nombre de la empresa -->
+  </div>
+</header>

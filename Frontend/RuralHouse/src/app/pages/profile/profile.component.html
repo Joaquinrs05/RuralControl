@@ -1,0 +1,100 @@
+<div class="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+      <!-- Header con imagen de perfil -->
+      <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-48 relative">
+        <div class="absolute -bottom-16 left-8">
+          <div
+            class="h-32 w-32 rounded-full border-4 border-white bg-white overflow-hidden"
+          >
+            <div
+              class="h-full w-full bg-indigo-200 flex items-center justify-center text-4xl font-bold text-indigo-600"
+            >
+              {{ usuarioActual().name ? usuarioActual().name.charAt(0) : "U"
+              }}{{
+                usuarioActual().surname1
+                  ? usuarioActual().surname1.charAt(0)
+                  : ""
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="px-8 pt-20 pb-8">
+        <div class="flex justify-between items-start mb-8">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+              {{ usuarioActual().name }} {{ usuarioActual().surname1 }}
+              {{ usuarioActual().surname2 }}
+            </h1>
+            <p class="text-indigo-600 font-medium">
+              {{ usuarioActual().alias || "usuario" }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Información del perfil -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Columna izquierda -->
+          <div class="space-y-4">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-sm font-medium text-gray-500">
+                Información personal
+              </h3>
+              <div class="mt-2 space-y-3">
+                <div>
+                  <p class="text-xs text-gray-500">Nombre completo</p>
+                  <p class="font-medium">
+                    {{ usuarioActual().name }} {{ usuarioActual().surname1 }}
+                    {{ usuarioActual().surname2 }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500">Fecha de nacimiento</p>
+                  <p class="font-medium">
+                    {{ usuarioActual().birth_date || "No especificada" }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna derecha -->
+          <div class="space-y-4">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-sm font-medium text-gray-500">Contacto</h3>
+              <div class="mt-2 space-y-3">
+                <div>
+                  <p class="text-xs text-gray-500">Correo electrónico</p>
+                  <p class="font-medium break-all">
+                    {{ usuarioActual().email }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500">Miembro desde</p>
+                  <p class="font-medium">
+                    {{ formatDate(usuarioActual().created_at) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de estadísticas o acciones adicionales -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">
+            Registro de alquiler
+          </h3>
+          <div class="bg-blue-50 p-4 rounded-lg text-center">
+            <p class="text-sm text-blue-700">
+              Link a la vista de los alquileres
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
