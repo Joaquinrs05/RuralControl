@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from '../../shared/models/user.model';
+import { AuthService } from '../../Auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class UserService {
 
   #usersSignal = signal<User[]>([]);
   users = computed(() => this.#usersSignal());
+  #authService = inject(AuthService);
 
   load(): Observable<User[]> {
     return this.#httpClient.get<User[]>(this.apiUrl).pipe(
@@ -32,6 +34,16 @@ export class UserService {
     return this.#httpClient
       .get<User>(url)
       .pipe(catchError(this.handleError<User>(`getUser id=${id}`)));
+  }
+
+  getProfile(): Observable<User | undefined> {
+    const token = this.#authService.getToken();
+    if (!token) return of(undefined);
+    const decoded: any = this.#authService.getUserFromToken(token);
+    if (decoded && decoded.id) {
+      return this.getUserById(decoded.id);
+    }
+    return of(undefined);
   }
 
   // Para pruebas, si aún no tienes el backend listo

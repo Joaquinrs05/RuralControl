@@ -32,7 +32,7 @@ export class UsersComponent {
   };
 
   usuarioActual = signal<User>(this.userVacio);
-  
+
   constructor() {
     // Efecto reactivo: obtiene el id del usuario del token y carga el usuario completo
     effect(() => {
@@ -41,7 +41,7 @@ export class UsersComponent {
       const decoded: any = this.#authService.getUserFromToken(token);
       if (decoded && decoded.id) {
         this.loading.set(true);
-        this.#userService.getUserById(decoded.id).subscribe({
+        this.#userService.getProfile().subscribe({
           next: (user) => {
             this.usuarioActual.set(user ?? this.userVacio);
             this.loading.set(false);
@@ -49,7 +49,7 @@ export class UsersComponent {
           error: (error) => {
             console.error('Error al cargar el usuario:', error);
             this.loading.set(false);
-          }
+          },
         });
       }
     });
@@ -65,8 +65,8 @@ export class UsersComponent {
     });
   }
 
-  editUser(user: User) {
-    this.#userService.getUserById(user.id).subscribe({
+  editUser() {
+    this.#userService.getProfile().subscribe({
       next: () => {
         this.loading.set(false);
       },
