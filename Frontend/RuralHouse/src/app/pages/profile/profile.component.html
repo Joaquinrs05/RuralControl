@@ -86,13 +86,78 @@
         <!-- Sección de estadísticas o acciones adicionales -->
         <div class="mt-8 pt-6 border-t border-gray-200">
           <h3 class="text-lg font-medium text-gray-900 mb-4">
-            Registro de alquiler
+            Tus últimos alquileres
           </h3>
-          <div class="bg-blue-50 p-4 rounded-lg text-center">
-            <p class="text-sm text-blue-700">
-              Link a la vista de los alquileres
-            </p>
+          <div *ngIf="reservasUsuario().length > 0; else sinReservas">
+            <div class="overflow-x-auto">
+              <table class="min-w-full bg-white rounded-lg shadow">
+                <thead>
+                  <tr>
+                    <th
+                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+                    >
+                      ID
+                    </th>
+                    <th
+                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Nombre
+                    </th>
+                    <th
+                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Descripción
+                    </th>
+                    <th
+                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Foto
+                    </th>
+                    <th
+                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Propietario
+                    </th>
+                    <th
+                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Valoración
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let casa of reservasUsuario()">
+                    <td class="px-4 py-2">{{ casa.id }}</td>
+                    <td class="px-4 py-2">{{ casa.name }}</td>
+                    <td class="px-4 py-2">
+                      {{
+                        casa.description.length > 75
+                          ? (casa.description | slice : 0 : 75) + "…"
+                          : casa.description
+                      }}
+                    </td>
+                    <td class="px-4 py-2">{{ casa.photo_path }}</td>
+                    <td class="px-4 py-2">{{ casa.owner_id }}</td>
+                    <td class="px-4 py-2">{{ casa.average_rating }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4 text-right">
+              <button
+  routerLink="/reservas"
+  class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors font-medium"
+>
+  Ver todas mis reservas
+</button
+              >
+            </div>
           </div>
+          <ng-template #sinReservas>
+            <div class="bg-blue-50 p-4 rounded-lg text-center">
+              <p class="text-sm text-blue-700">No tienes reservas aún.</p>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

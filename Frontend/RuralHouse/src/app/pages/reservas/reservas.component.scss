@@ -1,0 +1,12 @@
+/* Estilos básicos para la tabla de reservas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+}
+th {
+  background-color: #f9fafb;
+}

@@ -1,13 +1,14 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgForOf } from '@angular/common';
 import { UserService } from './user.service';
 import { AuthService } from '../../Auth/services/auth.service';
 import { User } from '../../shared/models/user.model';
+import { ReservationService, Reservation } from '../houses/reservation.service';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgForOf],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -17,6 +18,7 @@ export class UsersComponent {
 
   #userService = inject(UserService);
   #authService = inject(AuthService);
+  #reservationService = inject(ReservationService);
 
   private userVacio: User = {
     id: 0,
@@ -32,6 +34,7 @@ export class UsersComponent {
   };
 
   usuarioActual = signal<User>(this.userVacio);
+  reservasUsuario = signal<Reservation[]>([]);
 
   constructor() {
     // Efecto reactivo: obtiene el id del usuario del token y carga el usuario completo
@@ -44,6 +47,8 @@ export class UsersComponent {
         this.#userService.getProfile().subscribe({
           next: (user) => {
             this.usuarioActual.set(user ?? this.userVacio);
+            // Cargar reservas del usuario
+            this.cargarReservasUsuario(user?.id);
             this.loading.set(false);
           },
           error: (error) => {
@@ -52,6 +57,24 @@ export class UsersComponent {
           },
         });
       }
+    });
+  }
+
+  private cargarReservasUsuario(userId?: number) {
+    console.log('[Perfil] userId para reservas:', userId);
+    if (!userId) return;
+    this.#reservationService.getReservationsByUser(userId).subscribe({
+      next: (reservas) => {
+        console.log('[Perfil] Reservas recibidas:', reservas);
+        // Filtrar reservas válidas
+        const reservasValidas = (reservas || []).filter(
+          (r) => r && r.id !== undefined && r.id !== null
+        );
+        this.reservasUsuario.set(reservasValidas);
+      },
+      error: (error) => {
+        console.error('[Perfil] Error al cargar reservas:', error);
+      },
     });
   }
 
@@ -65,7 +88,7 @@ export class UsersComponent {
     });
   }
 
-  editUser() {
+  /*  editUser() {
     this.#userService.getProfile().subscribe({
       next: () => {
         this.loading.set(false);
@@ -75,5 +98,5 @@ export class UsersComponent {
         this.loading.set(false);
       },
     });
-  }
+  } */
 }
