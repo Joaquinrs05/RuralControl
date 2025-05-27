@@ -4,9 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\House;
 
 class ReservationController extends Controller
 {
+    // Obtener todas las casas rurales que un usuario ha reservado por su id
+    public function getHousesByUser($id)
+    {
+        $houseIds = Reservation::where('user_id', $id)
+            ->pluck('house_id')
+            ->unique();
+
+        if ($houseIds->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron casas reservadas por este usuario'], 404);
+        }
+
+        $houses = House::whereIn('id', $houseIds)->get();
+
+        return response()->json($houses);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

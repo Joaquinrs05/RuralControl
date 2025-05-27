@@ -15,4 +15,6 @@ Route::delete('houses/{house}', [HouseController::class, 'destroy']);
 
 Route::middleware([HandleCors::class])->group(function () {
     Route::post('reservations', [ReservationController::class, 'store']);
+    // Endpoint para obtener casas rurales de un usuario por su id
+    Route::get('users/{id}/houses', [ReservationController::class, 'getHousesByUser']);
 });
