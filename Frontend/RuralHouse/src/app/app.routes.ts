@@ -63,6 +63,14 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
-
+  //Rutas de admin
+  {
+    path: 'admin/home',
+    loadComponent: () =>
+      import('./pages/admin/home/admin-home.component').then(
+        (m) => m.AdminHomeComponent
+      ),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: 'auth/login' },
 ];

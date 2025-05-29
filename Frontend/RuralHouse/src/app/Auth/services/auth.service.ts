@@ -45,12 +45,17 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/api/auth/login`, credentials).pipe(
       tap((response: any) => {
         if (response && typeof response.token === 'string') {
-          this.storeToken(response.token);
+          console.log(
+            '[AuthService] Token recibido del backend:',
+            response.token
+          );
           try {
             const decoded = jwtDecode(response.token);
+            console.log('[AuthService] Payload decodificado:', decoded);
           } catch (e) {
             console.error('Error al decodificar el token:', e);
           }
+          this.storeToken(response.token);
         } else {
           console.warn('No se recibió un token válido del backend.');
         }
