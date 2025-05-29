@@ -49,13 +49,18 @@ export const routes: Routes = [
   },
   {
     path: 'reservas',
-    loadComponent: () => import('./pages/reservas/reservas.component').then(m => m.ReservasComponent),
+    loadComponent: () =>
+      import('./pages/user/reservas/reservas.component').then(
+        (m) => m.ReservasComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'profile',
     loadComponent: () =>
-      import('./pages/profile/profile.component').then((c) => c.UsersComponent),
+      import('./pages/user/profile/profile.component').then(
+        (c) => c.UsersComponent
+      ),
     canActivate: [authGuard],
   },
 

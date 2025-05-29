@@ -1,8 +1,11 @@
 import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
-import { ReservationService, Reservation } from '../houses/reservation.service';
-import { User } from '../../shared/models/user.model';
-import { AuthService } from '../../Auth/services/auth.service';
+import {
+  ReservationService,
+  Reservation,
+} from '../../houses/reservation.service';
+import { User } from '../../../shared/models/user.model';
+import { AuthService } from '../../../Auth/services/auth.service';
 
 @Component({
   selector: 'app-reservas',

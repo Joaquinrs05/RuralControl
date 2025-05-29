@@ -2,8 +2,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { User } from '../../shared/models/user.model';
-import { AuthService } from '../../Auth/services/auth.service';
+import { User } from '../../../shared/models/user.model';
+import { AuthService } from '../../../Auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root',

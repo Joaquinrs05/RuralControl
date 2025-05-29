@@ -1,9 +1,12 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
 import { UserService } from './user.service';
-import { AuthService } from '../../Auth/services/auth.service';
-import { User } from '../../shared/models/user.model';
-import { ReservationService, Reservation } from '../houses/reservation.service';
+import { AuthService } from '../../../Auth/services/auth.service';
+import { User } from '../../../shared/models/user.model';
+import {
+  ReservationService,
+  Reservation,
+} from '../../houses/reservation.service';
 import { Router } from '@angular/router';
 
 @Component({
