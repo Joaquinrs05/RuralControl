@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { AuthService } from '../../Auth/services/auth.service';
 import { User } from '../../shared/models/user.model';
 import { ReservationService, Reservation } from '../houses/reservation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -13,6 +14,7 @@ import { ReservationService, Reservation } from '../houses/reservation.service';
   styleUrl: './profile.component.scss',
 })
 export class UsersComponent {
+  readonly router = inject(Router);
   loading = signal(true);
   errorMsg = '';
 

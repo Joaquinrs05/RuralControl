@@ -46,21 +46,6 @@ export class UserService {
     return of(undefined);
   }
 
-  // Para pruebas, si aún no tienes el backend listo
-  readonly defaultUser: User = {
-    id: Math.floor(Math.random() * 10000) + 1000,
-    name: 'Juan Pérez',
-    email: 'juan@ejemplo.com',
-    surname1: 'Perez',
-    surname2: 'Perez',
-    alias: 'Juan',
-    birth_date: '2000-01-01',
-    password: '123456',
-    created_at: '2023-01-01',
-    updated_at: '2023-01-01',
-    // ...otros campos si tienes en tu modelo User
-  };
-
   updateUser(user: User): Observable<User> {
     const url = `${this.apiUrl}/${user.id}`;
     return this.#httpClient

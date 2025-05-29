@@ -11,6 +11,13 @@ import { AuthService } from '../../Auth/services/auth.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  get hideMenu(): boolean {
+    return (
+      this.router.url.startsWith('/auth/login') ||
+      this.router.url.startsWith('/auth/register')
+    );
+  }
+  showMenu = false;
   readonly router = inject(Router);
   readonly authService = inject(AuthService);
 

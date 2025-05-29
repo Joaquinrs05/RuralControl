@@ -1,6 +1,8 @@
 import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
 import { ReservationService, Reservation } from '../houses/reservation.service';
+import { User } from '../../shared/models/user.model';
+import { AuthService } from '../../Auth/services/auth.service';
 
 @Component({
   selector: 'app-reservas',
@@ -10,25 +12,33 @@ import { ReservationService, Reservation } from '../houses/reservation.service';
   styleUrl: './reservas.component.scss',
 })
 export class ReservasComponent {
-  loading = signal(true);
+  constructor() {
+    if (this.user?.id) {
+      this.cargarReservasUsuario(this.user.id);
+    }
+  }
+  /*  loading = signal(true); */
   errorMsg = '';
   reservasUsuario = signal<Reservation[]>([]);
 
+  #authService = inject(AuthService);
   #reservationService = inject(ReservationService);
-
-  constructor(private userId: number) {
-    effect(() => {
-      this.loading.set(true);
-      this.#reservationService.getReservationsByUser(this.userId).subscribe({
-        next: (reservas) => {
-          this.reservasUsuario.set(reservas || []);
-          this.loading.set(false);
-        },
-        error: (error) => {
-          this.errorMsg = 'Error al cargar reservas';
-          this.loading.set(false);
-        },
-      });
+  user = this.#authService.getUserFromToken(this.#authService.getToken()!);
+  private cargarReservasUsuario(userId?: number) {
+    console.log('[Perfil] userId para reservas:', userId);
+    if (!userId) return;
+    this.#reservationService.getReservationsByUser(userId).subscribe({
+      next: (reservas) => {
+        console.log('[Perfil] Reservas recibidas:', reservas);
+        // Filtrar reservas válidas
+        const reservasValidas = (reservas || []).filter(
+          (r) => r && r.id !== undefined && r.id !== null
+        );
+        this.reservasUsuario.set(reservasValidas);
+      },
+      error: (error) => {
+        console.error('[Perfil] Error al cargar reservas:', error);
+      },
     });
   }
 }
