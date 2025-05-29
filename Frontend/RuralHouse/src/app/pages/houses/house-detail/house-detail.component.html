@@ -1,0 +1,41 @@
+<div
+  class="min-h-screen bg-white flex flex-col items-center justify-start py-10"
+>
+  <!--   <h1 class="text-4xl font-bold mb-6 text-center">Ver casa</h1> -->
+  <div
+    class="flex flex-col items-center bg-white shadow-lg rounded-lg p-8 w-full max-w-xl"
+  >
+    @if (house().photo_path) {
+    <img
+      [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
+      [alt]="house().name"
+      class="w-64 h-48 object-cover rounded mb-4 border"
+    />
+    } @else {
+    <div
+      class="w-64 h-48 bg-gray-200 flex items-center justify-center rounded mb-4 border"
+    >
+      <span class="text-gray-400">Sin imagen</span>
+    </div>
+    }
+    <div class="text-2xl font-medium mb-8 text-center">{{ house().name }}</div>
+    <div class="text-3xl font-semibold mb-8 text-center">Características</div>
+    <p class="text-lg text-gray-700 text-center mb-6">
+      {{ house().description }}
+    </p>
+    <button
+      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition mb-2"
+      (click)="mostrarFormularioAlquiler()"
+    >
+      Alquilar
+    </button>
+    @if (showRentalForm && usuarioActual() && usuarioActual().id &&
+    usuarioActual().name) {
+    <app-house-form
+      [user]="usuarioActual()"
+      [house]="house()"
+      (close)="cerrarFormularioAlquiler()"
+    ></app-house-form>
+    }
+  </div>
+</div>

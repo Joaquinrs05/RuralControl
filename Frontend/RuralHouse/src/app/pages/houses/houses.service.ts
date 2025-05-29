@@ -2,13 +2,15 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { House } from './house.model';
+import { House } from '../../shared/models/house.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HouseService {
   private apiUrl = 'http://127.0.0.1:8001/api/houses'; // Ajusta la URL según tu backend
+
+  private apiUrlReservation = 'http://127.0.0.1:8001/api/reservations'; // Ajusta la URL según tu backend
 
   readonly #httpClient = inject(HttpClient);
 
@@ -46,11 +48,23 @@ export class HouseService {
     updated_at: 'ewq',
   };
 
+  showHouseRentalForm(id: number) {
+    this.#httpClient
+      .get(`${this.apiUrl}/${id}/rental-form`)
+      .subscribe((result) => {
+        console.log('Mostrar formulario de alquiler', result);
+      });
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
       // Devuelve un resultado vacío para seguir ejecutando la aplicación
       return of(result as T);
     };
+  }
+
+  createReservation(reservation: any) {
+    return this.#httpClient.post(this.apiUrlReservation, reservation);
   }
 }

@@ -1,62 +1,130 @@
-<div class="register-container">
-  <h2>Crear una cuenta</h2>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
+    <h2 class="text-3xl font-bold mb-6 text-center">Crear una cuenta</h2>
+    <h2>Crear una cuenta</h2>
 
-  @if (errorMessage()) {
+    @if (errorMessage()) {
     <h4 class="error">{{ errorMessage() }}</h4>
-  }
+    }
 
-  <form [formGroup]="registerForm()" (ngSubmit)="onSubmit()">
-    <div class="input-group">
-      <label for="name">Nombre:</label>
-      <input id="name" type="text" formControlName="name" />
-    </div>
+    <form
+      [formGroup]="registerForm()"
+      (ngSubmit)="onSubmit()"
+      class="space-y-5"
+    >
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="name">Nombre:</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="surname1">Primer apellido:</label>
-      <input id="surname1" type="text" formControlName="surname1" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="surname1">Primer apellido:</label>
+          <input
+            id="surname1"
+            type="text"
+            formControlName="surname1"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="surname2">Segundo apellido:</label>
-      <input id="surname2" type="text" formControlName="surname2" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="surname2">Segundo apellido:</label>
+          <input
+            id="surname2"
+            type="text"
+            formControlName="surname2"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="alias">Alias:</label>
-      <input id="alias" type="text" formControlName="alias" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="alias">Alias:</label>
+          <input
+            id="alias"
+            type="text"
+            formControlName="alias"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="birth_date">Fecha de nacimiento:</label>
-      <input id="birth_date" type="date" formControlName="birth_date" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="birth_date">Fecha de nacimiento:</label>
+          <input
+            id="birth_date"
+            type="date"
+            formControlName="birth_date"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="email">Email:</label>
-      <input id="email" type="email" formControlName="email" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="email">Email:</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="password">Contraseña:</label>
-      <input id="password" type="password" formControlName="password" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="password">Contraseña:</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="input-group">
-      <label for="password_confirmation">Confirmar contraseña:</label>
-      <input id="password_confirmation" type="password" formControlName="password_confirmation" />
-    </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          <label for="password_confirmation">Confirmar contraseña:</label>
+          <input
+            id="password_confirmation"
+            type="password"
+            formControlName="password_confirmation"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
 
-    <div class="row">
-      <button type="submit" [disabled]="registerForm().invalid || loading()">
-        @if (loading()) {
+      <div class="flex justify-center">
+        <button
+          type="submit"
+          [disabled]="registerForm().invalid || loading()"
+          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full disabled:bg-gray-400"
+        >
+          @if (loading()) {
           <span class="spinner"></span>
-        }
-        Registrarse
-      </button>
-    </div>
+          } Registrarse
+        </button>
+      </div>
 
-    <div class="row mt-3">
-      <p>¿Ya tienes una cuenta? <a routerLink="/auth/login">Iniciar sesión</a></p>
-    </div>
-  </form>
+      <div class="flex justify-center mt-3">
+        <p>
+          ¿Ya tienes una cuenta? <a routerLink="/auth/login">Iniciar sesión</a>
+        </p>
+      </div>
+    </form>
+  </div>
 </div>

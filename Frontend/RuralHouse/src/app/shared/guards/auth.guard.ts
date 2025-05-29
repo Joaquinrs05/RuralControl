@@ -1,10 +1,7 @@
 // auth.guard.ts
 import { inject } from '@angular/core';
-import {
-  CanActivateFn,
-  Router
-} from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../../Auth/services/auth.service';
 import jwtDecode from 'jwt-decode';
 
 export const authGuard: CanActivateFn = () => {

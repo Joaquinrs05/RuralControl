@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Registrar un nuevo usuario
+    // 🔐 Registro
     public function register(Request $request)
     {
         $request->validate([
@@ -22,31 +22,28 @@ class AuthController extends Controller
             'birth_date' => 'nullable|date',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            'type' => 'required|string|in:admin,user',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'surname1' => $request->surname1,
-            'surname2' => $request->surname2,
-            'alias' => $request->alias,
+            'name'       => $request->name,
+            'surname1'   => $request->surname1,
+            'surname2'   => $request->surname2,
+            'alias'      => $request->alias,
             'birth_date' => $request->birth_date,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'type' => $request->type,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
         ]);
 
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
-            'message' => 'Usuario registrado correctamente',
+            'token'     => $token,
             'user' => $user,
-            'token' => $token,
             'expiresAt' => now()->addMinutes(config('jwt.ttl'))->toDateTimeString(),
         ], 201);
     }
 
-    // Login del usuario
+    // 🔑 Login
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -66,7 +63,7 @@ class AuthController extends Controller
         ]);
     }
 
-    // Logout del usuario
+    // 🚪 Logout
     public function logout(Request $request)
     {
         try {

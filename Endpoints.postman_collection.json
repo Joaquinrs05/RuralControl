@@ -1,0 +1,92 @@
+{
+  "info": {
+    "_postman_id": "casa-rural-demo-collection",
+    "name": "Casa Rural API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Casas Rurales",
+      "item": [
+        {
+          "name": "Listar casas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://127.0.0.1:8001/api/houses", "protocol": "http", "host": ["127.0.0.1"], "port": "8001", "path": ["api", "houses"] }
+          }
+        },
+        {
+          "name": "Crear casa",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Casa ejemplo\",\n  \"descripcion\": \"Una casa rural bonita\"\n}" },
+            "url": { "raw": "http://127.0.0.1:8001/api/houses", "protocol": "http", "host": ["127.0.0.1"], "port": "8001", "path": ["api", "houses"] }
+          }
+        },
+        {
+          "name": "Ver casa por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://127.0.0.1:8001/api/houses/:house", "protocol": "http", "host": ["127.0.0.1"], "port": "8001", "path": ["api", "houses", ":house"] }
+          }
+        },
+        {
+          "name": "Actualizar casa",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Casa actualizada\",\n  \"descripcion\": \"Descripción actualizada\"\n}" },
+            "url": { "raw": "http://127.0.0.1:8001/api/houses/:house", "protocol": "http", "host": ["127.0.0.1"], "port": "8001", "path": ["api", "houses", ":house"] }
+          }
+        },
+        {
+          "name": "Eliminar casa",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "http://127.0.0.1:8001/api/houses/:house", "protocol": "http", "host": ["127.0.0.1"], "port": "8001", "path": ["api", "houses", ":house"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservas",
+      "item": [
+        {
+          "name": "Crear reserva",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"house_id\": 1,\n  \"user_id\": 1,\n  \"fecha_inicio\": \"2024-07-01\",\n  \"fecha_fin\": \"2024-07-07\"\n}" },
+            "url": { "raw": "http://127.0.0.1:8001/api/reservations", "protocol": "http", "host": ["127.0.0.1"], "port": "8001", "path": ["api", "reservations"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://127.0.0.1:8000/api/users", "protocol": "http", "host": ["127.0.0.1"], "port": "8000", "path": ["api", "users"] }
+          }
+        },
+        {
+          "name": "Login usuario",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"usuario@demo.com\",\n  \"password\": \"123456\"\n}" },
+            "url": { "raw": "http://127.0.0.1:8000/api/auth/login", "protocol": "http", "host": ["127.0.0.1"], "port": "8000", "path": ["api", "auth", "login"] }
+          }
+        }
+      ]
+    }
+  ]
+}

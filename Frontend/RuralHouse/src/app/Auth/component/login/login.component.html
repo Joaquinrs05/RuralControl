@@ -1,21 +1,24 @@
 <!-- login.component.html -->
-<div class="login-container">
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-3xl font-bold mb-6 text-center">Iniciar Sesión</h2>
     <h2>Iniciar Sesión</h2>
     
     @if (errorMessage()) {
       <h4 class="error">{{ errorMessage() }}</h4>
     }
     
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
       <div class="input-group">
         <label for="email">Email:</label>
         <input
-          formControlName="email"
-          type="email"
-          id="email"
-          name="email"
-          autofocus
-        />
+            formControlName="email"
+            type="email"
+            id="email"
+            name="email"
+            autofocus
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
       </div>
       @if (loginForm.get('email')?.dirty && loginForm.get('email')?.invalid) {
         <div class="error">

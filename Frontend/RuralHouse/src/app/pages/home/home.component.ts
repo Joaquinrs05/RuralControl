@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { HeaderComponent } from '../../component/header/header.component';
-import { House } from '../houses/house.model';
+import { House } from '../../shared/models/house.model';
 import { HouseService } from '../houses/houses.service';
 import { HouseListComponent } from '../houses/house-list/house-list.component';
 import { CommonModule } from '@angular/common';
