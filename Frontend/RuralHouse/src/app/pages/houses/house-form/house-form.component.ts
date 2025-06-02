@@ -32,9 +32,9 @@ export class HouseFormComponent {
 
   constructor() {
     this.reservaForm = this.formBuilder.group({
-      fecha_inicio: ['', Validators.required],
-      fecha_fin: ['', Validators.required],
-      num_personas: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required],
+      num_people: ['', Validators.required],
     });
   }
 
@@ -49,10 +49,13 @@ export class HouseFormComponent {
     }
 
     const datosReserva = {
-      ...this.reservaForm.value,
+      start_date: this.reservaForm.value.start_date,
+      end_date: this.reservaForm.value.end_date,
+      num_people: this.reservaForm.value.num_people,
       user_id: this.user().id,
       house_id: this.house().id,
     };
+    console.log('📤 Datos que se envían a la API:', datosReserva); // <-- AQUÍ
     this.houseService.createReservation(datosReserva).subscribe({
       next: () => {
         // TODO: Mostrar un mensaje de éxito con libreria estilo SweetAlert
@@ -66,5 +69,20 @@ export class HouseFormComponent {
         alert('Error al realizar la reserva');
       },
     });
+  }
+
+  get totalNights(): number {
+    const start = new Date(this.reservaForm.get('start_date')?.value);
+    const end = new Date(this.reservaForm.get('end_date')?.value);
+    const diff = end.getTime() - start.getTime();
+    return diff > 0 ? diff / (1000 * 60 * 60 * 24) : 0;
+  }
+
+  get estimatedTotal(): number {
+    return (
+      this.totalNights *
+      this.house().price_per_night *
+      this.reservaForm.get('num_people')?.value
+    );
   }
 }

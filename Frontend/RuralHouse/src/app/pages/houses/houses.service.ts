@@ -44,6 +44,8 @@ export class HouseService {
     photo_path: 'dhjsad',
     owner_id: 1,
     average_rating: 1,
+    visits: 1,
+    price_per_night: 1,
     created_at: '23',
     updated_at: 'ewq',
   };

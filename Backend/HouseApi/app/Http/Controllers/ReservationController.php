@@ -25,28 +25,45 @@ class ReservationController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'user_id' => 'required|integer',
-            'house_id' => 'required|exists:houses,id',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
-            'num_personas' => 'nullable|integer|min:1',
-        ]);
+{
+    $validated = $request->validate([
+        'user_id' => 'required|integer',
+        'house_id' => 'required|exists:houses,id',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'num_people' => 'required|integer|min:1',
+    ]);
 
-        // Validar usuario en UserApi
-        $userApiUrl = "http://127.0.0.1:8000/api/users/{$validated['user_id']}";
-        $response = \Illuminate\Support\Facades\Http::get($userApiUrl);
+    // Validar que el usuario existe en la API externa
+    $userApiUrl = "http://127.0.0.1:8000/api/users/{$validated['user_id']}";
+    $response = \Illuminate\Support\Facades\Http::get($userApiUrl);
 
-        if ($response->status() !== 200) {
-            return response()->json([
-                'message' => 'El usuario no existe en UserApi',
-                'errors' => ['user_id' => ['El usuario no existe en UserApi']]
-            ], 422);
-        }
-
-        $reservation = Reservation::create($validated);
-
-        return response()->json($reservation, 201);
+    if ($response->status() !== 200) {
+        return response()->json([
+            'message' => 'El usuario no existe en UserApi',
+            'errors' => ['user_id' => ['El usuario no existe en UserApi']]
+        ], 422);
     }
+
+    // Obtener el precio de la casa desde la base de datos
+    $house = House::findOrFail($validated['house_id']);
+    $pricePerNight = $house->price_per_night;
+
+    // Calcular número de noches
+    $start = new \Carbon\Carbon($validated['start_date']);
+    $end = new \Carbon\Carbon($validated['end_date']);
+    $nights = $start->diffInDays($end);
+
+    // Calcular precio total
+    $totalPrice = $nights * $pricePerNight * $validated['num_people'];
+
+    // Crear reserva
+    $reservation = Reservation::create([
+        ...$validated,
+        'total_price' => $totalPrice,
+        'status' => 'pendiente', // o el estado que quieras por defecto
+    ]);
+
+    return response()->json($reservation, 201);
+}
 }

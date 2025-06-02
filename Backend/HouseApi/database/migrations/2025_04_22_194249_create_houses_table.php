@@ -13,14 +13,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('houses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('photo_path');
-            $table->unsignedBigInteger('owner_id'); // relación simulada con users
-            $table->float('average_rating')->default(0);
-            $table->timestamps();
-        });
+    $table->id();
+    $table->string('name');
+    $table->text('description');
+    $table->string('photo_path')->nullable();
+    $table->unsignedBigInteger('owner_id'); // ya no es clave foránea
+    $table->float('average_rating')->default(0);
+    $table->unsignedBigInteger('visits')->default(0);
+    $table->decimal('price_per_night', 8, 2)->default(0);
+    $table->timestamps();
+
+    $table->index('owner_id'); // útil para agrupar por propietario
+    $table->index('visits');
+});
     }
 
 

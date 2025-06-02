@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class AdminDashboardService {
-  private baseUrl = 'http://localhost:8000/api/admin';
+  private baseUrl = 'http://localhost:8001/api/admin';
 
   constructor(private http: HttpClient) {}
 

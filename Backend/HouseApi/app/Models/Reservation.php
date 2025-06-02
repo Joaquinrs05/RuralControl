@@ -11,11 +11,12 @@ class Reservation extends Model
 
     protected $fillable = [
         'user_id',
-        'house_id',
-        'fecha_inicio',
-        'fecha_fin',
-        'num_personas',
-        'estado',
+    'house_id',
+    'start_date',
+    'end_date',
+    'num_people',
+    'status',
+    'total_price', 
     ];
 
     public function user()

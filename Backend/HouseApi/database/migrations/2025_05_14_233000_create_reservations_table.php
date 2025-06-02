@@ -11,16 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservations', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id'); // Solo almacena el ID, sin foreign key
-            $table->foreignId('house_id')->constrained('houses')->onDelete('cascade');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->unsignedInteger('num_personas')->nullable();
-            $table->string('estado')->default('pendiente');
-            $table->timestamps();
-        });
+       Schema::create('reservations', function (Blueprint $table) {
+    $table->id();
+
+    $table->unsignedBigInteger('user_id');
+
+    $table->foreignId('house_id')->constrained('houses')->onDelete('cascade');
+
+    $table->date('start_date');
+    $table->date('end_date');
+
+    $table->unsignedInteger('num_people')->nullable(); // nombre en inglés
+
+    $table->enum('status', ['pendiente', 'confirmado', 'cancelado'])->default('pendiente');
+
+    $table->decimal('total_price', 8, 2)->default(0);
+
+    $table->timestamps();
+
+    $table->index('user_id');
+    $table->index('house_id');
+    $table->index('created_at');
+});
+
     }
 
     /**
