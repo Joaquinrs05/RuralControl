@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, input } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
 import {
   ReservationService,
@@ -6,6 +6,7 @@ import {
 } from '../../houses/reservation.service';
 import { User } from '../../../shared/models/user.model';
 import { AuthService } from '../../../Auth/services/auth.service';
+import { House } from '../../../shared/models/house.model';
 
 @Component({
   selector: 'app-reservas',
@@ -24,6 +25,7 @@ export class ReservasComponent {
   errorMsg = '';
   reservasUsuario = signal<Reservation[]>([]);
 
+  house = input.required<House>();
   #authService = inject(AuthService);
   #reservationService = inject(ReservationService);
   user = this.#authService.getUserFromToken(this.#authService.getToken()!);

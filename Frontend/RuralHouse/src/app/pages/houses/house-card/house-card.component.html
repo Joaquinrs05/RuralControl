@@ -1,13 +1,12 @@
 <ng-container>
   <div class="house-card">
-    <div class="house-image">Aqui en un futuro habra una imagen</div>
     <div class="house-info">
       <h3 class="house-title">{{ house().id }}</h3>
       <!-- Concatenar la URL base del servidor con la ruta de la imagen -->
-      <!--  <img
+      <img
         [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
         [alt]="house().name"
-      /> -->
+      />
       <!-- <p class="house-description">
         {{ house().name | slice : 0 : 100
         }}{{ house().description.length > 100 ? "..." : "" }}

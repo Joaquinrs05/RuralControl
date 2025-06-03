@@ -1,15 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AdminDashboardService } from '../admin.service';
-import { NbCardModule, NbSpinnerModule, NbThemeService } from '@nebular/theme';
+import {
+  NbCardModule,
+  NbSpinnerModule,
+  NbTabComponent,
+  NbTable,
+  NbThemeService,
+} from '@nebular/theme';
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ReservationsByMonthItem } from '../../../shared/interfaces/reservation.interface';
 import { AdminStats } from '../../../shared/interfaces/adminStats.interface';
 import { CommonModule } from '@angular/common';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @Component({
-  imports: [CommonModule, NbCardModule, NbSpinnerModule],
+  imports: [CommonModule, NbCardModule, NbSpinnerModule, NgxEchartsModule],
+  standalone: true,
   selector: 'ngx-dashboard',
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.scss'],
@@ -24,7 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadingStats = true;
   loadingReservations = true;
-
+  ordersChartOptions: any = {};
   themeVariables: any;
 
   reservationsChartOptions: any = {};
@@ -179,5 +187,59 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   get averageRating(): number {
     return this.stats?.average_rating ?? 0;
+  }
+
+  //graficos
+  setupOrdersChart(): void {
+    if (!this.reservationsByMonth || this.reservationsByMonth.length === 0)
+      return;
+
+    const months = this.reservationsByMonth.map((item) => item.month);
+    const reservations = this.reservationsByMonth.map(
+      (item) => item.reservations
+    );
+    const guests = this.reservationsByMonth.map((item) => item.guests);
+
+    this.ordersChartOptions = {
+      backgroundColor: this.themeVariables.bg,
+      tooltip: { trigger: 'axis' },
+      legend: {
+        data: ['Reservas', 'Huéspedes'],
+        textStyle: { color: this.themeVariables.fgText },
+      },
+      grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: months,
+        axisLine: { lineStyle: { color: this.themeVariables.separator } },
+        axisLabel: { color: this.themeVariables.fgText },
+      },
+      yAxis: {
+        type: 'value',
+        name: 'Cantidad',
+        axisLine: { lineStyle: { color: this.themeVariables.separator } },
+        axisLabel: { color: this.themeVariables.fgText },
+        splitLine: { lineStyle: { color: this.themeVariables.separator } },
+      },
+      series: [
+        {
+          name: 'Reservas',
+          type: 'line',
+          smooth: true,
+          data: reservations,
+          areaStyle: {},
+          lineStyle: { color: this.themeVariables.primary },
+        },
+        {
+          name: 'Huéspedes',
+          type: 'line',
+          smooth: true,
+          data: guests,
+          areaStyle: {},
+          lineStyle: { color: this.themeVariables.info },
+        },
+      ],
+    };
   }
 }

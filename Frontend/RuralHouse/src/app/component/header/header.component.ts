@@ -27,7 +27,14 @@ export class HeaderComponent {
   // Ruta al logo
   logoPath: string = 'assets/images/logo.png';
   // Texto del botón de perfil/home
+  get isAdminRoute(): boolean {
+    return this.router.url.startsWith('/admin');
+  }
   get buttonText(): string {
+    if (this.isAdminRoute) {
+      // Puedes personalizar el texto según la subruta de admin si lo necesitas
+      return this.router.url === '/admin/profile' ? 'Panel' : 'Perfil Admin';
+    }
     return this.router.url === '/profile' ? 'Home' : 'Perfil';
   }
 

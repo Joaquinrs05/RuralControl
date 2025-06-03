@@ -23,17 +23,17 @@ class AdminDashboardController extends Controller
             // Número total de reservas
             $totalReservations = Reservation::whereIn('house_id', $adminHouses)->count();
             
-            // Número total de personas (sumando num_personas de todas las reservas)
-            $totalGuests = Reservation::whereIn('house_id', $adminHouses)->sum('num_personas');
+            // Número total de personas (sumando num_people de todas las reservas)
+            $totalGuests = Reservation::whereIn('house_id', $adminHouses)->sum('num_people');
             
-            // Reservas activas (futuras o en curso - usando fecha_fin)
+            // Reservas activas (futuras o en curso - usando end_date)
             $activeReservations = Reservation::whereIn('house_id', $adminHouses)
-                ->where('fecha_fin', '>=', Carbon::now())
+                ->where('start_date', '>=', Carbon::now())
                 ->count();
             
-            // Reservas confirmadas (usando estado)
+            // Reservas confirmadas (usando status)
             $confirmedReservations = Reservation::whereIn('house_id', $adminHouses)
-                ->where('estado', 'confirmada')
+                ->where('status', 'confirmada')
                 ->count();
             
             // Número de casas del administrador
@@ -77,7 +77,7 @@ class AdminDashboardController extends Controller
             $adminHouses = House::where('owner_id', $adminId)->pluck('id');
             
             $reservationsByMonth = Reservation::whereIn('house_id', $adminHouses)
-                ->selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as total_reservations, SUM(num_personas) as total_guests')
+                ->selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as total_reservations, SUM(num_people) as total_guests')
                 ->where('created_at', '>=', Carbon::now()->subMonths(6))
                 ->groupBy('year', 'month')
                 ->orderBy('year', 'desc')
@@ -113,7 +113,7 @@ class AdminDashboardController extends Controller
             $topHouses = House::where('owner_id', $adminId)
                 ->withCount('reservations')
                 ->with(['reservations' => function($query) {
-                    $query->select('house_id', DB::raw('SUM(num_personas) as total_guests'))
+                    $query->select('house_id', DB::raw('SUM(num_people) as total_guests'))
                           ->groupBy('house_id');
                 }])
                 ->orderBy('reservations_count', 'desc')
@@ -164,10 +164,10 @@ class AdminDashboardController extends Controller
                         'house_photo' => $reservation->house->photo_path,
                         'guest_name' => $reservation->user->name ?? 'N/A',
                         'guest_email' => $reservation->user->email ?? 'N/A',
-                        'fecha_inicio' => $reservation->fecha_inicio,
-                        'fecha_fin' => $reservation->fecha_fin,
-                        'num_personas' => $reservation->num_personas,
-                        'estado' => $reservation->estado,
+                        'start_date' => $reservation->start_date,
+                        'end_date' => $reservation->end_date,
+                        'num_people' => $reservation->num_people,
+                        'status' => $reservation->status,
                         'created_at' => $reservation->created_at->format('d/m/Y H:i')
                     ];
                 });
@@ -198,18 +198,18 @@ class AdminDashboardController extends Controller
         $startDate = Carbon::now()->subDays($totalDays);
         $endDate = Carbon::now();
         
-        // Días ocupados en el periodo (usando fecha_inicio y fecha_fin)
+        // Días ocupados en el periodo (usando start_date y end_date)
         $occupiedDays = Reservation::whereIn('house_id', $houseIds)
             ->where(function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('fecha_inicio', [$startDate, $endDate])
-                      ->orWhereBetween('fecha_fin', [$startDate, $endDate])
+                $query->whereBetween('start_date', [$startDate, $endDate])
+                      ->orWhereBetween('end_date', [$startDate, $endDate])
                       ->orWhere(function ($subQuery) use ($startDate, $endDate) {
-                          $subQuery->where('fecha_inicio', '<=', $startDate)
-                                   ->where('fecha_fin', '>=', $endDate);
+                          $subQuery->where('start_date', '<=', $startDate)
+                                   ->where('end_date', '>=', $endDate);
                       });
             })
-            ->where('estado', '!=', 'cancelada') // Excluir reservas canceladas
-            ->sum(DB::raw('DATEDIFF(LEAST(fecha_fin, "' . $endDate . '"), GREATEST(fecha_inicio, "' . $startDate . '"))'));
+            ->where('status', '!=', 'cancelada') // Excluir reservas canceladas
+            ->sum(DB::raw('DATEDIFF(LEAST(end_date, "' . $endDate . '"), GREATEST(start_date, "' . $startDate . '"))'));
         
         $totalPossibleDays = $houseIds->count() * $totalDays;
         
@@ -225,10 +225,10 @@ function getHouseOccupancy($adminId, $houseId)
         
         // Obtener reservas de los próximos 3 meses
         $reservations = Reservation::where('house_id', $houseId)
-            ->where('fecha_fin', '>=', now())
-            ->where('fecha_inicio', '<=', now()->addMonths(3))
-            ->where('estado', '!=', 'cancelada')
-            ->select('fecha_inicio', 'fecha_fin', 'estado', 'num_personas')
+            ->where('end_date', '>=', now())
+            ->where('start_date', '<=', now()->addMonths(3))
+            ->where('status', '!=', 'cancelada')
+            ->select('start_date', 'end_date', 'status', 'num_people')
             ->get();
         
         return response()->json([
@@ -248,7 +248,7 @@ function getHouseOccupancy($adminId, $houseId)
 }
 
 /**
- * Obtener estadísticas por estado de reserva
+ * Obtener estadísticas por status de reserva
  */
 function getReservationsByStatus($adminId)
 {
@@ -256,12 +256,12 @@ function getReservationsByStatus($adminId)
         $adminHouses = House::where('owner_id', $adminId)->pluck('id');
         
         $reservationsByStatus = Reservation::whereIn('house_id', $adminHouses)
-            ->selectRaw('estado, COUNT(*) as count, SUM(num_personas) as total_guests')
-            ->groupBy('estado')
+            ->selectRaw('status, COUNT(*) as count, SUM(num_people) as total_guests')
+            ->groupBy('status')
             ->get()
             ->map(function ($item) {
                 return [
-                    'status' => $item->estado,
+                    'status' => $item->status,
                     'count' => $item->count,
                     'total_guests' => $item->total_guests
                 ];
@@ -275,7 +275,7 @@ function getReservationsByStatus($adminId)
     } catch (\Exception $e) {
         return response()->json([
             'success' => false,
-            'message' => 'Error al obtener reservas por estado: ' . $e->getMessage()
+            'message' => 'Error al obtener reservas por status: ' . $e->getMessage()
         ], 500);
     }
 }
@@ -304,17 +304,17 @@ function getGuestStats($adminId)
         
         // Promedio de huéspedes por reserva
         $avgGuestsPerReservation = Reservation::whereIn('house_id', $adminHouses)
-            ->avg('num_personas');
+            ->avg('num_people');
         
         // Distribución por número de personas
         $guestDistribution = Reservation::whereIn('house_id', $adminHouses)
-            ->selectRaw('num_personas, COUNT(*) as count')
-            ->groupBy('num_personas')
-            ->orderBy('num_personas')
+            ->selectRaw('num_people, COUNT(*) as count')
+            ->groupBy('num_people')
+            ->orderBy('num_people')
             ->get()
             ->map(function ($item) {
                 return [
-                    'guests' => $item->num_personas,
+                    'guests' => $item->num_people,
                     'reservations' => $item->count
                 ];
             });
@@ -347,7 +347,7 @@ function getReservationTrends($adminId)
         
         // Reservas por día de la semana
         $reservationsByWeekday = Reservation::whereIn('house_id', $adminHouses)
-            ->selectRaw('DAYOFWEEK(fecha_inicio) as weekday, COUNT(*) as count')
+            ->selectRaw('DAYOFWEEK(start_date) as weekday, COUNT(*) as count')
             ->groupBy('weekday')
             ->get()
             ->map(function ($item) {
@@ -360,7 +360,7 @@ function getReservationTrends($adminId)
         
         // Duración promedio de estancias
         $avgStayDuration = Reservation::whereIn('house_id', $adminHouses)
-            ->selectRaw('AVG(DATEDIFF(fecha_fin, fecha_inicio)) as avg_duration')
+            ->selectRaw('AVG(DATEDIFF(end_date, start_date)) as avg_duration')
             ->first()
             ->avg_duration;
         

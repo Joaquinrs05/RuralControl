@@ -20,6 +20,7 @@ import {
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { routes } from './app.routes';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,7 +34,10 @@ export const appConfig: ApplicationConfig = {
       NbLayoutModule,
       NbEvaIconsModule,
       NbCardModule,
-      NbSpinnerModule
+      NbSpinnerModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      })
     ),
   ],
 };

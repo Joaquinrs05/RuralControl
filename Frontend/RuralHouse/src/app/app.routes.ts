@@ -72,5 +72,13 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'admin/house-form',
+    loadComponent: () =>
+      import('./pages/admin/houses/house-form/house-form.component').then(
+        (c) => c.HouseFormComponent
+      ),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: 'auth/login' },
 ];
