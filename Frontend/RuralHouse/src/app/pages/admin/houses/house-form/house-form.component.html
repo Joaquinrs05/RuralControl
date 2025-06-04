@@ -34,14 +34,15 @@
       class="w-full text-gray-700"
     />
   </div>
-  <!-- <div>
-    <label class="block text-gray-700 font-semibold mb-1"
-      >ID del propietario:</label
-    >
-    <span class="block px-4 py-2 bg-gray-100 rounded-lg text-gray-700">
-      {{ getUser()?.id }}
-    </span>
-  </div> -->
+  <div>
+    <label for="Price_per_night">Precio Por noche</label>
+    <input
+      type="number"
+      formControlName="Price_per_night"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+      required
+    />
+  </div>
   <button
     type="submit"
     [disabled]="casaForm.invalid"

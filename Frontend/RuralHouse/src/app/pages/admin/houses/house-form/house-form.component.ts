@@ -30,6 +30,7 @@ export class HouseFormComponent {
       description: ['', Validators.required],
       average_rating: [''],
       photo: [null, Validators.required],
+      price_per_night: ['', Validators.required],
     });
   }
 

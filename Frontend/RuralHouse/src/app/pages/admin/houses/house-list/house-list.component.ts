@@ -40,11 +40,9 @@ export class HouseListComponent {
   getUser() {
     const token = this.authservice.getToken() as string;
     if (!token) {
-      console.error('No token found');
       return null; // o lanzar un error si prefieres
     }
     const user = this.authservice.getUserFromToken(token);
-    console.log('Usuario obtenido del token:', user);
     return user;
   }
   private loadHouses() {

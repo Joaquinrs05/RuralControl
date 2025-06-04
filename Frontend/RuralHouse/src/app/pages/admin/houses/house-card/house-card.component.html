@@ -1,21 +1,27 @@
-<ng-container>
-  <div class="house-card">
-    <div class="house-info">
-      <h3 class="house-title">{{ house().id }}</h3>
-      <!-- Concatenar la URL base del servidor con la ruta de la imagen -->
-      <img
-        [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
-        [alt]="house().name"
-      />
-      <!-- <p class="house-description">
-          {{ house().name | slice : 0 : 100
-          }}{{ house().description.length > 100 ? "..." : "" }}
-        </p> -->
+<div
+  class="bg-gray-100 rounded-2xl shadow-md hover:shadow-xl p-6 my-4 max-w-[350px] transition-shadow"
+>
+  <div class="flex flex-col items-center">
+    <img
+      [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
+      [alt]="house().name"
+      class="w-full h-44 object-cover rounded-xl mb-4"
+    />
+    <h3 class="mb-3 text-lg font-semibold text-gray-900">
+      {{ house().name }}
+    </h3>
+    <div class="flex items-center justify-center w-full gap-6">
       <span
-        class="btn btn-blue mr-2 text-xl"
+        class="inline-block self-center justify-center bg-blue-600 text-white rounded-lg px-6 py-2 text-base font-medium cursor-pointer text-center no-underline shadow hover:bg-blue-700 hover:shadow-lg transition"
         [routerLink]="['/house', house().id]"
         >View</span
       >
+
+      <span
+        class="inline-block self-center justify-center bg-red-600 text-white rounded-lg px-6 py-2 text-base font-medium cursor-pointer text-center no-underline shadow hover:bg-red-700 hover:shadow-lg transition"
+      >
+        Delete
+      </span>
     </div>
   </div>
-</ng-container>
+</div>

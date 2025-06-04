@@ -15,4 +15,5 @@ export class HouseCardComponent {
   house = input.required<House>();
 
   readonly = input<boolean>(false);
+  //TODO Tengo que poner un boton al lao del de alquilar para volver al home en la vista del usuario
 }
