@@ -80,5 +80,13 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'admin/houses',
+    loadComponent: () =>
+      import('./pages/admin/houses/house-list/house-list.component').then(
+        (c) => c.HouseListComponent
+      ),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: 'auth/login' },
 ];

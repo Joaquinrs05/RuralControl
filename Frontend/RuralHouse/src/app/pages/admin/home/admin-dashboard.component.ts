@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { AdminDashboardService } from '../admin.service';
 import {
   NbCardModule,
@@ -14,19 +14,34 @@ import { ReservationsByMonthItem } from '../../../shared/interfaces/reservation.
 import { AdminStats } from '../../../shared/interfaces/adminStats.interface';
 import { CommonModule } from '@angular/common';
 import { NgxEchartsModule } from 'ngx-echarts';
-
+import { HouseService } from '../../houses/houses.service';
+import { rxResource } from '@angular/core/rxjs-interop';
+/* import { HouseListComponent } from '../houses/house-list/house-list.component';
+ */
 @Component({
-  imports: [CommonModule, NbCardModule, NbSpinnerModule, NgxEchartsModule],
+  imports: [
+    CommonModule,
+    NbCardModule,
+    NbSpinnerModule,
+    NgxEchartsModule,
+    /* HouseListComponent */
+  ],
   standalone: true,
   selector: 'ngx-dashboard',
   templateUrl: './admin-dashboard.component.html',
+  /* template: ` <app-house-list [houses]="houses()" />`, */
   styleUrls: ['./admin-dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   adminId = 1; // O como obtengas el adminId dinámicamente
+  houseService = inject(HouseService);
+  houses = this.houseService.houses;
 
+  housesResource = rxResource({
+    loader: () => this.houseService.load(),
+  });
   stats: AdminStats | null = null;
   reservationsByMonth: ReservationsByMonthItem[] = [];
 
