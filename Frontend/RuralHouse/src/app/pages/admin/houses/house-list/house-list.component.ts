@@ -4,6 +4,7 @@ import { House } from '../../../../shared/models/house.model';
 import { HouseCardComponent } from '../house-card/house-card.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../Auth/services/auth.service';
+import { HouseEditComponent } from '../house-edit/house-edit.component';
 
 @Component({
   selector: 'app-house-list',
@@ -15,7 +16,11 @@ import { AuthService } from '../../../../Auth/services/auth.service';
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-items-center"
       >
         @for (house of houses(); track house.id) {
-        <app-house-card [house]="house" />
+        <app-house-card
+          [house]="house"
+          (houseDeleted)="onHouseDeleted($event)"
+          (houseEdited)="onHouseEdit($event)"
+        />
         } @empty {
         <h1
           aria-hidden="true"
@@ -62,6 +67,31 @@ export class HouseListComponent {
       error: (err) => {
         console.error('❌ Error al cargar las casas:', err);
         this.houses.set([]);
+      },
+    });
+  }
+
+  onHouseDeleted(id: number) {
+    this.houseService.deleteHouse(id).subscribe({
+      next: () => {
+        this.houses.update((current) =>
+          current.filter((housefilter) => housefilter.id !== id)
+        );
+      },
+      error: (err) => {
+        console.error('❌ Error al eliminar la casa:', err);
+      },
+    });
+  }
+  onHouseEdit(id: number) {
+    this.houseService.deleteHouse(id).subscribe({
+      next: () => {
+        this.houses.update((current) =>
+          current.filter((housefilter) => housefilter.id !== id)
+        );
+      },
+      error: (err) => {
+        console.error('❌ Error al editar la casa:', err);
       },
     });
   }

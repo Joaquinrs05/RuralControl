@@ -46,7 +46,7 @@ export class HouseDetailComponent {
     loader: () => this.#houseService.getHouseById(this.id()),
   });
   house = computed(
-    () => this.#houseResource.value() ?? this.#houseService.defaultHero
+    () => this.#houseResource.value() ?? this.#houseService.defaulHouse
   );
 
   // Signal para el usuario actual

@@ -1,21 +1,21 @@
 <ng-container>
-  <div class="house-card">
-    <div class="house-info">
-      <h3 class="house-title">{{ house().id }}</h3>
-      <!-- Concatenar la URL base del servidor con la ruta de la imagen -->
+  <div
+    class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden max-w-sm w-full mx-auto"
+  >
+    <div class="flex flex-col items-center text-center p-5 gap-4">
       <img
         [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
         [alt]="house().name"
+        class="w-full h-48 object-cover rounded-xl"
       />
-      <!-- <p class="house-description">
-        {{ house().name | slice : 0 : 100
-        }}{{ house().description.length > 100 ? "..." : "" }}
-      </p> -->
+      <h3 class="text-lg font-bold text-gray-800">{{ house().name }}</h3>
+
       <span
-        class="btn btn-blue mr-2 text-xl"
+        class="bg-blue-600 text-white px-6 py-2 rounded-xl text-base shadow hover:bg-blue-700 transition cursor-pointer"
         [routerLink]="['/house', house().id]"
-        >View</span
       >
+        View
+      </span>
     </div>
   </div>
 </ng-container>
