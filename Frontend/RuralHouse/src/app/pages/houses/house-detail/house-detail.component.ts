@@ -20,18 +20,11 @@ import { User } from '../../../shared/models/user.model';
 
 @Component({
   selector: 'app-house-detail',
-  imports: [
-    /*   HouseCardComponent, HeroItemNotFoundComponent ,
-    RouterLink, */
-    HouseFormComponent,
-  ],
-  /* template: ` @if(house()){
-    <!--  <app-house-card [house]="house()" [readonly]="true" /> -->
-    }<!-- @else{
-    <app-hero-item-not-found />
-    } -->`, */
+  imports: [HouseCardComponent, RouterLink, HouseFormComponent],
+
   templateUrl: './house-detail.component.html',
 })
+//TODO Tengo que poner un boton al lao del de alquilar para volver al home en la vista del usuario
 export class HouseDetailComponent {
   private route = inject(ActivatedRoute);
   showRentalForm = false;
