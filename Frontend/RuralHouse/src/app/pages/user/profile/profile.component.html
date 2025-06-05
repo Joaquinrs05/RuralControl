@@ -96,11 +96,6 @@
                     <th
                       class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
                     >
-                      ID
-                    </th>
-                    <th
-                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
-                    >
                       Nombre
                     </th>
                     <th
@@ -113,11 +108,7 @@
                     >
                       Foto
                     </th>
-                    <th
-                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
-                    >
-                      Propietario
-                    </th>
+
                     <th
                       class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
                     >
@@ -127,7 +118,6 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let casa of reservasUsuario()">
-                    <td class="px-4 py-2">{{ casa.id }}</td>
                     <td class="px-4 py-2">{{ casa.name }}</td>
                     <td class="px-4 py-2">
                       {{
@@ -136,8 +126,15 @@
                           : casa.description
                       }}
                     </td>
-                    <td class="px-4 py-2">{{ casa.photo_path }}</td>
-                    <td class="px-4 py-2">{{ casa.owner_id }}</td>
+                    <td class="px-4 py-2">
+                      <img
+                        [src]="
+                          'http://127.0.0.1:8001/storage/' + casa.photo_path
+                        "
+                        [alt]="casa.name"
+                        class="h-16 w-28 object-cover rounded"
+                      />
+                    </td>
                     <td class="px-4 py-2">{{ casa.average_rating }}</td>
                   </tr>
                 </tbody>
