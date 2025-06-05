@@ -83,16 +83,9 @@ export class HouseListComponent {
       },
     });
   }
-  onHouseEdit(id: number) {
-    this.houseService.deleteHouse(id).subscribe({
-      next: () => {
-        this.houses.update((current) =>
-          current.filter((housefilter) => housefilter.id !== id)
-        );
-      },
-      error: (err) => {
-        console.error('❌ Error al editar la casa:', err);
-      },
-    });
+  onHouseEdit(houseEditada: House) {
+    this.houses.update((current) =>
+      current.map((h) => (h.id === houseEditada.id ? houseEditada : h))
+    );
   }
 }

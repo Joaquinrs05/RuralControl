@@ -24,7 +24,7 @@ export class HouseCardComponent {
   showRentalForm = false;
 
   @Output() houseDeleted = new EventEmitter<number>();
-  @Output() houseEdited = new EventEmitter<number>();
+  @Output() houseEdited = new EventEmitter<House>();
 
   readonly = input<boolean>(false);
 
@@ -57,10 +57,11 @@ export class HouseCardComponent {
   emitDelete(id: number) {
     this.houseDeleted.emit(id);
   }
-  actualizarCasa(id: number) {
-    this.houseEdited.emit(id); // ⬅️ Emitimos al padre
+  actualizarCasa(casaEditada: House) {
+    this.houseEdited.emit(casaEditada); // ✅ emitimos el objeto completo
     this.ocultarFormularioEditar();
   }
+
   mostrarFormularioEditar() {
     this.showRentalForm = true;
   }

@@ -43,7 +43,7 @@ export class HouseEditComponent {
   }); */
 
   @Output() close = new EventEmitter<void>();
-  @Output() updated = new EventEmitter<House>();
+  @Output() houseUpdated = new EventEmitter<House>();
 
   form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -73,7 +73,7 @@ export class HouseEditComponent {
     this.houseService.updateHouse(updatedHouse).subscribe({
       next: (house) => {
         console.log('✅ Casa actualizada', house);
-        this.updated.emit(house);
+        this.houseUpdated.emit(house);
         this.close.emit();
       },
       error: (err) => {
@@ -81,7 +81,6 @@ export class HouseEditComponent {
       },
     });
   }
-  @Output() houseUpdated = new EventEmitter<number>();
 
   cancelar() {
     this.close.emit();
