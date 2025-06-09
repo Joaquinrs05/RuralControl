@@ -87,6 +87,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.stats = statsResponse.data;
             this.loadingStats = false;
             this.setupOccupancyChart();
+            this.setupOrdersChart();
           }
           if (reservationsResponse.success) {
             this.reservationsByMonth = reservationsResponse.data;

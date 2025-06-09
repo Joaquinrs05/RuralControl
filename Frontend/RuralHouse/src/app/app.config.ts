@@ -16,6 +16,11 @@ import {
   NbLayoutModule,
   NbCardModule,
   NbSpinnerModule,
+  NbSidebarModule,
+  NbMenuModule,
+  NbContextMenuModule,
+  NbUserModule,
+  NbSelectModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
