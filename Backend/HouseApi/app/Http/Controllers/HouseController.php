@@ -36,6 +36,7 @@ class HouseController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Validación de la imagen
             'owner_id' => 'required|integer',
             'average_rating' => 'nullable|numeric',
+            'price_per_night' => 'required|numeric',
         ]);
 
         // Si se ha subido una imagen, la guardamos
@@ -53,6 +54,7 @@ class HouseController extends Controller
             'photo_path' => $photoPath,  // Guardamos la ruta de la imagen
             'owner_id' => $validated['owner_id'],
             'average_rating' => $validated['average_rating'] ?? 0,
+            'price_per_night' => $validated['price_per_night'],
         ]);
 
         return response()->json($house, 201);

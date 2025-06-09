@@ -11,11 +11,11 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-   /* public function run(): void
+   public function run(): void
     {
         $this->call([
             HouseSeeder::class,
             RatingSeeder::class,
         ]);
-    }*/
+    }
 }

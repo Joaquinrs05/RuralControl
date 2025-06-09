@@ -24,8 +24,8 @@ class ReservationController extends Controller
         return response()->json($houses);
     }
 
-    public function store(Request $request)
-{
+
+    public function store(Request $request){
     $validated = $request->validate([
         'user_id' => 'required|integer',
         'house_id' => 'required|exists:houses,id',

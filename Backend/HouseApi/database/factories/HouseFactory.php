@@ -17,8 +17,8 @@ class HouseFactory extends Factory
         return [
             'name' => $this->faker->company . ' Rural House',
             'description' => $this->faker->paragraph,
-            'photo_path' => 'houses/default.png', // imagen genérica
-            'owner_id' => rand(1, 10), // fake ID de usuario
+            'photo_path' => 'houses/mqCNPn1F7R945aQSSSiV4DCNuU4PX9t3f0sVgl8k.jpg', // imagen genérica
+            'owner_id' => rand(1), // fake ID de usuario
             'average_rating' => 0, // se actualizará luego
         ];
     }

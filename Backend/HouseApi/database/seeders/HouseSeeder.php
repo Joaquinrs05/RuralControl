@@ -11,8 +11,8 @@ class HouseSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-   /* public function run(): void
+   public function run(): void
     {
-        House::factory()->count(10)->create();
-    }*/
+        House::factory()->count(2)->create();
+    }
 }

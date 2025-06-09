@@ -12,8 +12,9 @@ services:
       MYSQL_PASSWORD: 1234
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - '3306:3306'
+      - '3307:3306'
 
   user-api:
     build:
@@ -24,11 +25,11 @@ services:
     environment:
       DB_HOST: mysql
     volumes:
-      - ./user-api:/var/www
+      - ./UserApi:/var/www
     working_dir: /var/www
     ports:
       - '8000:8000'
-    command: php artisan serve --host=0.0.0.0 --port=8000
+    command: sh -c "wait-for-it mysql:3306 && php artisan migrate && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000"
 
   house-api:
     build:
@@ -39,11 +40,11 @@ services:
     environment:
       DB_HOST: mysql
     volumes:
-      - ./house-api:/var/www
+      - ./HouseApi:/var/www
     working_dir: /var/www
     ports:
       - '8001:8001'
-    command: php artisan serve --host=0.0.0.0 --port=8001
+    command: sh -c "wait-for-it mysql:3306 && php artisan migrate && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8001"
 
 volumes:
   mysql_data:
