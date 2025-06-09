@@ -18,7 +18,7 @@ class HouseFactory extends Factory
             'name' => $this->faker->company . ' Rural House',
             'description' => $this->faker->paragraph,
             'photo_path' => 'houses/mqCNPn1F7R945aQSSSiV4DCNuU4PX9t3f0sVgl8k.jpg', // imagen genérica
-            'owner_id' => rand(1), // fake ID de usuario
+            'owner_id' => "1", // fake ID de usuario
             'average_rating' => 0, // se actualizará luego
         ];
     }

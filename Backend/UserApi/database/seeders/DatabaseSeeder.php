@@ -24,22 +24,23 @@ class DatabaseSeeder extends Seeder
             'birth_date' => '1990-01-01',
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
+            'role' => 'admin', // Asignar rol de administrador
             'password' => Hash::make('admin123'),
         ]);
 
         // Crear un usuario de prueba
         User::create([
-            'name' => 'Usuario',
-            'surname1' => 'Prueba',
-            'surname2' => 'Demo',
-            'alias' => 'usuario_prueba',
+            'name' => 'Joaquin',
+            'surname1' => 'Joaquín',
+            'surname2' => 'Joaquín',
+            'alias' => 'Joaquin',
             'birth_date' => '1995-05-15',
-            'email' => 'usuario@example.com',
+            'email' => 'joaquinrs134@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('usuario123'),
         ]);
 
         // Crear usuarios aleatorios utilizando el factory
-        User::factory()->count(20)->create();
+        User::factory()->count(5)->create();
     }
 }

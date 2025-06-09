@@ -35,7 +35,9 @@ class ReservationController extends Controller
     ]);
 
     // Validar que el usuario existe en la API externa
-    $userApiUrl = "http://127.0.0.1:8000/api/users/{$validated['user_id']}";
+    /* $userApiUrl = "http://127.0.0.1:8000/api/users/{$validated['user_id']}"; */ //Esto es cuando estoy en local
+    $userApiUrl = "http://user-api:8000/api/users/{$validated['user_id']}"; //Esto cuando estoy en Docker
+
     $response = \Illuminate\Support\Facades\Http::get($userApiUrl);
 
     if ($response->status() !== 200) {
