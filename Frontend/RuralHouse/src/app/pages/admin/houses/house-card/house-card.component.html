@@ -1,0 +1,44 @@
+<div
+  class="bg-gray-100 rounded-2xl shadow-md hover:shadow-xl p-6 my-4 max-w-[350px] transition-shadow"
+>
+  <div class="flex flex-col items-center">
+    <img
+      [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
+      [alt]="house().name"
+      class="w-full h-44 object-cover rounded-xl mb-4"
+    />
+    <h3 class="mb-3 text-lg font-semibold text-gray-900">
+      {{ house().name }}
+    </h3>
+    <div class="flex items-center justify-center w-full gap-6">
+      <span
+        (click)="mostrarFormularioEditar()"
+        class="inline-block self-center justify-center bg-blue-600 text-white rounded-lg px-6 py-2 text-base font-medium cursor-pointer text-center no-underline shadow hover:bg-blue-700 hover:shadow-lg transition"
+      >
+        Editar
+      </span>
+
+      <span
+        (click)="emitDelete(house().id)"
+        class="inline-block self-center justify-center bg-red-600 text-white rounded-lg px-6 py-2 text-base font-medium cursor-pointer text-center no-underline shadow hover:bg-red-700 hover:shadow-lg transition"
+      >
+        Delete
+      </span>
+      @if (showRentalForm) {
+      <div
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <div
+          class="bg-white rounded-xl shadow-2xl p-8 max-w-lg w-full relative"
+        >
+          <app-house-edit
+            [house]="house()"
+            (close)="ocultarFormularioEditar()"
+            (houseUpdated)="actualizarCasa($event)"
+          ></app-house-edit>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

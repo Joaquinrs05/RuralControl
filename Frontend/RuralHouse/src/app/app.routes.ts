@@ -49,13 +49,43 @@ export const routes: Routes = [
   },
   {
     path: 'reservas',
-    loadComponent: () => import('./pages/reservas/reservas.component').then(m => m.ReservasComponent),
+    loadComponent: () =>
+      import('./pages/user/reservas/reservas.component').then(
+        (m) => m.ReservasComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'profile',
     loadComponent: () =>
-      import('./pages/profile/profile.component').then((c) => c.UsersComponent),
+      import('./pages/user/profile/profile.component').then(
+        (c) => c.UsersComponent
+      ),
+    canActivate: [authGuard],
+  },
+  //Rutas de admin
+  {
+    path: 'admin/home',
+    loadComponent: () =>
+      import('./pages/admin/home/admin-dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/house-form',
+    loadComponent: () =>
+      import('./pages/admin/houses/house-form/house-form.component').then(
+        (c) => c.HouseFormComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/houses',
+    loadComponent: () =>
+      import('./pages/admin/houses/house-list/house-list.component').then(
+        (c) => c.HouseListComponent
+      ),
     canActivate: [authGuard],
   },
 

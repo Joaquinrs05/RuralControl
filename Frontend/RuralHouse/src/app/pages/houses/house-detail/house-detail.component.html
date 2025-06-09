@@ -23,12 +23,22 @@
     <p class="text-lg text-gray-700 text-center mb-6">
       {{ house().description }}
     </p>
-    <button
-      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition mb-2"
-      (click)="mostrarFormularioAlquiler()"
-    >
-      Alquilar
-    </button>
+    <div class="flex items-center justify-center w-full gap-6">
+      <button
+        class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition mb-2"
+        (click)="mostrarFormularioAlquiler()"
+      >
+        Alquilar
+      </button>
+
+      <button
+        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition mb-2"
+        [routerLink]="['/home']"
+      >
+        Inicio?
+      </button>
+    </div>
+
     @if (showRentalForm && usuarioActual() && usuarioActual().id &&
     usuarioActual().name) {
     <app-house-form

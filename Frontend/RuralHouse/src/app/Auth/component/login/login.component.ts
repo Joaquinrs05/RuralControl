@@ -15,6 +15,8 @@ interface LoginCredentials {
   password: string;
 }
 
+import jwtDecode from 'jwt-decode';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -51,6 +53,18 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: () => {
         this.loading.set(true);
+        const token = this.authService.getToken();
+        if (token) {
+          try {
+            const decoded: any = jwtDecode(token);
+            if (decoded.role === 'admin') {
+              this.router.navigate(['/admin/home']);
+              return;
+            }
+          } catch (e) {
+            console.error('Error al decodificar el token:', e);
+          }
+        }
         this.router.navigate(['/home']);
       },
       error: (error) => {

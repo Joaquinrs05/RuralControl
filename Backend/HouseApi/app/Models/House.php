@@ -17,6 +17,7 @@ class House extends Model
         'photo_path',
         'owner_id',
         'average_rating',
+        'price_per_night',
     ];
 
     // Relación con valoraciones

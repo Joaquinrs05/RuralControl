@@ -14,24 +14,17 @@ import { HouseService } from '../houses.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HouseFormComponent } from '../house-form/house-form.component';
-import { UserService } from '../../profile/user.service';
+import { UserService } from '../../user/profile/user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { User } from '../../../shared/models/user.model';
 
 @Component({
   selector: 'app-house-detail',
-  imports: [
-    /*   HouseCardComponent, HeroItemNotFoundComponent ,
-    RouterLink, */
-    HouseFormComponent,
-  ],
-  /* template: ` @if(house()){
-    <!--  <app-house-card [house]="house()" [readonly]="true" /> -->
-    }<!-- @else{
-    <app-hero-item-not-found />
-    } -->`, */
+  imports: [HouseCardComponent, RouterLink, HouseFormComponent],
+
   templateUrl: './house-detail.component.html',
 })
+//TODO Tengo que poner un boton al lao del de alquilar para volver al home en la vista del usuario
 export class HouseDetailComponent {
   private route = inject(ActivatedRoute);
   showRentalForm = false;
@@ -46,7 +39,7 @@ export class HouseDetailComponent {
     loader: () => this.#houseService.getHouseById(this.id()),
   });
   house = computed(
-    () => this.#houseResource.value() ?? this.#houseService.defaultHero
+    () => this.#houseResource.value() ?? this.#houseService.defaulHouse
   );
 
   // Signal para el usuario actual

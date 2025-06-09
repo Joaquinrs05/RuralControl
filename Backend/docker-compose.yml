@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: users_service
+      MYSQL_USER: joaquin
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - '3307:3306'
+
+  user-api:
+    build:
+      context: ./UserApi
+    container_name: UserApi
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+    volumes:
+      - ./UserApi:/var/www
+    working_dir: /var/www
+    ports:
+      - '8000:8000'
+    command: sh -c "wait-for-it mysql:3306 && php artisan migrate && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000"
+
+  house-api:
+    build:
+      context: ./HouseApi
+    container_name: HouseApi
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+    volumes:
+      - ./HouseApi:/var/www
+    working_dir: /var/www
+    ports:
+      - '8001:8001'
+    command: sh -c "wait-for-it mysql:3306 && php artisan migrate && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8001"
+
+volumes:
+  mysql_data:

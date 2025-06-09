@@ -1,0 +1,35 @@
+<nb-card *ngIf="loadingStats || loadingReservations">
+  <nb-spinner></nb-spinner>
+  <p>Cargando estadísticas...</p>
+</nb-card>
+
+<nb-card *ngIf="!loadingStats && stats">
+  <nb-card-header>Estadísticas Generales</nb-card-header>
+  <nb-card-body>
+    <div>Total Reservas: {{ totalReservations }}</div>
+    <div>Total Huéspedes: {{ totalGuests }}</div>
+    <div>Total Casas: {{ totalHouses }}</div>
+    <div>Valoración Media: {{ averageRating | number : "1.1-2" }}</div>
+  </nb-card-body>
+</nb-card>
+
+<nb-card *ngIf="!loadingReservations && reservationsByMonth.length">
+  <nb-card-header>Reservas y Huéspedes por Mes</nb-card-header>
+  <!-- Gráfico corregido usando el componente <echarts> -->
+  <echarts
+    [options]="ordersChartOptions"
+    class="echart"
+    style="height: 300px; width: 600px"
+  ></echarts>
+</nb-card>
+
+<nb-card *ngIf="!loadingStats && stats">
+  <nb-card-header>Tasa de Ocupación</nb-card-header>
+  <nb-card-body>
+    <echarts
+      [options]="occupancyChartOptions"
+      class="echart"
+      style="height: 300px"
+    ></echarts>
+  </nb-card-body>
+</nb-card>
