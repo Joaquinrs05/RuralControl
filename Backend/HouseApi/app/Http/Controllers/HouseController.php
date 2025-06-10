@@ -35,8 +35,12 @@ class HouseController extends Controller
             'description' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Validación de la imagen
             'owner_id' => 'required|integer',
-            'average_rating' => 'nullable|numeric',
+            'address'=> 'required|string',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            /*'average_rating' => 'nullable|numeric',*/
             'price_per_night' => 'required|numeric',
+
         ]);
 
         // Si se ha subido una imagen, la guardamos
@@ -51,9 +55,11 @@ class HouseController extends Controller
         $house = House::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'photo_path' => $photoPath,  // Guardamos la ruta de la imagen
+            'photo_path' => $photoPath,
             'owner_id' => $validated['owner_id'],
-            'average_rating' => $validated['average_rating'] ?? 0,
+            'address' => $validated['address'],
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
             'price_per_night' => $validated['price_per_night'],
         ]);
 
@@ -75,6 +81,7 @@ class HouseController extends Controller
             'description' => 'sometimes|required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validación de la imagen
             'owner_id' => 'sometimes|required|integer',
+            'city'=> 'required|string',
             'average_rating' => 'nullable|numeric',
             'visits' => 'nullable|integer',
             'price_per_night' => 'nullable|numeric',

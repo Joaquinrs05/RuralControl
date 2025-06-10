@@ -4,7 +4,10 @@ export interface House {
   description: string;
   photo_path: string;
   owner_id: number;
-  average_rating: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  /* average_rating: number; */
   visits: number;
   price_per_night: number;
   created_at: string;

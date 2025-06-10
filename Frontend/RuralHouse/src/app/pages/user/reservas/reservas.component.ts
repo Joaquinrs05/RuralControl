@@ -11,7 +11,7 @@ import { House } from '../../../shared/models/house.model';
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [CommonModule, NgForOf],
+  imports: [CommonModule],
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.scss',
 })

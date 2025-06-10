@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    // TODO en un futuro revisar que el usuario existe y que es admin 
+
     public function up(): void
     {
         Schema::create('houses', function (Blueprint $table) {
@@ -17,8 +17,10 @@ return new class extends Migration
     $table->string('name');
     $table->text('description');
     $table->string('photo_path')->nullable();
-    $table->unsignedBigInteger('owner_id'); // ya no es clave foránea
-    $table->float('average_rating')->default(0);
+    $table->unsignedBigInteger('owner_id');
+    $table->string('address');
+    $table->decimal('latitude', 10, 8);
+    $table->decimal('longitude', 11, 8);
     $table->unsignedBigInteger('visits')->default(0);
     $table->decimal('price_per_night', 8, 2)->default(0);
     $table->timestamps();

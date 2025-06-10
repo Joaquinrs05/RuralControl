@@ -1,15 +1,6 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  numberAttribute,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 
 import { HouseCardComponent } from '../house-card/house-card.component';
-/* import { HeroItemNotFoundComponent } from '../../components/hero-item-not-found/hero-item-not-found.component';*/
 import { HouseService } from '../houses.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -17,14 +8,14 @@ import { HouseFormComponent } from '../house-form/house-form.component';
 import { UserService } from '../../user/profile/user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { User } from '../../../shared/models/user.model';
+import { CommonModule } from '@angular/common';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-house-detail',
-  imports: [HouseCardComponent, RouterLink, HouseFormComponent],
-
+  imports: [RouterLink, HouseFormComponent, CommonModule],
   templateUrl: './house-detail.component.html',
 })
-//TODO Tengo que poner un boton al lao del de alquilar para volver al home en la vista del usuario
 export class HouseDetailComponent {
   private route = inject(ActivatedRoute);
   showRentalForm = false;
@@ -38,12 +29,13 @@ export class HouseDetailComponent {
     request: () => this.id(),
     loader: () => this.#houseService.getHouseById(this.id()),
   });
+
   house = computed(
     () => this.#houseResource.value() ?? this.#houseService.defaulHouse
   );
 
-  // Signal para el usuario actual
-  private userVacio: User = {
+  // Usuario actual
+  usuarioActual = signal<User>({
     id: 0,
     name: '',
     surname1: '',
@@ -54,22 +46,48 @@ export class HouseDetailComponent {
     password: '',
     created_at: '',
     updated_at: '',
-  };
+  });
 
-  usuarioActual = signal<User>(this.userVacio);
+  private map: L.Map | null = null;
 
   constructor() {
-    // Efecto reactivo: obtiene el id del usuario del token y carga el usuario completo
+    // Cargar usuario actual desde el token
     effect(() => {
       const token = this.#authService.getToken();
       if (!token) return;
       const decoded: any = this.#authService.getUserFromToken(token);
-      if (decoded && decoded.id) {
+      if (decoded?.id) {
         this.#userService.getUserById(decoded.id).subscribe((user) => {
-          this.usuarioActual.set(user ?? this.userVacio);
+          this.usuarioActual.set(user ?? this.usuarioActual());
         });
       }
     });
+
+    // Mostrar mapa cuando haya coordenadas
+    effect(() => {
+      const h = this.house();
+      // Esperar a que exista el div y no se haya creado el mapa ya
+      if (h.latitude && h.longitude && !this.map) {
+        const mapDiv = document.getElementById('map');
+        if (mapDiv) {
+          this.initMap(h.latitude, h.longitude, h.name);
+        }
+      }
+    });
+  }
+
+  private initMap(lat: number, lng: number, name: string): void {
+    this.map = L.map('map').setView([lat, lng], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(this.map);
+
+    L.marker([lat, lng]).addTo(this.map).bindPopup(name).openPopup();
+
+    setTimeout(() => {
+      this.map?.invalidateSize();
+    }, 100);
   }
 
   mostrarFormularioAlquiler() {

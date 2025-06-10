@@ -43,9 +43,11 @@ export class HouseService {
     description: 'esto es una prueba',
     photo_path: 'dhjsad',
     owner_id: 1,
-    average_rating: 1,
     visits: 1,
     price_per_night: 1,
+    latitude: 1.0,
+    longitude: 1.0,
+    address: 'Calle Falsa 123',
     created_at: '23',
     updated_at: 'ewq',
   };

@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loader: () => this.houseService.load(),
   });
   stats: AdminStats | null = null;
+
   reservationsByMonth: ReservationsByMonthItem[] = [];
 
   loadingStats = true;
@@ -85,14 +86,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: ({ statsResponse, reservationsResponse }) => {
           if (statsResponse.success) {
             this.stats = statsResponse.data;
+            console.log('Admin Stats:', this.stats);
             this.loadingStats = false;
             this.setupOccupancyChart();
-            this.setupOrdersChart();
           }
           if (reservationsResponse.success) {
             this.reservationsByMonth = reservationsResponse.data;
+            console.log('Reservations by Month:', this.reservationsByMonth);
             this.loadingReservations = false;
             this.setupReservationsChart();
+            this.setupOrdersChart();
           }
         },
         error: (err) => {
@@ -103,6 +106,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
+  //FIXME Arreglar la grafica porque esta esmuy fea, quizas poner dos barras una de azul y otra de verde
+  //O en lugar de por mes,por trimeste o por año, o si es por mes, que sea por "dias"
   setupReservationsChart(): void {
     if (!this.reservationsByMonth || this.reservationsByMonth.length === 0)
       return;
@@ -149,6 +154,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
+  //FIXME Revisar esto porque quizas formato tarta no es lo mejor y hay que cambiarlo
+  //Grafico con forma de tarta
   setupOccupancyChart(): void {
     if (!this.stats) return;
 

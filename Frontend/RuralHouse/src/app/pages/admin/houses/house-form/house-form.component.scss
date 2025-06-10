@@ -1,0 +1,15 @@
+#map {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-container {
+  font-family: inherit;
+}
+
+// Personalizar el popup del marcador
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+}

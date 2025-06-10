@@ -7,12 +7,11 @@
   <nb-card-header>Estadísticas Generales</nb-card-header>
   <nb-card-body>
     <div>Total Reservas: {{ totalReservations }}</div>
-    <div>Total Huéspedes: {{ totalGuests }}</div>
-    <div>Total Casas: {{ totalHouses }}</div>
-    <div>Valoración Media: {{ averageRating | number : "1.1-2" }}</div>
   </nb-card-body>
+  <div>Total Huéspedes: {{ totalGuests }}</div>
+  <div>Total Casas: {{ totalHouses }}</div>
+  <div>Valoración Media: {{ averageRating | number : "1.1-2" }}</div>
 </nb-card>
-
 <nb-card *ngIf="!loadingReservations && reservationsByMonth.length">
   <nb-card-header>Reservas y Huéspedes por Mes</nb-card-header>
   <!-- Gráfico corregido usando el componente <echarts> -->
