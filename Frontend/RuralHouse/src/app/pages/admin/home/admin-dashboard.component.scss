@@ -4,7 +4,42 @@
   gap: 1rem;
   padding: 1rem;
 }
-.echart {
-  width: 200%;
-  height: 500px; /* obligatorio */
+.echart-bar {
+  width: 40vw;
+  height: 30vh;
+}
+.echart-pie {
+  width: 40vw;
+  height: 30vh;
+}
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  text-align: center;
+  border-radius: 1rem;
+  border: 2px solid black;
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+}
+
+.primary-card nb-card-header {
+  color: #3366ff;
+}
+.success-card nb-card-header {
+  color: #00d68f;
+}
+.info-card nb-card-header {
+  color: #0095ff;
+}
+.warning-card nb-card-header {
+  color: #ffaa00;
 }

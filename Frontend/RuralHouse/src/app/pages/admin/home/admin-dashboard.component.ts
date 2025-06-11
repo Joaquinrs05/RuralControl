@@ -112,17 +112,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (!this.reservationsByMonth || this.reservationsByMonth.length === 0)
       return;
 
+    const months = this.reservationsByMonth.map((item) => item.month);
+    const reservations = this.reservationsByMonth.map(
+      (item) => item.reservations
+    );
+    const guests = this.reservationsByMonth.map((item) => item.guests);
+
     this.reservationsChartOptions = {
       backgroundColor: this.themeVariables.bg,
-      color: [this.themeVariables.primary],
       tooltip: {
         trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985',
+          },
+        },
+      },
+      legend: {
+        data: ['Reservas', 'Huéspedes'],
+        top: 10,
+        textStyle: {
+          color: this.themeVariables.fgText,
+        },
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: this.reservationsByMonth.map((item) => item.month),
+        boundaryGap: false,
+        data: months,
         axisLine: {
-          lineStyle: { color: this.themeVariables.separator },
+          lineStyle: {
+            color: this.themeVariables.separator,
+          },
         },
         axisLabel: {
           color: this.themeVariables.fgText,
@@ -130,30 +157,55 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       yAxis: {
         type: 'value',
-        name: 'Reservas',
+        name: 'Cantidad',
         axisLine: {
-          lineStyle: { color: this.themeVariables.separator },
+          lineStyle: {
+            color: this.themeVariables.separator,
+          },
         },
         axisLabel: {
           color: this.themeVariables.fgText,
         },
         splitLine: {
-          lineStyle: { color: this.themeVariables.separator },
+          lineStyle: {
+            color: this.themeVariables.separator,
+          },
         },
       },
       series: [
         {
           name: 'Reservas',
           type: 'bar',
-          data: this.reservationsByMonth.map((item) => item.reservations),
-          itemStyle: {
-            color: this.themeVariables.primary,
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 6,
+          data: reservations,
+          lineStyle: {
+            width: 3,
+            color: '#ff4081', // rosa
+          },
+          areaStyle: {
+            color: 'rgba(255, 64, 129, 0.3)',
+          },
+        },
+        {
+          name: 'Huéspedes',
+          type: 'bar',
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 6,
+          data: guests,
+          lineStyle: {
+            width: 3,
+            color: '#00e676', // verde
+          },
+          areaStyle: {
+            color: 'rgba(0, 230, 118, 0.3)',
           },
         },
       ],
     };
   }
-
   //FIXME Revisar esto porque quizas formato tarta no es lo mejor y hay que cambiarlo
   //Grafico con forma de tarta
   setupOccupancyChart(): void {
