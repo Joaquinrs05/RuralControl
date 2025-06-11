@@ -27,19 +27,26 @@
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
   <nb-card>
-    <nb-card-header>Reservas y Huéspedes por Mes</nb-card-header>
-    <nb-card-body>
+    <h2
+      class="text-2xl font-bold mb-2 text-gray-800 justify-center self-center mr-40"
+    >
+      Reservas y Huéspedes Mensual
+    </h2>
+    <nb-card>
       <echarts
         [options]="reservationsChartOptions"
         class="echart-bar"
       ></echarts>
-    </nb-card-body>
+    </nb-card>
   </nb-card>
 
   <nb-card *ngIf="!loadingStats && stats">
-    <nb-card-header>Tasa de Ocupación</nb-card-header>
-    <nb-card-body>
+    <h2 class="text-2xl font-bold mb-2 text-gray-800 self-center mr-72">
+      Tasa de Ocupación Mensual
+    </h2>
+
+    <nb-card>
       <echarts [options]="occupancyChartOptions" class="echart-pie"></echarts>
-    </nb-card-body>
+    </nb-card>
   </nb-card>
 </div>

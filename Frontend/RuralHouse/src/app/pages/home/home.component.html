@@ -1,9 +1,29 @@
-<!-- <div class="flex flex-col items-center justify-center h-screen bg-gray-200">
-  <h1 class="text-2xl font-bold mb-4">Bienvenido a la página de inicio</h1>
-  <p class="text-lg">Esta es la página de inicio de la aplicación.</p>
+<!-- Sección de filtros -->
+<div class="w-full max-w-7xl mx-auto px-4 py-4">
+  <div class="mb-6">
+    <label
+      for="provincia-filter"
+      class="block text-sm font-medium text-gray-700 mb-2"
+    >
+      Buscar por provincia
+    </label>
+    <input
+      id="provincia-filter"
+      type="text"
+      placeholder="Escribe el nombre de la provincia..."
+      class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+      [value]="provinciaFilter()"
+      (input)="onProvinciaFilterChange($any($event.target).value)"
+    />
 
-  <p>home works!</p>
-
-  <app-house-card [house]="house"></app-house-card>
+    <!-- Mostrar el número de resultados -->
+    <p class="mt-2 text-sm text-gray-600">
+      @if (provinciaFilter()) { Mostrando {{ filteredHouses().length }} casa(s)
+      en "{{ provinciaFilter() }}" } @else { Mostrando
+      {{ filteredHouses().length }} casa(s) en total }
+    </p>
+  </div>
 </div>
- -->
+
+<!-- Lista de casas filtradas -->
+<app-house-list [houses]="filteredHouses()" />
