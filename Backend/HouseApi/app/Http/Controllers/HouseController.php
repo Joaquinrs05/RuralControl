@@ -38,7 +38,7 @@ class HouseController extends Controller
             'address'=> 'required|string',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            /*'average_rating' => 'nullable|numeric',*/
+            'province' => 'required|string',
             'price_per_night' => 'required|numeric',
 
         ]);
@@ -58,8 +58,10 @@ class HouseController extends Controller
             'photo_path' => $photoPath,
             'owner_id' => $validated['owner_id'],
             'address' => $validated['address'],
+            //Vamos a probar si al poner aqui validated, se sigue guardando bien
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude'),
+            'province' => $validated['province'],
             'price_per_night' => $validated['price_per_night'],
         ]);
 
@@ -82,8 +84,6 @@ class HouseController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validación de la imagen
             'owner_id' => 'sometimes|required|integer',
             'city'=> 'required|string',
-            'average_rating' => 'nullable|numeric',
-            'visits' => 'nullable|integer',
             'price_per_night' => 'nullable|numeric',
         ]);
 
@@ -106,8 +106,6 @@ class HouseController extends Controller
             'description' => $validated['description'] ?? $house->description,
             'photo_path' => $photoPath,  // Guardamos la nueva ruta de la imagen
             'owner_id' => $validated['owner_id'] ?? $house->owner_id,
-            'average_rating' => $validated['average_rating'] ?? $house->average_rating,
-            'visits' => $validated['visits'] ?? $house->visits,
             'price_per_night' => $validated['price_per_night'] ?? $house->price_per_night,
         ]);
 

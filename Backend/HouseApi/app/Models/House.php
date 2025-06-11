@@ -21,6 +21,7 @@ class House extends Model
         'address',
         'latitude',
         'longitude',
+        'province'
     ];
 
     // Relación con valoraciones

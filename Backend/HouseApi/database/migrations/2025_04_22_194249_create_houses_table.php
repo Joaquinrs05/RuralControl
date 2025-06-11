@@ -22,6 +22,7 @@ return new class extends Migration
     $table->decimal('latitude', 10, 8);
     $table->decimal('longitude', 11, 8);
     $table->unsignedBigInteger('visits')->default(0);
+    $table->string('province');
     $table->decimal('price_per_night', 8, 2)->default(0);
     $table->timestamps();
 

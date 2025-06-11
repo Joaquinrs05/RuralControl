@@ -45,6 +45,7 @@ export class HouseService {
     owner_id: 1,
     visits: 1,
     price_per_night: 1,
+    province: 'Madrid',
     latitude: 1.0,
     longitude: 1.0,
     address: 'Calle Falsa 123',

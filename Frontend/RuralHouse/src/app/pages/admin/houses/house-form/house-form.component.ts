@@ -44,6 +44,7 @@ export class HouseFormComponent {
         '',
         [Validators.required, Validators.min(-180), Validators.max(180)],
       ],
+      province: ['', Validators.required],
     });
   }
 
@@ -213,10 +214,7 @@ export class HouseFormComponent {
     formData.append('address', this.casaForm.value.address);
     formData.append('latitude', this.casaForm.value.latitude);
     formData.append('longitude', this.casaForm.value.longitude);
-
-    if (this.casaForm.value.average_rating) {
-      formData.append('average_rating', this.casaForm.value.average_rating);
-    }
+    formData.append('province', this.casaForm.value.province);
 
     if (this.selectedFile) {
       formData.append('photo', this.selectedFile);

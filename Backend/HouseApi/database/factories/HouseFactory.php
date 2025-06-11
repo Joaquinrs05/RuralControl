@@ -42,7 +42,8 @@ class HouseFactory extends Factory
             'price_per_night' => rand(10,50),
             'address' => $location['address'],
             'latitude' => $location['lat'],
-            'longitude' => $location['lng']
+            'longitude' => $location['lng'],
+            'province'  => $this->faker->name,
         ];
     }
 }
