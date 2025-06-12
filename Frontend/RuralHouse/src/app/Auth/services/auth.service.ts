@@ -53,7 +53,6 @@ export class AuthService {
           );
           try {
             const decoded = jwtDecode(response.token);
-            console.log('[AuthService] Payload decodificado:', decoded);
           } catch (e) {
             console.error('Error al decodificar el token:', e);
           }
@@ -63,6 +62,18 @@ export class AuthService {
         }
       })
     );
+  }
+
+  isAdmin() {
+    const token = this.getToken();
+    if (!token) return false;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.role === 'admin';
+    } catch (e) {
+      console.error('Error al decodificar el token:', e);
+      return false;
+    }
   }
 
   private storeToken(token: string) {

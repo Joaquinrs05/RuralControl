@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Middleware\HandleCors;
 
-
+//Otras rutas
 
 // RUTAS PROTEGIDAS (necesitas JWT válido)
 Route::middleware(['auth:api', HandleCors::class])->group(function () {

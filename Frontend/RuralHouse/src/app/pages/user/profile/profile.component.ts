@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, Inject, inject, signal } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
 import { UserService } from './user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
@@ -8,6 +8,8 @@ import {
   Reservation,
 } from '../../houses/reservation.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-users',
@@ -17,6 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './profile.component.scss',
 })
 export class UsersComponent {
+  private apiUrl = 'http://51.38.176.82:8000/api/users';
   readonly router = inject(Router);
   loading = signal(true);
   errorMsg = '';
@@ -24,6 +27,7 @@ export class UsersComponent {
   #userService = inject(UserService);
   #authService = inject(AuthService);
   #reservationService = inject(ReservationService);
+  http = inject(HttpClient);
 
   private userVacio: User = {
     id: 0,
@@ -93,15 +97,40 @@ export class UsersComponent {
     });
   }
 
-  /*  editUser() {
-    this.#userService.getProfile().subscribe({
-      next: () => {
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMsg = 'Error al actualizar el usuario';
-        this.loading.set(false);
-      },
-    });
+  get isAdmin(): boolean {
+    return this.#authService.isAdmin();
+  }
+
+  uploadLogo(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append('logo', file);
+
+      this.http.post(`${this.apiUrl}/admin/logo`, formData).subscribe({
+        next: (res: any) => {
+          console.log('Logo subido con éxito:', res);
+        },
+        error: (err: any) => {
+          console.error('Error al subir el logo:', err);
+        },
+      });
+    }
+  }
+  /* onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      this.uploadLogo(file).subscribe({
+        next: (res) => {
+          console.log('Logo subido con éxito:', res);
+        },
+        error: (err) => {
+          console.error('Error al subir el logo:', err);
+        },
+      });
+    }
   } */
 }

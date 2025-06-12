@@ -88,6 +88,10 @@
           <h3 class="text-lg font-medium text-gray-900 mb-4">
             Tus últimos alquileres
           </h3>
+          @if (isAdmin) {
+          <input type="file" (change)="uploadLogo($event)" />
+          } @if (!isAdmin) {
+
           <div *ngIf="reservasUsuario().length > 0; else sinReservas">
             <div class="overflow-x-auto">
               <table class="min-w-full bg-white rounded-lg shadow">
@@ -154,6 +158,7 @@
               <p class="text-sm text-blue-700">No tienes reservas aún.</p>
             </div>
           </ng-template>
+          }
         </div>
       </div>
     </div>

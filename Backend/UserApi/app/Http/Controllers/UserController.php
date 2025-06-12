@@ -47,6 +47,31 @@ class UserController extends Controller
     }
 
 
+    public function uploadLogo(Request $request)
+    {
+        $request->validate([
+            'logo' => 'required|image|max:2048', // Máx 2MB
+        ]);
 
+        // Guardar el archivo
+        $path = $request->file('logo')->store('logos', 'public');
+
+        // Borrar logo anterior (opcional)
+        $existingLogo = Logo::first();
+        if ($existingLogo) {
+            Storage::disk('public')->delete($existingLogo->url_photo);
+            $existingLogo->delete();
+        }
+
+        // Crear nuevo logo
+        $logo = Logo::create([
+            'url_photo' => $path,
+        ]);
+
+        return response()->json([
+            'message' => 'Logo subido correctamente',
+            'url' => Storage::url($path)
+        ]);
+    }
 
 }

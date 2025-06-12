@@ -10,7 +10,7 @@ import { environment } from '../../../../environment/environment';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://127.0.0.1:8000/api/users';
+  private apiUrl = 'http://51.38.176.82:8000/api/users';
   /* private apiUrl = 'http://127.0.0.1:8000/api/users'; */
   /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
   // Ajusta la URL según tu backend
@@ -48,13 +48,6 @@ export class UserService {
       return this.getUserById(decoded.id);
     }
     return of(undefined);
-  }
-
-  updateUser(user: User): Observable<User> {
-    const url = `${this.apiUrl}/${user.id}`;
-    return this.#httpClient
-      .put<User>(url, user)
-      .pipe(catchError(this.handleError<User>('updateUser')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
