@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './profile.component.scss',
 })
 export class UsersComponent {
-  private apiUrl = 'http://51.38.176.82:8000/api/users';
+  private apiUrl = 'http://51.38.176.82:8000/api';
   readonly router = inject(Router);
   loading = signal(true);
   errorMsg = '';
@@ -107,15 +107,19 @@ export class UsersComponent {
       const file = input.files[0];
       const formData = new FormData();
       formData.append('logo', file);
-
-      this.http.post(`${this.apiUrl}/admin/logo`, formData).subscribe({
-        next: (res: any) => {
-          console.log('Logo subido con éxito:', res);
-        },
-        error: (err: any) => {
-          console.error('Error al subir el logo:', err);
-        },
-      });
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      };
+      this.http
+        .post(`${this.apiUrl}/admin/logo`, formData, { headers })
+        .subscribe({
+          next: (res: any) => {
+            console.log('Logo subido con éxito:', res);
+          },
+          error: (err: any) => {
+            console.error('Error al subir el logo:', err);
+          },
+        });
     }
   }
   /* onFileSelected(event: Event) {

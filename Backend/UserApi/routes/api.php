@@ -15,3 +15,4 @@ Route::middleware([HandleCors::class])->group(function () {
 Route::get('/users/{id}', [UserController::class, 'show']);
 
 Route::post('/admin/logo', [UserController::class, 'uploadLogo'])->middleware('auth:api');
+Route::get('/logo', [UserController::class, 'getLogo']);

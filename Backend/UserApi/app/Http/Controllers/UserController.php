@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -49,6 +51,8 @@ class UserController extends Controller
 
     public function uploadLogo(Request $request)
     {
+        $user = Auth::user();
+
         $request->validate([
             'logo' => 'required|image|max:2048', // Máx 2MB
         ]);
@@ -71,6 +75,19 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Logo subido correctamente',
             'url' => Storage::url($path)
+        ]);
+    }
+
+    public function getLogo()
+    {
+        $logo = Logo::latest()->first(); // Obtener el logo más reciente
+
+        if (!$logo) {
+            return response()->json(['error' => 'No hay logo disponible'], 404);
+        }
+
+        return response()->json([
+            'url' => Storage::url($logo->url_photo),
         ]);
     }
 
