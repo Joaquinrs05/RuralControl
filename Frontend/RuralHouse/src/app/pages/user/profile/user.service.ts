@@ -4,12 +4,16 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from '../../../shared/models/user.model';
 import { AuthService } from '../../../Auth/services/auth.service';
+import { environment } from '../../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://127.0.0.1:8000/api/users'; // Ajusta la URL según tu backend
+  private apiUrl = 'http://127.0.0.1:8000/api/users';
+  /* private apiUrl = 'http://127.0.0.1:8000/api/users'; */
+  /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
+  // Ajusta la URL según tu backend
 
   readonly #httpClient = inject(HttpClient);
 

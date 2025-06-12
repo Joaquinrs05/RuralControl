@@ -224,8 +224,8 @@ export class HouseFormComponent {
       '📤 Datos que se envían a la API:',
       Object.fromEntries(formData.entries())
     ); // <-- OPCIONAL PARA DEBUG
-
-    this.http.post('http://localhost:8001/api/houses', formData).subscribe({
+    //this.http.post('http://localhost:8001/api/houses', formData).subscribe({
+    this.http.post('http://51.38.176.82:8001/api/houses', formData).subscribe({
       next: () => {
         // TODO: Mostrar un mensaje de éxito con librería tipo SweetAlert
         alert('Casa creada correctamente');

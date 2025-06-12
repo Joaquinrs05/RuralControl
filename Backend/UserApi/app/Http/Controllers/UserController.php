@@ -11,7 +11,6 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
-    // 👤 Info usuario actual autenticado
     public function profile()
     {
         return response()->json(Auth::user());
@@ -28,7 +27,6 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // ✏️ Actualizar perfil del usuario autenticado
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -40,7 +38,6 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // 🗑️ Eliminar cuenta del usuario autenticado
     public function destroy()
     {
         $user = Auth::user();
@@ -48,4 +45,8 @@ class UserController extends Controller
         JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => 'User deleted']);
     }
+
+
+
+
 }

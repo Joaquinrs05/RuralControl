@@ -3,7 +3,7 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import jwtDecode from 'jwt-decode';
-
+import { environment } from '../../../environment/environment';
 interface User {
   token: string;
   name?: string;
@@ -15,7 +15,9 @@ interface User {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://127.0.0.1:8000';
+  //private apiUrl = 'http://127.0.0.1:8000';
+  private apiUrl = 'http://51.38.176.82:8000';
+  /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
 
   private currentUserSignal = signal<User | null>(null);
   currentUser = computed(() => this.currentUserSignal());

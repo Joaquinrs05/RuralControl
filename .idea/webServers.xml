@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b1369aa4-ab49-49af-bf9f-55613f2d1320" name="VPS">
+        <fileTransfer rootFolder="/opt/ruralcontrol" accessType="SFTP" host="51.38.176.82" port="6666" sshConfigId="5576e61e-f68a-4d5c-9cac-8f3a75584262" sshConfig="ubuntu@51.38.176.82:6666 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
