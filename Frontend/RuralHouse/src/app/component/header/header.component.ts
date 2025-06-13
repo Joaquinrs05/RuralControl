@@ -27,7 +27,7 @@ export class HeaderComponent {
   companyName: string = 'RuralControl';
 
   // Ruta al logo
-  logoPath = signal('assets/images/logo.png');
+  logoPath = signal('http://51.38.176.82:8001/storage/');
   // Texto del botón de perfil/home
 
   constructor() {

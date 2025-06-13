@@ -106,7 +106,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  //FIXME Arreglar la grafica porque esta esmuy fea, quizas poner dos barras una de azul y otra de verde
   //O en lugar de por mes,por trimeste o por año, o si es por mes, que sea por "dias"
   setupReservationsChart(): void {
     if (!this.reservationsByMonth || this.reservationsByMonth.length === 0)
@@ -262,6 +261,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   get averageRating(): number {
     return this.stats?.average_rating ?? 0;
+  }
+  get totalEarned(): number {
+    return this.stats?.TotalEarned ?? 0;
   }
 
   //graficos

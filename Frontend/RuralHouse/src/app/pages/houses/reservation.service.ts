@@ -20,7 +20,8 @@ export interface Reservation {
   providedIn: 'root',
 })
 export class ReservationService {
-  private apiUrl = 'http://127.0.0.1:8001/api/users'; // Ajusta la URL base según tu backend
+  /*  private apiUrl = 'http://127.0.0.1:8001/api/users'; */ // Ajusta la URL base según tu backend
+  private apiUrl = 'http://51.38.176.82:8001/api/users';
 
   constructor(private http: HttpClient) {}
 
