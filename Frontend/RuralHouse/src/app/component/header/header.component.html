@@ -1,9 +1,9 @@
-<header class="header">
+<header class="header h-24">
   <div class="header-container">
-    <div class="logo-container">
-      <img [src]="logoPath()" alt="Logo" class="h-10 w-auto" />
+    <div class="logo-container h-16">
+      <img src="images/logo.png" class="h-48 w-auto" alt="Logo" />
     </div>
-    <div class="company-name">
+    <div class="company-name mr-20 h-20">
       <h1>{{ companyName }}</h1>
     </div>
     <div *ngIf="!hideMenu" class="relative flex items-center gap-4">

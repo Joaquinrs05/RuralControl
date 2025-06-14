@@ -1,8 +1,9 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Auth/services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Logo } from '../../shared/models/logo.model';
 
 @Component({
   selector: 'app-header',
@@ -22,30 +23,11 @@ export class HeaderComponent {
   readonly router = inject(Router);
   readonly authService = inject(AuthService);
   http = inject(HttpClient);
+  logo = signal<Logo | null>(null);
 
   // Nombre de la empresa
   companyName: string = 'RuralControl';
 
-  // Ruta al logo
-  logoPath = signal('http://51.38.176.82:8001/storage/');
-  // Texto del botón de perfil/home
-
-  constructor() {
-    effect(() => {
-      this.http
-        .get<{ url: string }>('http://51.38.176.82:8000/api/logo')
-        .subscribe({
-          next: (res) => {
-            if (res.url) {
-              this.logoPath.set(res.url);
-            }
-          },
-          error: (err) => {
-            console.error('Error al cargar el logo:', err);
-          },
-        });
-    });
-  }
   get isAdminRoute(): boolean {
     return this.router.url.startsWith('/admin');
   }

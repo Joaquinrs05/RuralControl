@@ -68,9 +68,9 @@ export class HouseFormComponent {
 
   private setupLeafletIcons() {
     // Fix para los iconos de Leaflet en Angular
-    const iconRetinaUrl = 'assets/marker-icon-2x.png';
-    const iconUrl = 'assets/marker-icon.png';
-    const shadowUrl = 'assets/marker-shadow.png';
+    const iconRetinaUrl = 'images/marker-icon-2x.png';
+    const iconUrl = 'images/marker-icon.png';
+    const shadowUrl = 'images/marker-shadow.png';
     const iconDefault = L.icon({
       iconRetinaUrl,
       iconUrl,
@@ -223,7 +223,7 @@ export class HouseFormComponent {
     console.log(
       '📤 Datos que se envían a la API:',
       Object.fromEntries(formData.entries())
-    ); // <-- OPCIONAL PARA DEBUG
+    );
     //this.http.post('http://localhost:8001/api/houses', formData).subscribe({
     this.http.post('http://51.38.176.82:8001/api/houses', formData).subscribe({
       next: () => {

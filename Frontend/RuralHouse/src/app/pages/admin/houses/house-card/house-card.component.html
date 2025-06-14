@@ -1,44 +1,111 @@
 <div
-  class="bg-gray-100 rounded-2xl shadow-md hover:shadow-xl p-6 my-4 max-w-[350px] transition-shadow"
+  class="bg-white rounded-3xl shadow-lg hover:shadow-2xl p-0 my-6 max-w-[350px] transition-all duration-300 hover:scale-105 overflow-hidden border border-gray-100 h-[450px] flex flex-col group"
 >
-  <div class="flex flex-col items-center">
+  <!-- Contenedor de imagen con overlay -->
+  <div class="relative overflow-hidden">
     <img
-      [src]="'http://127.0.0.1:8001/storage/' + house().photo_path"
+      [src]="'http://51.38.176.82:8001/storage/' + house().photo_path"
       [alt]="house().name"
-      class="w-full h-44 object-cover rounded-xl mb-4"
+      class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
     />
-    <h3 class="mb-3 text-lg font-semibold text-gray-900">
-      {{ house().name }}
-    </h3>
-    <div class="flex items-center justify-center w-full gap-6">
-      <span
-        (click)="mostrarFormularioEditar()"
-        class="inline-block self-center justify-center bg-blue-600 text-white rounded-lg px-6 py-2 text-base font-medium cursor-pointer text-center no-underline shadow hover:bg-blue-700 hover:shadow-lg transition"
-      >
-        Editar
-      </span>
+    <!-- Overlay gradiente sutil -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    ></div>
 
-      <span
-        (click)="emitDelete(house().id)"
-        class="inline-block self-center justify-center bg-red-600 text-white rounded-lg px-6 py-2 text-base font-medium cursor-pointer text-center no-underline shadow hover:bg-red-700 hover:shadow-lg transition"
+    <!-- Badge de disponibilidad (opcional) -->
+    <div
+      class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+    >
+      Disponible
+    </div>
+  </div>
+
+  <!-- Contenido de la carta -->
+  <div class="flex flex-col flex-1 p-6">
+    <!-- Contenedor fijo para el nombre -->
+    <div class="h-16 flex items-center justify-center mb-4">
+      <h3
+        class="text-xl font-bold text-gray-800 text-center line-clamp-2 leading-tight group-hover:text-green-700 transition-colors duration-200"
       >
-        Delete
-      </span>
-      @if (showRentalForm) {
-      <div
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      >
-        <div
-          class="bg-white rounded-xl shadow-2xl p-8 max-w-lg w-full relative"
+        {{ house().name }}
+      </h3>
+    </div>
+
+    <!-- Características destacadas -->
+    <div class="flex items-center justify-center gap-4 mb-6 text-gray-600">
+      <div class="flex items-center gap-1">
+        <svg
+          class="w-4 h-4 text-green-600"
+          fill="currentColor"
+          viewBox="0 0 20 20"
         >
-          <app-house-edit
-            [house]="house()"
-            (close)="ocultarFormularioEditar()"
-            (houseUpdated)="actualizarCasa($event)"
-          ></app-house-edit>
-        </div>
+          <path
+            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+          />
+        </svg>
+        <span class="text-sm font-medium">Casa Rural</span>
       </div>
-      }
+    </div>
+
+    <!-- Botones con diseño más elegante -->
+    <div class="flex items-center justify-center w-full gap-3 mt-auto">
+      <button
+        (click)="mostrarFormularioEditar()"
+        class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl px-4 py-3 text-sm font-semibold cursor-pointer text-center shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+          />
+        </svg>
+        Editar
+      </button>
+
+      <button
+        (click)="emitDelete(house().id)"
+        class="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl px-4 py-3 text-sm font-semibold cursor-pointer text-center shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
+        Eliminar
+      </button>
     </div>
   </div>
 </div>
+
+<!-- Modal fuera del contenedor de la carta -->
+@if (showRentalForm) {
+<div
+  class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
+>
+  <div
+    class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full relative transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto"
+  >
+    <app-house-edit
+      [house]="house()"
+      (close)="ocultarFormularioEditar()"
+      (houseUpdated)="actualizarCasa($event)"
+    ></app-house-edit>
+  </div>
+</div>
+}
