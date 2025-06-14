@@ -10,7 +10,11 @@ export interface Reservation {
   photo_path: string;
   owner_id: number;
   average_rating: number;
-
+  province: string;
+  price_per_night: number;
+  start_date: Date; // fecha de inicio
+  end_date: Date; // fecha de fin
+  num_people: number; // número de personas
   createdAt?: string;
   updatedAt?: string;
   // añade aquí más campos si los necesitas

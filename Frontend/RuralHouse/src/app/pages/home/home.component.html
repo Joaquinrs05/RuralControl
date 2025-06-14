@@ -1,44 +1,261 @@
-<!-- Sección de filtros -->
-<div class="w-full max-w-7xl mx-auto px-4 py-4">
-  <div class="mb-6">
-    <label
-      for="provincia-filter"
-      class="block text-sm font-semibold text-gray-700 mb-2"
-    >
-      Buscar por provincia
-    </label>
-    <div class="relative max-w-md">
-      <input
-        id="provincia-filter"
-        type="text"
-        placeholder="Escribe el nombre de la provincia..."
-        class="w-full cursor-pointer px-5 py-3 pl-12 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-gray-800 placeholder-gray-400"
-        [value]="provinciaFilter()"
-        (input)="onProvinciaFilterChange($any($event.target).value)"
-      />
-      <svg
-        class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
-        />
-      </svg>
+<!-- Hero Section con fondo degradado -->
+<div
+  class="relative bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 overflow-hidden"
+>
+  <!-- Patrón decorativo de fondo -->
+
+  <div class="relative w-full max-w-7xl mx-auto px-4 py-16">
+    <!-- Título principal -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+        Descubre tu
+        <span class="text-green-200 block">Escape Rural</span>
+      </h1>
+      <p class="text-xl text-green-100 max-w-2xl mx-auto leading-relaxed">
+        Encuentra la casa rural perfecta para tus vacaciones. Naturaleza,
+        tranquilidad y experiencias únicas te esperan.
+      </p>
     </div>
 
-    <!-- Mostrar el número de resultados -->
-    <p class="mt-2 text-sm text-gray-600">
-      @if (provinciaFilter()) { Mostrando {{ filteredHouses().length }} casa(s)
-      en "{{ provinciaFilter() }}" } @else { Mostrando
-      {{ filteredHouses().length }} casa(s) en total }
-    </p>
+    <!-- Barra de búsqueda mejorada -->
+    <div class="max-w-2xl mx-auto">
+      <div
+        class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-white/20"
+      >
+        <label
+          for="provincia-filter"
+          class="block text-lg font-semibold text-gray-700 mb-4 text-center"
+        >
+          ¿A dónde quieres ir?
+        </label>
+
+        <div class="relative">
+          <input
+            id="provincia-filter"
+            type="text"
+            placeholder="Busca por provincia... (Madrid, Barcelona, Valencia...)"
+            class="w-full px-6 py-4 pl-14 pr-16 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-4 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all text-gray-800 placeholder-gray-400 text-lg font-medium hover:border-green-300"
+            [value]="provinciaFilter()"
+            (input)="onProvinciaFilterChange($any($event.target).value)"
+          />
+
+          <!-- Icono de búsqueda -->
+          <div
+            class="absolute left-5 top-1/2 transform -translate-y-1/2 text-green-600"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+              />
+            </svg>
+          </div>
+
+          <!-- Botón de limpiar filtro -->
+          @if (provinciaFilter()) {
+          <button
+            (click)="onProvinciaFilterChange('')"
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
+            title="Limpiar búsqueda"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onda decorativa en la parte inferior -->
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg
+      viewBox="0 0 1440 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-full h-12"
+    >
+      <path
+        d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+        fill="white"
+      />
+    </svg>
   </div>
 </div>
 
-<!-- Lista de casas filtradas -->
-<app-house-list [houses]="filteredHouses()" />
+<!-- Sección de resultados -->
+<div class="bg-gray-50 py-8">
+  <div class="w-full max-w-7xl mx-auto px-4">
+    <!-- Estadísticas y filtros activos -->
+    <div class="mb-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        >
+          <!-- Contador de resultados -->
+          <div class="flex items-center gap-3">
+            <div class="bg-green-100 p-3 rounded-xl">
+              <svg
+                class="w-6 h-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 5a2 2 0 012-2h4a2 2 0 012 2v0H8v0z"
+                />
+              </svg>
+            </div>
+            <div>
+              @if (provinciaFilter()) {
+              <h2 class="text-xl font-bold text-gray-900">
+                {{ filteredHouses().length }} casa{{
+                  filteredHouses().length !== 1 ? "s" : ""
+                }}
+                en {{ provinciaFilter() }}
+              </h2>
+              <p class="text-sm text-gray-600">Resultados filtrados</p>
+              } @else {
+              <h2 class="text-xl font-bold text-gray-900">
+                {{ filteredHouses().length }} casa{{
+                  filteredHouses().length !== 1 ? "s" : ""
+                }}
+                disponibles
+              </h2>
+              <p class="text-sm text-gray-600">Total de propiedades</p>
+              }
+            </div>
+          </div>
+
+          <!-- Filtro activo -->
+          @if (provinciaFilter()) {
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-500">Filtro activo:</span>
+            <div
+              class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 border border-green-200"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              {{ provinciaFilter() }}
+              <button
+                (click)="onProvinciaFilterChange('')"
+                class="ml-1 text-green-600 hover:text-green-800 transition-colors"
+                title="Quitar filtro"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje cuando no hay resultados -->
+    @if (filteredHouses().length === 0) {
+    <div class="text-center py-16">
+      <div
+        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 max-w-md mx-auto"
+      >
+        <div
+          class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <svg
+            class="w-10 h-10 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">
+          No encontramos resultados
+        </h3>
+        <p class="text-gray-600 mb-6">
+          @if (provinciaFilter()) { No hay casas rurales disponibles en "{{
+            provinciaFilter()
+          }}". Prueba con otra provincia. } @else { No hay casas rurales
+          disponibles en este momento. }
+        </p>
+        @if (provinciaFilter()) {
+        <button
+          (click)="onProvinciaFilterChange('')"
+          class="bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl"
+        >
+          Ver todas las casas
+        </button>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Lista de casas (solo si hay resultados) -->
+@if (filteredHouses().length > 0) {
+<div class="bg-gray-50">
+  <div class="w-full max-w-7xl mx-auto px-4">
+    <app-house-list [houses]="filteredHouses()" />
+  </div>
+</div>
+}

@@ -1,97 +1,103 @@
 <div
-  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
 >
-  <div class="bg-white p-6 rounded-lg shadow-xl w-11/12 max-w-md z-50 relative">
-    <h2 class="text-2xl font-bold mb-4">Reserva para {{ house().name }}</h2>
-    <p class="text-gray-600 mb-4">
-      <strong>Características:</strong> {{ house().description }}
+  <div
+    class="bg-[#fefcf9] p-8 rounded-2xl shadow-2xl w-11/12 max-w-xl relative border border-[#e5e3dc]"
+  >
+    <!-- Cierre -->
+    <button
+      type="button"
+      class="absolute top-4 right-4 text-[#888] hover:text-[#444] text-2xl font-bold"
+      (click)="cerrarModal()"
+      aria-label="Cerrar modal"
+    >
+      &times;
+    </button>
+
+    <!-- Título -->
+    <h2 class="text-3xl font-semibold text-[#2f3e2f] mb-2">Reserva en</h2>
+    <h3 class="text-xl font-bold text-[#4d5c41] mb-4">{{ house().name }}</h3>
+
+    <!-- Descripción de la casa -->
+    <p class="text-[#555] italic mb-6 border-l-4 border-[#a3b18a] pl-4">
+      {{ house().description }}
     </p>
 
-    <h3 class="text-xl font-semibold mb-2">Datos del usuario</h3>
-    <p class="text-gray-600 mb-2">Nombre: {{ user().name }}</p>
-    <p class="text-gray-600 mb-4">Email: {{ user().email }}</p>
+    <!-- Datos del usuario -->
+    <div class="mb-6">
+      <h4 class="text-lg font-semibold text-[#4d5c41] mb-1">Tus datos</h4>
+      <p class="text-sm text-[#444]">👤 {{ user().name }}</p>
+      <p class="text-sm text-[#444]">📧 {{ user().email }}</p>
+    </div>
 
-    <form
-      [formGroup]="reservaForm"
-      (ngSubmit)="onSubmit()"
-      novalidate
-      class="space-y-4"
-    >
-      <div>
-        <label
-          class="block text-sm font-medium text-gray-700 mb-1"
-          for="start_date"
-          >Fecha de inicio:</label
-        >
-        <input
-          id="start_date"
-          type="date"
-          formControlName="start_date"
-          required
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <!-- Formulario -->
+    <form [formGroup]="reservaForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label
+            for="start_date"
+            class="block text-sm font-medium text-[#374151] mb-1"
+            >Fecha de inicio</label
+          >
+          <input
+            id="start_date"
+            type="date"
+            formControlName="start_date"
+            class="w-full px-3 py-2 border border-[#d6d3cd] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a3b18a]"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="end_date"
+            class="block text-sm font-medium text-[#374151] mb-1"
+            >Fecha de fin</label
+          >
+          <input
+            id="end_date"
+            type="date"
+            formControlName="end_date"
+            class="w-full px-3 py-2 border border-[#d6d3cd] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a3b18a]"
+            required
+          />
+        </div>
       </div>
 
       <div>
         <label
-          class="block text-sm font-medium text-gray-700 mb-1"
-          for="end_date"
-          >Fecha de fin:</label
-        >
-        <input
-          id="end_date"
-          type="date"
-          formControlName="end_date"
-          required
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label
-          class="block text-sm font-medium text-gray-700 mb-1"
           for="num_people"
-          >Número de personas:</label
+          class="block text-sm font-medium text-[#374151] mb-1"
+          >Número de personas</label
         >
         <input
           id="num_people"
           type="number"
-          formControlName="num_people"
           min="1"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          formControlName="num_people"
+          class="w-full px-3 py-2 border border-[#d6d3cd] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a3b18a]"
         />
       </div>
-      <div>
-        <label
-          class="block text-sm font-medium text-gray-700 mb-1"
-          for="price_per_night"
-          >Precio por noche:</label
-        >
-        <p class="text-gray-600 mb-4">{{ house().price_per_night }}</p>
-      </div>
 
-      <div>
-        <p class="text-gray-700">Número de noches: {{ totalNights }}</p>
-        <p class="text-gray-700 font-bold">
-          Estimación precio total: {{ estimatedTotal | currency : "EUR" }}
+      <div class="mt-4">
+        <p class="text-sm text-[#374151]">
+          💶 <strong>Precio por noche:</strong> {{ house().price_per_night }} €
+        </p>
+        <p class="text-sm text-[#374151]">
+          🌙 <strong>Noches:</strong> {{ totalNights }}
+        </p>
+        <p class="text-md font-bold text-[#283618]">
+          🧾 Estimación total: {{ estimatedTotal | currency : "EUR" }}
         </p>
       </div>
 
       <button
         type="submit"
-        class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        class="w-full bg-[#6b8f71] hover:bg-[#527a5c] text-white py-2 rounded-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed mt-4"
         [disabled]="reservaForm.invalid"
       >
-        Enviar reserva
+        Confirmar reserva
       </button>
     </form>
-    <button
-      type="button"
-      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-      (click)="cerrarModal()"
-      aria-label="Cerrar modal"
-    >
-      X
-    </button>
   </div>
 </div>
