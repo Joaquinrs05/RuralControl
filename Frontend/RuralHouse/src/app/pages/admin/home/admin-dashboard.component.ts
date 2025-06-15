@@ -205,7 +205,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ],
     };
   }
-  //FIXME Revisar esto porque quizas formato tarta no es lo mejor y hay que cambiarlo
   //Grafico con forma de tarta
   setupOccupancyChart(): void {
     if (!this.stats) return;

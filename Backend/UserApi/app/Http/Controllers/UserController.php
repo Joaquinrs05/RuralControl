@@ -18,7 +18,6 @@ class UserController extends Controller
         return response()->json(Auth::user());
     }
 
-    //FIXME Revisar el show y profile porque creo que realmente los dos hacen lo mismo
     // Obtener usuario por ID (nuevo método)
     public function show($id)
     {

@@ -16,7 +16,9 @@
       </button>
       <!-- Submenú -->
       <div *ngIf="showMenu" class="header-submenu">
-        <ng-container *ngIf="isAdminRoute; else userMenu">
+        @if (isAdminRoute) {
+
+        <div>
           <a
             (click)="router.navigate(['/admin/home']); showMenu = false"
             class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 cursor-pointer"
@@ -40,9 +42,10 @@
             class="block px-4 py-2 text-red-600 hover:bg-red-100 cursor-pointer"
             >Cerrar sesión</a
           >
-        </ng-container>
+        </div>
+        }@else {
 
-        <ng-template #userMenu>
+        <div>
           <a
             (click)="router.navigate(['/home']); showMenu = false"
             class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 cursor-pointer"
@@ -64,7 +67,8 @@
             class="block px-4 py-2 text-red-600 hover:bg-red-100 cursor-pointer"
             >Cerrar sesión</a
           >
-        </ng-template>
+        </div>
+        }
       </div>
     </div>
   </div>

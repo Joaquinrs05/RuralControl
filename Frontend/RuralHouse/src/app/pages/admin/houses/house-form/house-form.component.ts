@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../../Auth/services/auth.service';
 import { User } from '../../../../shared/models/user.model';
 import * as L from 'leaflet';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-house-form',
@@ -227,15 +228,23 @@ export class HouseFormComponent {
     //this.http.post('http://localhost:8001/api/houses', formData).subscribe({
     this.http.post('http://51.38.176.82:8001/api/houses', formData).subscribe({
       next: () => {
-        // TODO: Mostrar un mensaje de éxito con librería tipo SweetAlert
-        alert('Casa creada correctamente');
+        Swal.fire({
+          icon: 'success',
+          title: 'Casa creada correctamente',
+          showConfirmButton: false,
+          timer: 2000,
+        });
         this.casaForm.reset();
         this.selectedFile = null;
-        this.router.navigate(['/admin/home']); // o la ruta que toque
+        this.router.navigate(['/admin/home']);
       },
       error: (err) => {
         console.error('Error al crear la casa:', err);
-        alert('Error al crear la casa');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al crear la casa. Inténtalo más tarde.',
+        });
       },
     });
   }

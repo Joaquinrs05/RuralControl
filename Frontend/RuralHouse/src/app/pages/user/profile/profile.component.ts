@@ -1,5 +1,5 @@
 import { Component, effect, Inject, inject, signal } from '@angular/core';
-import { CommonModule, NgForOf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { UserService } from './user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { User } from '../../../shared/models/user.model';
@@ -15,7 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, NgForOf, FontAwesomeModule, RouterLink],
+  imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })

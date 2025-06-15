@@ -6,7 +6,7 @@ use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Support\Facades\Route;
 
 
-// RUTAS PÚBLICAS (con CORS explícito)
+// RUTAS PÚBLICAS
 Route::middleware([HandleCors::class])->group(function () {
     Route::post('auth/register', [AuthController::class, 'register']);
     Route::post('auth/login', [AuthController::class, 'login']);

@@ -47,5 +47,4 @@ export class ReservasComponent {
       },
     });
   }
-  //TODO Quitar Valoracion, agregar Precio y Provincia y dia de Entrada y salida
 }

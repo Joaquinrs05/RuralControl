@@ -3,11 +3,6 @@
 >
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
     <h2 class="text-3xl font-bold mb-6 text-center">Crear una cuenta</h2>
-    <h2>Crear una cuenta</h2>
-
-    @if (errorMessage()) {
-    <h4 class="error">{{ errorMessage() }}</h4>
-    }
 
     <form
       [formGroup]="registerForm()"
@@ -109,6 +104,11 @@
           />
         </label>
       </div>
+      @if (errorMessage()) {
+      <div class="mb-4 text-sm text-red-600 bg-red-100 p-3 rounded">
+        {{ errorMessage() }}
+      </div>
+      }
 
       <div class="flex justify-center">
         <button
