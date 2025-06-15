@@ -2,9 +2,9 @@ export interface Reservation {
   id?: number;
   user_id: number;
   house_id: number;
-  start_date: string; // antes estaba como "fecha_inicio"
-  end_date: string; // antes estaba como "fecha_fin"
-  num_people: number; // antes "num_personas"
+  start_date: string; 
+  end_date: string; 
+  num_people: number; 
   price_per_night?: number;
   total_price?: number;
   status?: string;

@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loader: () => this.houseService.load(),
   });
   stats: AdminStats | null = null;
+
   reservationsByMonth: ReservationsByMonthItem[] = [];
 
   loadingStats = true;
@@ -85,13 +86,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: ({ statsResponse, reservationsResponse }) => {
           if (statsResponse.success) {
             this.stats = statsResponse.data;
+            console.log('Admin Stats:', this.stats);
             this.loadingStats = false;
             this.setupOccupancyChart();
           }
           if (reservationsResponse.success) {
             this.reservationsByMonth = reservationsResponse.data;
+            console.log('Reservations by Month:', this.reservationsByMonth);
             this.loadingReservations = false;
             this.setupReservationsChart();
+            this.setupOrdersChart();
           }
         },
         error: (err) => {
@@ -102,21 +106,49 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
+  //O en lugar de por mes,por trimeste o por año, o si es por mes, que sea por "dias"
   setupReservationsChart(): void {
     if (!this.reservationsByMonth || this.reservationsByMonth.length === 0)
       return;
 
+    const months = this.reservationsByMonth.map((item) => item.month);
+    const reservations = this.reservationsByMonth.map(
+      (item) => item.reservations
+    );
+    const guests = this.reservationsByMonth.map((item) => item.guests);
+
     this.reservationsChartOptions = {
       backgroundColor: this.themeVariables.bg,
-      color: [this.themeVariables.primary],
       tooltip: {
         trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985',
+          },
+        },
+      },
+      legend: {
+        data: ['Reservas', 'Huéspedes'],
+        top: 10,
+        textStyle: {
+          color: this.themeVariables.fgText,
+        },
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: this.reservationsByMonth.map((item) => item.month),
+        boundaryGap: false,
+        data: months,
         axisLine: {
-          lineStyle: { color: this.themeVariables.separator },
+          lineStyle: {
+            color: this.themeVariables.separator,
+          },
         },
         axisLabel: {
           color: this.themeVariables.fgText,
@@ -124,30 +156,56 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       yAxis: {
         type: 'value',
-        name: 'Reservas',
+        name: 'Cantidad',
         axisLine: {
-          lineStyle: { color: this.themeVariables.separator },
+          lineStyle: {
+            color: this.themeVariables.separator,
+          },
         },
         axisLabel: {
           color: this.themeVariables.fgText,
         },
         splitLine: {
-          lineStyle: { color: this.themeVariables.separator },
+          lineStyle: {
+            color: this.themeVariables.separator,
+          },
         },
       },
       series: [
         {
           name: 'Reservas',
           type: 'bar',
-          data: this.reservationsByMonth.map((item) => item.reservations),
-          itemStyle: {
-            color: this.themeVariables.primary,
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 6,
+          data: reservations,
+          lineStyle: {
+            width: 3,
+            color: '#ff4081', // rosa
+          },
+          areaStyle: {
+            color: 'rgba(255, 64, 129, 0.3)',
+          },
+        },
+        {
+          name: 'Huéspedes',
+          type: 'bar',
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 6,
+          data: guests,
+          lineStyle: {
+            width: 3,
+            color: '#00e676', // verde
+          },
+          areaStyle: {
+            color: 'rgba(0, 230, 118, 0.3)',
           },
         },
       ],
     };
   }
-
+  //Grafico con forma de tarta
   setupOccupancyChart(): void {
     if (!this.stats) return;
 
@@ -202,6 +260,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   get averageRating(): number {
     return this.stats?.average_rating ?? 0;
+  }
+  get totalEarned(): number {
+    return this.stats?.TotalEarned ?? 0;
   }
 
   //graficos

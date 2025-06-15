@@ -1,21 +1,21 @@
-<?php
+    <?php
 
-return [
+    return [
 
-    'paths' => ['api/*'/* , 'sanctum/csrf-cookie' */],
+        'paths' => ['api/*'/* , 'sanctum/csrf-cookie' */],
 
-    'allowed_methods' => ['*'],
+        'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:4200', 'http://127.0.0.1:4200'],
+        'allowed_origins' => ['http://localhost:4200', 'http://127.0.0.1:4200'],
 
-    'allowed_origins_patterns' => [],
+        'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+        'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+        'exposed_headers' => [],
 
-    'max_age' => 0,
+        'max_age' => 0,
 
-    'supports_credentials' => false, // Cambia a true si usas cookies/sesión
+        'supports_credentials' => false,
 
-];
+    ];

@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost8000',
+  apiUsersUrl: 'http://www.ruralcontrol.com/api/users',
+  apiHousesUrl: 'http://www.ruralcontrol.com/api/houses',
   name: 'production',
 };

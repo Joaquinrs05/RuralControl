@@ -1,9 +1,9 @@
-<header class="header">
+<header class="header h-24">
   <div class="header-container">
-    <div class="logo-container">
-      <img [src]="logoPath" alt="Logo de {{ companyName }}" class="logo" />
+    <div class="logo-container h-16">
+      <img src="images/logo.png" class="h-48 w-auto" alt="Logo" />
     </div>
-    <div class="company-name">
+    <div class="company-name mr-20 h-20">
       <h1>{{ companyName }}</h1>
     </div>
     <div *ngIf="!hideMenu" class="relative flex items-center gap-4">
@@ -15,8 +15,11 @@
         <span class="hidden sm:inline">Menú</span>
       </button>
       <!-- Submenú -->
-      <div *ngIf="showMenu" class="header-submenu">
-        <ng-container *ngIf="isAdminRoute; else userMenu">
+      @if (showMenu) {
+      <div class="header-submenu">
+        @if (isAdminRoute) {
+
+        <div>
           <a
             (click)="router.navigate(['/admin/home']); showMenu = false"
             class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 cursor-pointer"
@@ -32,6 +35,7 @@
             class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 cursor-pointer"
             >Ver casas</a
           >
+
           <!-- Puedes añadir más enlaces de admin aquí -->
           <div class="border-t my-1"></div>
           <a
@@ -39,9 +43,10 @@
             class="block px-4 py-2 text-red-600 hover:bg-red-100 cursor-pointer"
             >Cerrar sesión</a
           >
-        </ng-container>
+        </div>
+        }@else {
 
-        <ng-template #userMenu>
+        <div>
           <a
             (click)="router.navigate(['/home']); showMenu = false"
             class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 cursor-pointer"
@@ -63,8 +68,10 @@
             class="block px-4 py-2 text-red-600 hover:bg-red-100 cursor-pointer"
             >Cerrar sesión</a
           >
-        </ng-template>
+        </div>
+        }
       </div>
+      }
     </div>
   </div>
 </header>

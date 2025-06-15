@@ -45,13 +45,13 @@ export class HouseListComponent {
   getUser() {
     const token = this.authservice.getToken() as string;
     if (!token) {
-      return null; // o lanzar un error si prefieres
+      return null;
     }
     const user = this.authservice.getUserFromToken(token);
     return user;
   }
   private loadHouses() {
-    const user = this.getUser(); // o como lo tengas implementado
+    const user = this.getUser();
     if (!user) {
       console.error('⚠️ No se pudo obtener el usuario autenticado');
       return;

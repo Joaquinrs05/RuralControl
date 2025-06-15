@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'birth_date' => $this->faker->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make('password'), // Contraseña por defecto
+            'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }

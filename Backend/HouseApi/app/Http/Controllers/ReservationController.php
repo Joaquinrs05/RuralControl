@@ -34,8 +34,35 @@ class ReservationController extends Controller
         'num_people' => 'required|integer|min:1',
     ]);
 
+        $existingReservation = Reservation::where('house_id', $validated['house_id'])
+            ->where(function ($query) use ($validated) {
+                $query->Where(function ($q) use ($validated) {
+                    $q->where('start_date', '>=', $validated['start_date'])
+                        ->where('end_date', '<=', $validated['end_date']);
+                });
+            })
+            ->first();
+
+        if ($existingReservation) {
+            return response()->json([
+                'message' => 'La casa ya está reservada en esas fechas',
+                'errors' => [
+                    'start_date' => ['La casa ya está ocupada del ' . $existingReservation->start_date . ' al ' . $existingReservation->end_date],
+                    'end_date' => ['La casa ya está ocupada del ' . $existingReservation->start_date . ' al ' . $existingReservation->end_date]
+                ],
+                'conflicting_reservation' => [
+                    'id' => $existingReservation->id,
+                    'start_date' => $existingReservation->start_date,
+                    'end_date' => $existingReservation->end_date,
+                    'status' => $existingReservation->status
+                ]
+            ], 422);
+        }
+
     // Validar que el usuario existe en la API externa
-    $userApiUrl = "http://127.0.0.1:8000/api/users/{$validated['user_id']}";
+    /* $userApiUrl = "http://127.0.0.1:8000/api/users/{$validated['user_id']}"*/;  //Esto es cuando estoy en local
+    $userApiUrl = "http://user-api:8000/api/users/{$validated['user_id']}"; //Esto cuando estoy en Docker
+
     $response = \Illuminate\Support\Facades\Http::get($userApiUrl);
 
     if ($response->status() !== 200) {
@@ -61,7 +88,7 @@ class ReservationController extends Controller
     $reservation = Reservation::create([
         ...$validated,
         'total_price' => $totalPrice,
-        'status' => 'pendiente', // o el estado que quieras por defecto
+        'status' => 'confirmado',
     ]);
 
     return response()->json($reservation, 201);

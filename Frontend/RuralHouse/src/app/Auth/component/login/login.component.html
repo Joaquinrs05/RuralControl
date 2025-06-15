@@ -1,64 +1,89 @@
-<!-- login.component.html -->
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    <h2 class="text-3xl font-bold mb-6 text-center">Iniciar Sesión</h2>
-    <h2>Iniciar Sesión</h2>
-    
+<div
+  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-200"
+>
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+    <h2 class="text-3xl font-extrabold mb-2 text-center text-gray-800">
+      Iniciar Sesión
+    </h2>
+    <p class="text-sm text-gray-500 text-center mb-6">
+      Bienvenido de nuevo, inicia sesión para continuar
+    </p>
+
     @if (errorMessage()) {
-      <h4 class="error">{{ errorMessage() }}</h4>
+    <div class="mb-4 text-sm text-red-600 bg-red-100 p-3 rounded">
+      {{ errorMessage() }}
+    </div>
     }
-    
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
-      <div class="input-group">
-        <label for="email">Email:</label>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700"
+          >Correo electrónico</label
+        >
         <input
-            formControlName="email"
-            type="email"
-            id="email"
-            name="email"
-            autofocus
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-      </div>
-      @if (loginForm.get('email')?.dirty && loginForm.get('email')?.invalid) {
-        <div class="error">
+          formControlName="email"
+          type="email"
+          id="email"
+          name="email"
+          autofocus
+          placeholder="ejemplo@correo.com"
+          class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+        @if (loginForm.get('email')?.dirty && loginForm.get('email')?.invalid) {
+        <div class="mt-1 text-xs text-red-600">
           @if (loginForm.get('email')?.getError('required')) {
-            <div>* Email es requerido</div>
-          }
-          @if (loginForm.get('email')?.getError('email')) {
-            <div>* Email no válido</div>
+          <div>* El email es obligatorio.</div>
+          } @if (loginForm.get('email')?.getError('email')) {
+          <div>* Email no válido.</div>
           }
         </div>
-      }
-      
-      <div class="input-group">
-        <label for="password">Contraseña:</label>
+        }
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700"
+          >Contraseña</label
+        >
         <input
           formControlName="password"
           type="password"
           id="password"
           name="password"
+          placeholder="••••••••"
+          class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
-      </div>
-      @if (loginForm.get('password')?.dirty && loginForm.get('password')?.invalid) {
-        <div class="error">
+        @if (loginForm.get('password')?.dirty &&
+        loginForm.get('password')?.invalid) {
+        <div class="mt-1 text-xs text-red-600">
           @if (loginForm.get('password')?.getError('required')) {
-            <div>* Contraseña es requerida</div>
+          <div>* La contraseña es obligatoria.</div>
           }
         </div>
-      }
-      
-      <div class="row">
-        <button type="submit" [disabled]="loginForm.invalid || loading()">
+        }
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid || loading()"
+          class="w-full flex justify-center items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-200 disabled:opacity-50"
+        >
           @if (loading()) {
-            <span class="spinner"></span>
-          }
-          Iniciar Sesión
+          <span
+            class="animate-spin rounded-full h-4 w-4 border-t-2 border-white"
+          ></span>
+          } Iniciar Sesión
         </button>
       </div>
-      
-      <div class="row mt-3">
-        <p>¿No tienes una cuenta? <a routerLink="/auth/register">Regístrate</a></p>
+
+      <div class="text-center text-sm text-gray-600 mt-4">
+        ¿No tienes una cuenta?
+        <a
+          routerLink="/auth/register"
+          class="text-indigo-600 hover:underline font-medium"
+          >Regístrate</a
+        >
       </div>
     </form>
   </div>
+</div>

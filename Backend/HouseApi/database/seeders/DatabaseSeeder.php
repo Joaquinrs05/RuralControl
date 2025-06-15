@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             HouseSeeder::class,
-            RatingSeeder::class,
+
         ]);
     }
 }

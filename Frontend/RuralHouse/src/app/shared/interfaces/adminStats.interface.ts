@@ -6,4 +6,5 @@ export interface AdminStats {
   total_houses: number;
   average_rating: number;
   occupancy_rate: number;
+  TotalEarned: number;
 }

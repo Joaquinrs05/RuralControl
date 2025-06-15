@@ -1,138 +1,110 @@
-@startuml Proyecto integrado
+@startuml
+title Diagrama de Clases - Gestión de Casas Rurales (con Servicios Angular)
 
-package "Backend: Users API" {
-    class User {
-        +int id
-        +string name
-        +string surname1
-        +string surname2
-        +string alias
-        +Date birth_date
-        +string email
-        +string password
-        +createAccount()
-        +updateAccount()
-        +deleteAccount()
-        +getProfile()
-    }
+skinparam packageStyle rectangle
 
-    class AuthService {
-        +login(email: string, password: string): AuthToken
-        +register(user: UserDTO): bool
-    }
+' =============================
+' FRONTEND (Modelos Angular)
+' =============================
+package "Frontend - Angular" {
+  class User {
+    +id: number
+    +name: string
+    +email: string
+    +password: string
+    +role: string
+  }
 
-    class AuthToken {
-        +string token
-        +Date expiresAt
-    }
+  class House {
+    +id: number
+    +name: string
+    +location: string
+    +description: string
+    +pricePerNight: number
+    +maxGuests: number
+    +images: string[]
+    +ownerId: number
+  }
 
-    class UserDTO {
-        +string name
-        +string surname1
-        +string surname2
-        +string alias
-        +Date birth_date
-        +string email
-        +string password
-    }
+  class Reservation {
+    +id: number
+    +houseId: number
+    +userId: number
+    +startDate: Date
+    +endDate: Date
+    +totalPrice: number
+    +status: 'pending' | 'confirmed' | 'cancelled'
+  }
+
+ 
+  User "1" -- "*" Reservation
+  House "1" -- "*" Reservation
+  User "1" -- "*" House : owns >
 }
 
-package "Backend: Houses and Reservations API" {
-    class House {
-        +int id
-        +string title
-        +string description
-        +float pricePerNight
-        +string location
-        +List<string> images
-        +addHouse()
-        +updateHouse()
-        +deleteHouse()
-        +getHouseDetails()
-    }
+' =============================
+' ANGULAR SERVICES
+' =============================
+package "Angular Services" {
+  class AuthService
+  class HouseService
+  class ReservationService
 
-    class Reservation {
-        +int id
-        +Date startDate
-        +Date endDate
-        +string status
-        +float totalPrice
-        +House house
-        +User customer
-        +createReservation()
-        +updateReservation()
-        +cancelReservation()
-    }
-
-    enum ReservationStatus {
-        PENDING
-        CONFIRMED
-        CANCELLED
-        COMPLETED
-    }
-
-    class HouseService {
-        +getAvailableHouses(): List<House>
-        +getHouseDetails(houseId: int): House
-    }
-
-    class ReservationService {
-        +createReservation(reservation: Reservation): bool
-        +cancelReservation(reservationId: int): bool
-        +getReservationsForUser(userId: int): List<Reservation>
-    }
+  AuthService --> User : login/register
+  HouseService --> House : CRUD houses
+  ReservationService --> Reservation : CRUD reservations
 }
 
-package "Frontend" {
-    class HouseListComponent {
-        +displayHouses()
-        +filterHouses(criteria: string)
-    }
+' Conexión servicios Angular con backend APIs
+AuthService --> "UserApi::UserController" : Peticiones HTTP
+HouseService --> "HouseApi::HouseController" : Peticiones HTTP
+ReservationService --> "HouseApi::ReservationController" : Peticiones HTTP
 
-    class HouseDetailComponent {
-        +displayHouseDetails(houseId: int)
-        +createReservationForm(houseId: int)
-    }
+' =============================
+' BACKEND - UserApi (Laravel)
+' =============================
+package "Backend - UserApi" {
+  class App\\Models\\User {
+    +id: int
+    +name: string
+    +email: string
+    +password: string
+    +role: string
+  }
 
-    class ReservationListComponent {
-        +displayUserReservations(userId: int)
-        +cancelReservation(reservationId: int)
-    }
 
-    class AuthComponent {
-        +loginForm()
-        +registerForm()
-    }
 
-    class UserProfileComponent {
-        +displayUserProfile(userId: int)
-        +updateUserProfile(userId: int)
-    }
 
-    class HouseService {
-        +getAvailableHouses(): Observable<List<House>>
-        +getHouseDetails(houseId: int): Observable<House>
-    }
-
-    class ReservationService {
-        +createReservation(reservation: Reservation): Observable<boolean>
-        +cancelReservation(reservationId: int): Observable<boolean>
-        +getReservationsForUser(userId: int): Observable<List<Reservation>>
-    }
-
-    class AuthService {
-        +login(user: UserDTO): Observable<AuthToken>
-        +register(user: UserDTO): Observable<boolean>
-    }
 }
 
-User -> AuthService : login()
-User -> AuthService : register()
-Reservation --> ReservationStatus : status
-Reservation --> House : house
-Reservation --> User : customer
-House -> HouseService : getAvailableHouses()
-Reservation -> ReservationService : createReservation()
-Reservation -> ReservationService : getReservationsForUser()
+' =============================
+' BACKEND - HouseApi (Laravel)
+' =============================
+package "Backend - HouseApi" {
+  class App\\Models\\House {
+    +id: int
+    +name: string
+    +location: string
+    +description: string
+    +price_per_night: float
+    +max_guests: int
+    +owner_id: int
+  }
 
+  class App\\Models\\Reservation {
+    +id: int
+    +user_id: int
+    +house_id: int
+    +start_date: date
+    +end_date: date
+    +total_price: float
+    +status: string
+  }
+
+  class HouseController
+  class ReservationController
+
+  App\\Models\\House "1" -- "*" App\\Models\\Reservation
+  App\\Models\\Reservation "*" -- "1" App\\Models\\User : reservedBy >
+}
 @enduml

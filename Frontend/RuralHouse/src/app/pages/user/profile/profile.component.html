@@ -1,160 +1,320 @@
-<div class="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-3xl mx-auto">
-    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-      <!-- Header con imagen de perfil -->
-      <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-48 relative">
-        <div class="absolute -bottom-16 left-8">
-          <div
-            class="h-32 w-32 rounded-full border-4 border-white bg-white overflow-hidden"
-          >
+<div
+  class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8 px-4"
+>
+  <div class="max-w-5xl mx-auto space-y-8">
+    <div
+      class="relative bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl overflow-hidden border border-white/20"
+    >
+      <div
+        class="relative bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 h-80 overflow-hidden"
+      >
+        <!-- Foto de perfil -->
+        <div class="absolute top-14 left-8">
+          <div class="relative">
             <div
-              class="h-full w-full bg-indigo-200 flex items-center justify-center text-4xl font-bold text-indigo-600"
+              class="h-40 w-40 rounded-full border-4 border-white bg-gradient-to-br from-indigo-500 to-purple-600 shadow-2xl overflow-hidden"
             >
-              {{ usuarioActual().name ? usuarioActual().name.charAt(0) : "U"
-              }}{{
-                usuarioActual().surname1
-                  ? usuarioActual().surname1.charAt(0)
-                  : ""
-              }}
+              <div
+                class="h-full w-full bg-gradient-to-br from-indigo-200 to-purple-200 flex items-center justify-center text-5xl font-bold text-indigo-700"
+              >
+                {{ usuarioActual().name ? usuarioActual().name.charAt(0) : "U"
+                }}{{
+                  usuarioActual().surname1
+                    ? usuarioActual().surname1.charAt(0)
+                    : ""
+                }}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Contenido principal -->
-      <div class="px-8 pt-20 pb-8">
-        <div class="flex justify-between items-start mb-8">
-          <div>
-            <h1 class="text-3xl font-bold text-gray-900">
+      <!-- Información principal del perfil -->
+      <div class="px-8 pt-14 pb-8">
+        <div
+          class="flex flex-col lg:flex-row justify-between items-start mb-12"
+        >
+          <div class="">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
               {{ usuarioActual().name }} {{ usuarioActual().surname1 }}
               {{ usuarioActual().surname2 }}
             </h1>
-            <p class="text-indigo-600 font-medium">
-              {{ usuarioActual().alias || "usuario" }}
-            </p>
+            <p class="text-xl text-indigo-600 font-semibold mb-3"></p>
+            <div class="flex items-center space-x-4 text-sm text-gray-600">
+              <div class="flex items-center">
+                <i class="fa fa-calendar mr-2" aria-hidden="true"></i>
+                Miembro desde {{ formatDate(usuarioActual().created_at) }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats cards -->
+          <div class="flex space-x-4">
+            <div
+              class="bg-gradient-to-br from-blue-50 to-indigo-100 px-6 py-4 rounded-2xl text-center"
+            >
+              <div class="text-2xl font-bold text-indigo-600">
+                {{ reservasUsuario().length }}
+              </div>
+              <div class="text-sm text-gray-600">Reservas</div>
+            </div>
           </div>
         </div>
 
-        <!-- Información del perfil -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Columna izquierda -->
-          <div class="space-y-4">
-            <div class="bg-gray-50 p-4 rounded-lg">
-              <h3 class="text-sm font-medium text-gray-500">
-                Información personal
-              </h3>
-              <div class="mt-2 space-y-3">
-                <div>
-                  <p class="text-xs text-gray-500">Nombre completo</p>
-                  <p class="font-medium">
-                    {{ usuarioActual().name }} {{ usuarioActual().surname1 }}
-                    {{ usuarioActual().surname2 }}
-                  </p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <!-- Card de información personal -->
+          <div class="group">
+            <div
+              class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl border hover:shadow-lg transition-all duration-300 hover:border-indigo-200"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mr-4"
+                >
+                  <div class="text-white text-2xl">
+                    <i class="fa fa-hourglass" aria-hidden="true"></i>
+                  </div>
                 </div>
-                <div>
-                  <p class="text-xs text-gray-500">Fecha de nacimiento</p>
-                  <p class="font-medium">
-                    {{ usuarioActual().birth_date || "No especificada" }}
-                  </p>
+                <h3 class="text-xl font-semibold text-gray-900">
+                  Información Personal
+                </h3>
+              </div>
+
+              <div class="space-y-6">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <p class="text-sm text-gray-500 mb-1">Nombre completo</p>
+                    <p class="font-semibold text-gray-900">
+                      {{ usuarioActual().name }} {{ usuarioActual().surname1 }}
+                      {{ usuarioActual().surname2 }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                  <div>
+                    <p class="text-sm text-gray-500 mb-1">
+                      Fecha de nacimiento
+                    </p>
+                    <p class="font-semibold text-gray-900">
+                      {{ usuarioActual().birth_date || "No especificada" }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Columna derecha -->
-          <div class="space-y-4">
-            <div class="bg-gray-50 p-4 rounded-lg">
-              <h3 class="text-sm font-medium text-gray-500">Contacto</h3>
-              <div class="mt-2 space-y-3">
+          <!-- Card de contacto -->
+          <div class="group">
+            <div
+              class="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl border border-blue-200/50 hover:shadow-lg transition-all duration-300 hover:border-purple-200"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4"
+                >
+                  <div class="text-white text-2xl">
+                    <i class="fa fa-address-book" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900">Contacto</h3>
+              </div>
+
+              <div class="space-y-6">
                 <div>
-                  <p class="text-xs text-gray-500">Correo electrónico</p>
-                  <p class="font-medium break-all">
+                  <p class="text-sm text-gray-500 mb-1">Correo electrónico</p>
+                  <p class="font-semibold text-gray-900 break-all">
                     {{ usuarioActual().email }}
                   </p>
                 </div>
+
                 <div>
-                  <p class="text-xs text-gray-500">Miembro desde</p>
-                  <p class="font-medium">
-                    {{ formatDate(usuarioActual().created_at) }}
-                  </p>
+                  <p class="text-sm text-gray-500 mb-1">Estado</p>
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
+                  >
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                    Activo
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Sección de estadísticas o acciones adicionales -->
-        <div class="mt-8 pt-6 border-t border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">
-            Tus últimos alquileres
-          </h3>
-          <div *ngIf="reservasUsuario().length > 0; else sinReservas">
-            <div class="overflow-x-auto">
-              <table class="min-w-full bg-white rounded-lg shadow">
-                <thead>
-                  <tr>
-                    <th
-                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
-                    >
-                      Nombre
-                    </th>
-                    <th
-                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
-                    >
-                      Descripción
-                    </th>
-                    <th
-                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
-                    >
-                      Foto
-                    </th>
-
-                    <th
-                      class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"
-                    >
-                      Valoración
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let casa of reservasUsuario()">
-                    <td class="px-4 py-2">{{ casa.name }}</td>
-                    <td class="px-4 py-2">
-                      {{
-                        casa.description.length > 75
-                          ? (casa.description | slice : 0 : 75) + "…"
-                          : casa.description
-                      }}
-                    </td>
-                    <td class="px-4 py-2">
-                      <img
-                        [src]="
-                          'http://127.0.0.1:8001/storage/' + casa.photo_path
-                        "
-                        [alt]="casa.name"
-                        class="h-16 w-28 object-cover rounded"
-                      />
-                    </td>
-                    <td class="px-4 py-2">{{ casa.average_rating }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="mt-4 text-right">
-              <button
-                (click)="router.navigate(['/reservas'])"
-                class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors font-medium"
+    <!-- Sección de alquileres -->
+    <div
+      class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden border"
+    >
+      <div class="px-8 py-8">
+        @if (isAdmin) {
+        <div class="hidden">
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center">
+              <div
+                class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mr-4"
               >
-                Ver todas mis reservas
-              </button>
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Logo</h3>
             </div>
           </div>
-          <ng-template #sinReservas>
-            <div class="bg-blue-50 p-4 rounded-lg text-center">
-              <p class="text-sm text-blue-700">No tienes reservas aún.</p>
+
+          <div class="mb-6">
+            <div
+              class="border-2 border-dashed border-indigo-300 rounded-xl p-8 text-center hover:border-indigo-400 transition-colors"
+            >
+              <label for="file-upload" class="cursor-pointer">
+                <span class="text-indigo-600 font-semibold"
+                  >Subir Logo de la pagina</span
+                >
+              </label>
             </div>
-          </ng-template>
+          </div>
         </div>
+        } @if (!isAdmin) {
+
+        <div class="flex items-center justify-between mb-8">
+          <div class="flex items-center">
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mr-4"
+            >
+              <div class="text-white text-2xl">
+                <i class="fa fa-hotel" aria-hidden="true"></i>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900">
+              Tus ultimas reservas
+            </h3>
+          </div>
+        </div>
+
+        @if (reservasUsuario().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          @for (casa of reservasUsuario(); track $index) {
+
+          <div
+            class="group bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 border border-gray-100 hover:border-indigo-200"
+          >
+            <div class="relative h-48 overflow-hidden">
+              <img
+                [src]="'http://51.38.176.82:8001/storage/' + casa.photo_path"
+                [alt]="casa.name"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              />
+              <div
+                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full"
+              >
+                <div
+                  class="flex items-center text-sm font-semibold text-yellow-600"
+                >
+                  <svg
+                    class="w-4 h-4 mr-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                    ></path>
+                  </svg>
+                  {{ casa.average_rating }}
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6">
+              <h4
+                class="text-lg font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors"
+              >
+                {{ casa.name }}
+              </h4>
+              <p class="text-gray-600 text-sm leading-relaxed">
+                {{
+                  casa.description.length > 75
+                    ? (casa.description | slice : 0 : 75) + "…"
+                    : casa.description
+                }}
+              </p>
+            </div>
+          </div>
+          }
+        </div>
+
+        <div class="text-center">
+          <button
+            (click)="router.navigate(['/reservas'])"
+            class="inline-flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              ></path>
+            </svg>
+            Ver todas mis reservas
+          </button>
+        </div>
+        }@else {
+        <div class="text-center py-16">
+          <div
+            class="w-24 h-24 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <svg
+              class="w-12 h-12 text-indigo-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2-2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              ></path>
+            </svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-700 mb-2">
+            ¡Comienza tu aventura!
+          </h4>
+          <p class="text-gray-500 mb-6">
+            No tienes reservas aún. Explora nuestras increíbles propiedades.
+          </p>
+          <button
+            routerLink="/home"
+            class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-full hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-lg"
+          >
+            Explorar propiedades
+          </button>
+        </div>
+        } }
       </div>
     </div>
   </div>

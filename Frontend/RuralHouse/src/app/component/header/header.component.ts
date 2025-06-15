@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Auth/services/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Logo } from '../../shared/models/logo.model';
 
 @Component({
   selector: 'app-header',
@@ -20,19 +22,17 @@ export class HeaderComponent {
   showMenu = false;
   readonly router = inject(Router);
   readonly authService = inject(AuthService);
+  http = inject(HttpClient);
+  logo = signal<Logo | null>(null);
 
   // Nombre de la empresa
   companyName: string = 'RuralControl';
 
-  // Ruta al logo
-  logoPath: string = 'assets/images/logo.png';
-  // Texto del botón de perfil/home
   get isAdminRoute(): boolean {
     return this.router.url.startsWith('/admin');
   }
   get buttonText(): string {
     if (this.isAdminRoute) {
-      // Puedes personalizar el texto según la subruta de admin si lo necesitas
       return this.router.url === '/admin/profile' ? 'Panel' : 'Perfil Admin';
     }
     return this.router.url === '/profile' ? 'Home' : 'Perfil';

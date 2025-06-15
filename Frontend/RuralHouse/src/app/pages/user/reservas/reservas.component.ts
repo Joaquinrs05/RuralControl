@@ -7,11 +7,12 @@ import {
 import { User } from '../../../shared/models/user.model';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { House } from '../../../shared/models/house.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [CommonModule, NgForOf],
+  imports: [CommonModule, RouterLink],
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.scss',
 })
@@ -21,7 +22,7 @@ export class ReservasComponent {
       this.cargarReservasUsuario(this.user.id);
     }
   }
-  /*  loading = signal(true); */
+
   errorMsg = '';
   reservasUsuario = signal<Reservation[]>([]);
 
@@ -35,7 +36,6 @@ export class ReservasComponent {
     this.#reservationService.getReservationsByUser(userId).subscribe({
       next: (reservas) => {
         console.log('[Perfil] Reservas recibidas:', reservas);
-        // Filtrar reservas válidas
         const reservasValidas = (reservas || []).filter(
           (r) => r && r.id !== undefined && r.id !== null
         );

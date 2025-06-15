@@ -35,11 +35,15 @@ class HouseController extends Controller
             'description' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Validación de la imagen
             'owner_id' => 'required|integer',
-            'average_rating' => 'nullable|numeric',
+            'address'=> 'required|string',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            'province' => 'required|string',
             'price_per_night' => 'required|numeric',
+
         ]);
 
-        // Si se ha subido una imagen, la guardamos
+        // guardamos la imagen
         if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
             // Subir la imagen y obtener la ruta
             $photoPath = $request->file('photo')->store('houses', 'public');
@@ -47,13 +51,17 @@ class HouseController extends Controller
             $photoPath = null;
         }
 
-        // Crear una nueva casa en la base de datos
+
         $house = House::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'photo_path' => $photoPath,  // Guardamos la ruta de la imagen
+            'photo_path' => $photoPath,
             'owner_id' => $validated['owner_id'],
-            'average_rating' => $validated['average_rating'] ?? 0,
+            'address' => $validated['address'],
+            //Vamos a probar si al poner aqui validated, se sigue guardando bien
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+            'province' => $validated['province'],
             'price_per_night' => $validated['price_per_night'],
         ]);
 
@@ -69,38 +77,35 @@ class HouseController extends Controller
             return response()->json(['message' => 'Casa no encontrada'], 404);
         }
 
-        // Validación de los datos
+        // Validación
         $validated = $request->validate([
             'name' => 'sometimes|required|string',
             'description' => 'sometimes|required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validación de la imagen
             'owner_id' => 'sometimes|required|integer',
-            'average_rating' => 'nullable|numeric',
-            'visits' => 'nullable|integer',
+            'city'=> 'required|string',
             'price_per_night' => 'nullable|numeric',
         ]);
 
-        // Si se ha subido una nueva imagen, la guardamos
+        //esto esta medio implementado
         if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
             // Eliminar la imagen anterior si existe
             if ($house->photo_path && Storage::exists('public/' . $house->photo_path)) {
                 Storage::delete('public/' . $house->photo_path);
             }
 
-            // Subir la nueva imagen y obtener la ruta
+
             $photoPath = $request->file('photo')->store('houses', 'public');
         } else {
-            $photoPath = $house->photo_path; // Mantener la imagen actual si no se sube una nueva
+            $photoPath = $house->photo_path;
         }
 
-        // Actualizar los datos de la casa
+
         $house->update([
             'name' => $validated['name'] ?? $house->name,
             'description' => $validated['description'] ?? $house->description,
             'photo_path' => $photoPath,  // Guardamos la nueva ruta de la imagen
             'owner_id' => $validated['owner_id'] ?? $house->owner_id,
-            'average_rating' => $validated['average_rating'] ?? $house->average_rating,
-            'visits' => $validated['visits'] ?? $house->visits,
             'price_per_night' => $validated['price_per_night'] ?? $house->price_per_night,
         ]);
 

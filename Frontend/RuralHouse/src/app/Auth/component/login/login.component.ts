@@ -9,13 +9,12 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import jwtDecode from 'jwt-decode';
 
 interface LoginCredentials {
   email: string;
   password: string;
 }
-
-import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',

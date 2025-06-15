@@ -3,7 +3,7 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import jwtDecode from 'jwt-decode';
-
+import { environment } from '../../../environment/environment';
 interface User {
   token: string;
   name?: string;
@@ -15,7 +15,9 @@ interface User {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://127.0.0.1:8000';
+  //private apiUrl = 'http://127.0.0.1:8000';
+  private apiUrl = 'http://51.38.176.82:8000';
+  /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
 
   private currentUserSignal = signal<User | null>(null);
   currentUser = computed(() => this.currentUserSignal());
@@ -51,7 +53,6 @@ export class AuthService {
           );
           try {
             const decoded = jwtDecode(response.token);
-            console.log('[AuthService] Payload decodificado:', decoded);
           } catch (e) {
             console.error('Error al decodificar el token:', e);
           }
@@ -61,6 +62,18 @@ export class AuthService {
         }
       })
     );
+  }
+
+  isAdmin() {
+    const token = this.getToken();
+    if (!token) return false;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.role === 'admin';
+    } catch (e) {
+      console.error('Error al decodificar el token:', e);
+      return false;
+    }
   }
 
   private storeToken(token: string) {
@@ -73,10 +86,9 @@ export class AuthService {
     const decoded: any = jwtDecode(token);
 
     return {
-      id: decoded.sub, // O decoded.id si lo tienes así
+      id: decoded.sub,
       name: decoded.name,
       email: decoded.email,
-      // ...otros campos si los tienes
     };
   }
 

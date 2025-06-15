@@ -9,22 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        Schema::create('logo', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // simulado
-            $table->unsignedBigInteger('rural_house_id');
-            $table->tinyInteger('rating'); // de 1 a 5
+            $table->string('url_photo');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('rates');
+        Schema::dropIfExists('logo');
     }
 };

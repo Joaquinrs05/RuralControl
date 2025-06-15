@@ -1,5 +1,5 @@
-import { Component, effect, inject, signal } from '@angular/core';
-import { CommonModule, NgForOf } from '@angular/common';
+import { Component, effect, Inject, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { UserService } from './user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { User } from '../../../shared/models/user.model';
@@ -7,16 +7,20 @@ import {
   ReservationService,
   Reservation,
 } from '../../houses/reservation.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, NgForOf],
+  imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class UsersComponent {
+  private apiUrl = 'http://51.38.176.82:8000/api';
   readonly router = inject(Router);
   loading = signal(true);
   errorMsg = '';
@@ -24,6 +28,7 @@ export class UsersComponent {
   #userService = inject(UserService);
   #authService = inject(AuthService);
   #reservationService = inject(ReservationService);
+  http = inject(HttpClient);
 
   private userVacio: User = {
     id: 0,
@@ -42,7 +47,6 @@ export class UsersComponent {
   reservasUsuario = signal<Reservation[]>([]);
 
   constructor() {
-    // Efecto reactivo: obtiene el id del usuario del token y carga el usuario completo
     effect(() => {
       const token = this.#authService.getToken();
       if (!token) return;
@@ -52,7 +56,7 @@ export class UsersComponent {
         this.#userService.getProfile().subscribe({
           next: (user) => {
             this.usuarioActual.set(user ?? this.userVacio);
-            // Cargar reservas del usuario
+
             this.cargarReservasUsuario(user?.id);
             this.loading.set(false);
           },
@@ -71,11 +75,7 @@ export class UsersComponent {
     this.#reservationService.getReservationsByUser(userId).subscribe({
       next: (reservas) => {
         console.log('[Perfil] Reservas recibidas:', reservas);
-        // Filtrar reservas válidas
-        const reservasValidas = (reservas || []).filter(
-          (r) => r && r.id !== undefined && r.id !== null
-        );
-        this.reservasUsuario.set(reservasValidas);
+        this.reservasUsuario.set(reservas);
       },
       error: (error) => {
         console.error('[Perfil] Error al cargar reservas:', error);
@@ -93,15 +93,7 @@ export class UsersComponent {
     });
   }
 
-  /*  editUser() {
-    this.#userService.getProfile().subscribe({
-      next: () => {
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMsg = 'Error al actualizar el usuario';
-        this.loading.set(false);
-      },
-    });
-  } */
+  get isAdmin(): boolean {
+    return this.#authService.isAdmin();
+  }
 }

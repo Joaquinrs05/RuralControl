@@ -15,19 +15,14 @@ Route::delete('houses/{house}', [HouseController::class, 'destroy']);
 
 Route::middleware([HandleCors::class])->group(function () {
     Route::post('reservations', [ReservationController::class, 'store']);
-    // Endpoint para obtener casas rurales de un usuario por su id
+
     Route::get('users/{id}/houses', [ReservationController::class, 'getHousesByUser']);
 
      // NUEVAS RUTAS PARA DASHBOARD DE ADMINISTRADOR
-    // Estadísticas generales del administrador
+
     Route::get('admin/{adminId}/stats', [AdminDashboardController::class, 'getAdminStats']);
-    
-    // Reservas por mes para gráficos
+
+
     Route::get('admin/{adminId}/reservations-by-month', [AdminDashboardController::class, 'getReservationsByMonth']);
-    
-    // Casas más populares del administrador
-    Route::get('admin/{adminId}/top-houses', [AdminDashboardController::class, 'getTopHouses']);
-    
-    // Reservas recientes
-    Route::get('admin/{adminId}/recent-reservations', [AdminDashboardController::class, 'getRecentReservations']);
+
 });

@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
-    // 👤 Info usuario actual autenticado
     public function profile()
     {
         return response()->json(Auth::user());
     }
 
-    //FIXME Revisar el show y profile porque creo que realmente los dos hacen lo mismo
-    // Obtener usuario por ID (nuevo método)
+
     public function show($id)
     {
         $user = User::find($id);
@@ -28,7 +28,6 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // ✏️ Actualizar perfil del usuario autenticado
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -40,7 +39,6 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // 🗑️ Eliminar cuenta del usuario autenticado
     public function destroy()
     {
         $user = Auth::user();
@@ -48,4 +46,7 @@ class UserController extends Controller
         JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => 'User deleted']);
     }
+
+
+
 }

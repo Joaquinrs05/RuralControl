@@ -3,18 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { House } from '../../shared/models/house.model';
-
+import { environment } from '../../../environment/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class HouseService {
-  private apiUrl = 'http://127.0.0.1:8001/api/houses'; // Ajusta la URL según tu backend
+  //private apiUrl = 'http://127.0.0.1:8001/api/houses';
+  private apiUrl = 'http://51.38.176.82:8001/api/houses';
+  /* private apiUrl = 'http://51.38.176.82/api/houses'; */
 
-  private apiUrlReservation = 'http://127.0.0.1:8001/api/reservations'; // Ajusta la URL según tu backend
+  private apiUrlReservation = 'http://51.38.176.82:8001/api/reservations';
 
   readonly #httpClient = inject(HttpClient);
 
-  #housesSignal = signal<House[]>([]); // It is the state of the heroes
+  #housesSignal = signal<House[]>([]);
   houses = computed(() => this.#housesSignal());
 
   load(): Observable<House[]> {
@@ -36,16 +38,18 @@ export class HouseService {
       .pipe(catchError(this.handleError<House>(`getHouse id=${id}`)));
   }
 
-  // Para pruebas, si aún no tienes el backend listo
   readonly defaulHouse: House = {
     id: Math.floor(Math.random() * 10000) + 1000,
     name: 'Mientras carga',
     description: 'esto es una prueba',
     photo_path: 'dhjsad',
     owner_id: 1,
-    average_rating: 1,
     visits: 1,
     price_per_night: 1,
+    province: 'Madrid',
+    latitude: 1.0,
+    longitude: 1.0,
+    address: 'Calle Falsa 123',
     created_at: '23',
     updated_at: 'ewq',
   };
@@ -56,14 +60,6 @@ export class HouseService {
       .subscribe((result) => {
         console.log('Mostrar formulario de alquiler', result);
       });
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      // Devuelve un resultado vacío para seguir ejecutando la aplicación
-      return of(result as T);
-    };
   }
 
   createReservation(reservation: any) {
@@ -97,5 +93,11 @@ export class HouseService {
       }),
       catchError(this.handleError<House>(`updateHouse id=${house.id}`))
     );
+  }
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 }

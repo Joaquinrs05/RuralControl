@@ -11,6 +11,7 @@ import { Reservation } from '../../../shared/models/reservation.model';
 import { CommonModule } from '@angular/common';
 import { HouseService } from '../houses.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-house-form',
@@ -38,7 +39,6 @@ export class HouseFormComponent {
     });
   }
 
-  // El control de visibilidad del modal se gestiona desde el componente padre (house-detail)
   cerrarModal() {
     this.close.emit();
   }
@@ -55,19 +55,42 @@ export class HouseFormComponent {
       user_id: this.user().id,
       house_id: this.house().id,
     };
-    console.log('📤 Datos que se envían a la API:', datosReserva); // <-- AQUÍ
-    this.houseService.createReservation(datosReserva).subscribe({
-      next: () => {
-        // TODO: Mostrar un mensaje de éxito con libreria estilo SweetAlert
-        alert('Reserva realizada con éxito');
-        this.reservaForm.reset();
-        this.cerrarModal();
-        this.router.navigate(['/home']);
-      },
-      error: () => {
-        console.error('Error al realizar la reserva', datosReserva);
-        alert('Error al realizar la reserva');
-      },
+    console.log('📤 Datos que se envían a la API:', datosReserva);
+    Swal.fire({
+      title: '¿Confirmar reserva?',
+      text: `Estás a punto de reservar esta casa rural por ${
+        this.totalNights
+      } noches por un total de ${this.estimatedTotal.toFixed(2)} €.`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, reservar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Paso 2: Enviar la reserva
+        this.houseService.createReservation(datosReserva).subscribe({
+          next: () => {
+            Swal.fire({
+              title: '¡Reserva confirmada!',
+              text: 'Tu casa rural ha sido alquilada con éxito.',
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+            }).then(() => {
+              this.reservaForm.reset();
+              this.cerrarModal();
+              this.router.navigate(['/home']);
+            });
+          },
+          error: () => {
+            Swal.fire({
+              title: 'Error',
+              text: 'No se pudo completar la reserva. Inténtalo más tarde.',
+              icon: 'error',
+              confirmButtonText: 'Cerrar',
+            });
+          },
+        });
+      }
     });
   }
 
