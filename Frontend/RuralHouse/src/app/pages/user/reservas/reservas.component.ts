@@ -7,11 +7,12 @@ import {
 import { User } from '../../../shared/models/user.model';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { House } from '../../../shared/models/house.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.scss',
 })

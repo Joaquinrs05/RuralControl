@@ -87,7 +87,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'url' => Storage::url($logo->url_photo),
+            'url' => asset('storage/' . $logo->url_photo),
         ]);
     }
 

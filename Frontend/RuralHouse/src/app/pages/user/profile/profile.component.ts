@@ -7,14 +7,15 @@ import {
   ReservationService,
   Reservation,
 } from '../../houses/reservation.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, NgForOf],
+  imports: [CommonModule, NgForOf, FontAwesomeModule, RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })

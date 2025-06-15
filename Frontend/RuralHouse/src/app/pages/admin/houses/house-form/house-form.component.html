@@ -1,130 +1,134 @@
-<form
-  [formGroup]="casaForm"
-  (ngSubmit)="onSubmit()"
-  enctype="multipart/form-data"
-  class="max-w-lg mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg space-y-6"
->
-  <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">
-    Añadir Casa Rural
-  </h2>
-  <div>
-    <label class="block text-gray-700 font-semibold mb-1">Nombre:</label>
-    <input
-      formControlName="name"
-      type="text"
-      required
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
-    />
-  </div>
-  <div>
-    <label class="block text-gray-700 font-semibold mb-1">Descripción:</label>
-    <textarea
-      formControlName="description"
-      required
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition resize-none"
-    ></textarea>
-  </div>
-  <div>
-    <label class="block text-gray-700 font-semibold mb-1">Foto:</label>
-    <input
-      formControlName="photo"
-      type="file"
-      (change)="onFileChange($event)"
-      accept="image/*"
-      class="w-full text-gray-700"
-    />
-  </div>
+<div class="bg-gradient-to-br from-blue-100 to-indigo-200">
+  <form
+    [formGroup]="casaForm"
+    (ngSubmit)="onSubmit()"
+    enctype="multipart/form-data"
+    class="max-w-2xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg space-y-6"
+  >
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">
+      Añadir Casa Rural
+    </h2>
+    <div>
+      <label class="block text-gray-700 font-semibold mb-1">Nombre:</label>
+      <input
+        formControlName="name"
+        type="text"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+      />
+    </div>
+    <div>
+      <label class="block text-gray-700 font-semibold mb-1">Descripción:</label>
+      <textarea
+        formControlName="description"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition resize-none"
+      ></textarea>
+    </div>
+    <div>
+      <label class="block text-gray-700 font-semibold mb-1">Foto:</label>
+      <input
+        formControlName="photo"
+        type="file"
+        (change)="onFileChange($event)"
+        accept="image/*"
+        class="w-full text-gray-700"
+      />
+    </div>
 
-  <!-- Sección de ubicación -->
-  <div class="border-t pt-6">
-    <h3 class="text-lg font-semibold text-gray-800 mb-4">📍 Ubicación</h3>
+    <!-- Sección de ubicación -->
+    <div class="border-t pt-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">📍 Ubicación</h3>
 
-    <!-- Búsqueda de dirección -->
-    <div class="mb-4">
-      <label class="block text-gray-700 font-semibold mb-1">Dirección:</label>
-      <div class="flex gap-2">
+      <!-- Búsqueda de dirección -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-1">Dirección:</label>
+        <div class="flex gap-2">
+          <input
+            formControlName="address"
+            type="text"
+            placeholder="Ej: Cam. de Las Pilas, 16, 29210 Cuevas de San Marcos, Málaga"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+          />
+          <button
+            type="button"
+            (click)="searchAddress()"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
+          >
+            🔍 Buscar
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label for="province"> Provincia</label>
         <input
-          formControlName="address"
           type="text"
-          placeholder="Ej: Cam. de Las Pilas, 16, 29210 Cuevas de San Marcos, Málaga"
-          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+          formControlName="province"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+          required
+          placeholder="Ej: Málaga"
         />
-        <button
-          type="button"
-          (click)="searchAddress()"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
-        >
-          🔍 Buscar
-        </button>
+      </div>
+
+      <!-- Mapa -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">
+          Selecciona la ubicación en el mapa:
+        </label>
+        <div
+          id="map"
+          class="w-full h-96 rounded-lg border border-gray-300 shadow-inner"
+          style="min-height: 400px"
+        ></div>
+        <p class="text-sm text-gray-500 mt-2">
+          💡 Haz clic en el mapa para seleccionar la ubicación exacta de tu casa
+          rural
+        </p>
+      </div>
+
+      <!-- Coordenadas (solo lectura para verificación) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Latitud:</label>
+          <input
+            formControlName="latitude"
+            type="text"
+            readonly
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
+            placeholder="Se completará automáticamente"
+          />
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1"
+            >Longitud:</label
+          >
+          <input
+            formControlName="longitude"
+            type="text"
+            readonly
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
+            placeholder="Se completará automáticamente"
+          />
+        </div>
       </div>
     </div>
 
     <div>
-      <label for="province"> Provincia</label>
+      <label for="price_per_night">Precio Por noche</label>
       <input
-        type="text"
-        formControlName="province"
+        type="number"
+        formControlName="price_per_night"
         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
         required
-        placeholder="Ej: Málaga"
       />
     </div>
-
-    <!-- Mapa -->
-    <div class="mb-4">
-      <label class="block text-gray-700 font-semibold mb-2">
-        Selecciona la ubicación en el mapa:
-      </label>
-      <div
-        id="map"
-        class="w-full h-96 rounded-lg border border-gray-300 shadow-inner"
-        style="min-height: 400px"
-      ></div>
-      <p class="text-sm text-gray-500 mt-2">
-        💡 Haz clic en el mapa para seleccionar la ubicación exacta de tu casa
-        rural
-      </p>
-    </div>
-
-    <!-- Coordenadas (solo lectura para verificación) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
-      <div>
-        <label class="block text-gray-700 font-semibold mb-1">Latitud:</label>
-        <input
-          formControlName="latitude"
-          type="text"
-          readonly
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
-          placeholder="Se completará automáticamente"
-        />
-      </div>
-      <div>
-        <label class="block text-gray-700 font-semibold mb-1">Longitud:</label>
-        <input
-          formControlName="longitude"
-          type="text"
-          readonly
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
-          placeholder="Se completará automáticamente"
-        />
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <label for="price_per_night">Precio Por noche</label>
-    <input
-      type="number"
-      formControlName="price_per_night"
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
-      required
-    />
-  </div>
-  <button
-    type="submit"
-    [disabled]="casaForm.invalid"
-    class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-  >
-    Crear Casa
-  </button>
-</form>
+    <button
+      type="submit"
+      [disabled]="casaForm.invalid"
+      class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      Crear Casa
+    </button>
+  </form>
+</div>

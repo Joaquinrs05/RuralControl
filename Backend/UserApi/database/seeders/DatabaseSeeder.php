@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Logo;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -42,5 +43,9 @@ class DatabaseSeeder extends Seeder
 
         // Crear usuarios aleatorios utilizando el factory
         User::factory()->count(5)->create();
+
+    Logo::create([
+        'url_photo' => 'logos/zQdn7AOMhvaZKWKGoQgMlME5MBvKA87Yp2j49wan.jpg',
+    ]);
     }
 }
