@@ -41,7 +41,9 @@ class AdminDashboardController extends Controller
 
             //Total ganado en los 30 dias
             $TotalAmmount = Carbon::now()->subDays(30);
+
             $totalEarned = Reservation::whereIn('house_id', $adminHouses)
+                ->where('created_at', '>=', $TotalAmmount)
                 ->sum('total_price');
             // Tasa de ocupación promedio (últimos 30 días)
             $occupancyRate = $this->calculateOccupancyRate($adminHouses);
@@ -128,42 +130,13 @@ class AdminDashboardController extends Controller
                                    ->where('end_date', '>=', $endDate);
                       });
             })
-            ->where('status', '!=', 'cancelada') // Excluir reservas canceladas
             ->sum(DB::raw('DATEDIFF(LEAST(end_date, "' . $endDate . '"), GREATEST(start_date, "' . $startDate . '"))'));
 
         $totalPossibleDays = $houseIds->count() * $totalDays;
 
         return $totalPossibleDays > 0 ? round(($occupiedDays / $totalPossibleDays) * 100, 2) : 0;
     }
+
+
+
 }
-
-function getHouseOccupancy($adminId, $houseId)
-{
-    try {
-        // Verificar que la casa pertenece al admin
-        $house = House::where('owner_id', $adminId)->findOrFail($houseId);
-
-        // Obtener reservas de los próximos 3 meses
-        $reservations = Reservation::where('house_id', $houseId)
-            ->where('end_date', '>=', now())
-            ->where('start_date', '<=', now()->addMonths(3))
-            ->where('status', '!=', 'cancelada')
-            ->select('start_date', 'end_date', 'status', 'num_people')
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'house' => $house,
-                'reservations' => $reservations
-            ]
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Error al obtener ocupación: ' . $e->getMessage()
-        ], 500);
-    }
-}
-

@@ -18,7 +18,7 @@ class UserController extends Controller
         return response()->json(Auth::user());
     }
 
-    // Obtener usuario por ID (nuevo método)
+
     public function show($id)
     {
         $user = User::find($id);
@@ -48,46 +48,5 @@ class UserController extends Controller
     }
 
 
-    public function uploadLogo(Request $request)
-    {
-        $user = Auth::user();
-
-        $request->validate([
-            'logo' => 'required|image|max:2048', // Máx 2MB
-        ]);
-
-        // Guardar el archivo
-        $path = $request->file('logo')->store('logos', 'public');
-
-        // Borrar logo anterior (opcional)
-        $existingLogo = Logo::first();
-        if ($existingLogo) {
-            Storage::disk('public')->delete($existingLogo->url_photo);
-            $existingLogo->delete();
-        }
-
-        // Crear nuevo logo
-        $logo = Logo::create([
-            'url_photo' => $path,
-        ]);
-
-        return response()->json([
-            'message' => 'Logo subido correctamente',
-            'url' => Storage::url($path)
-        ]);
-    }
-
-    public function getLogo()
-    {
-        $logo = Logo::latest()->first(); // Obtener el logo más reciente
-
-        if (!$logo) {
-            return response()->json(['error' => 'No hay logo disponible'], 404);
-        }
-
-        return response()->json([
-            'url' => asset('storage/' . $logo->url_photo),
-        ]);
-    }
 
 }

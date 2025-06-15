@@ -26,7 +26,7 @@ return new class extends Migration
     $table->decimal('price_per_night', 8, 2)->default(0);
     $table->timestamps();
 
-    $table->index('owner_id'); // útil para agrupar por propietario
+    $table->index('owner_id');
     $table->index('visits');
 });
     }

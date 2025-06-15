@@ -8,7 +8,7 @@ export interface House {
   longitude: number;
   address: string;
   province: string;
-  /* average_rating: number; */
+
   visits: number;
   price_per_night: number;
   created_at: string;

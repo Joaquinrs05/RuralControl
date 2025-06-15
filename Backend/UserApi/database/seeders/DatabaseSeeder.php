@@ -32,20 +32,18 @@ class DatabaseSeeder extends Seeder
         // Crear un usuario de prueba
         User::create([
             'name' => 'Joaquin',
-            'surname1' => 'Joaquín',
-            'surname2' => 'Joaquín',
+            'surname1' => 'Rodriguez',
+            'surname2' => 'Sanchez',
             'alias' => 'Joaquin',
-            'birth_date' => '1995-05-15',
+            'birth_date' => '2005-04-05',
             'email' => 'joaquinrs134@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('usuario123'),
         ]);
 
-        // Crear usuarios aleatorios utilizando el factory
+        // Crear usuarios aleatorios
         User::factory()->count(5)->create();
 
-    Logo::create([
-        'url_photo' => 'logos/zQdn7AOMhvaZKWKGoQgMlME5MBvKA87Yp2j49wan.jpg',
-    ]);
+
     }
 }

@@ -33,7 +33,6 @@ export class HeaderComponent {
   }
   get buttonText(): string {
     if (this.isAdminRoute) {
-      // Puedes personalizar el texto según la subruta de admin si lo necesitas
       return this.router.url === '/admin/profile' ? 'Panel' : 'Perfil Admin';
     }
     return this.router.url === '/profile' ? 'Home' : 'Perfil';

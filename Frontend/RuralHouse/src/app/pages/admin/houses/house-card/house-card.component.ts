@@ -58,7 +58,7 @@ export class HouseCardComponent {
     this.houseDeleted.emit(id);
   }
   actualizarCasa(casaEditada: House) {
-    this.houseEdited.emit(casaEditada); // ✅ emitimos el objeto completo
+    this.houseEdited.emit(casaEditada);
     this.ocultarFormularioEditar();
   }
 

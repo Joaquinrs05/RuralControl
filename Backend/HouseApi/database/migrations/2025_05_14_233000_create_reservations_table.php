@@ -21,9 +21,9 @@ return new class extends Migration
     $table->date('start_date');
     $table->date('end_date');
 
-    $table->unsignedInteger('num_people')->nullable(); // nombre en inglés
+    $table->unsignedInteger('num_people')->nullable();
 
-    $table->enum('status', ['pendiente', 'confirmado', 'cancelado'])->default('pendiente');
+    $table->enum('status', ['pendiente', 'confirmado', 'cancelado'])->default('confirmado');
 
     $table->decimal('total_price', 8, 2)->default(0);
 

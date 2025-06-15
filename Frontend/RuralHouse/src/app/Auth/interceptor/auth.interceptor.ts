@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -17,11 +17,13 @@ export class AuthInterceptor implements HttpInterceptor {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
 
     if (token) {
-      // Validar si ha expirado
       const decoded: any = jwtDecode(token);
       const now = Math.floor(Date.now() / 1000);
       if (decoded.exp < now) {
@@ -31,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }
 
       const cloned = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}`)
+        headers: request.headers.set('Authorization', `Bearer ${token}`),
       });
 
       return next.handle(cloned).pipe(

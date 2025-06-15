@@ -68,7 +68,6 @@ export class HouseFormComponent {
   }
 
   private setupLeafletIcons() {
-    // Fix para los iconos de Leaflet en Angular
     const iconRetinaUrl = 'images/marker-icon-2x.png';
     const iconUrl = 'images/marker-icon.png';
     const shadowUrl = 'images/marker-shadow.png';
@@ -86,7 +85,7 @@ export class HouseFormComponent {
   }
 
   private initMap() {
-    // Coordenadas por defecto (centro de España)
+    // Coordenadas por defecto de madrid
     const defaultLat = 40.4168;
     const defaultLng = -3.7038;
 
@@ -97,7 +96,6 @@ export class HouseFormComponent {
       attribution: '© OpenStreetMap contributors',
     }).addTo(this.map);
 
-    // Evento de clic en el mapa
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       this.setMapLocation(e.latlng.lat, e.latlng.lng);
       this.reverseGeocode(e.latlng.lat, e.latlng.lng);
@@ -125,7 +123,6 @@ export class HouseFormComponent {
     this.map.setView([lat, lng], 15);
   }
 
-  // Geocodificación inversa (coordenadas -> dirección)
   private reverseGeocode(lat: number, lng: number) {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`;
 
@@ -143,7 +140,6 @@ export class HouseFormComponent {
     });
   }
 
-  // Geocodificación directa (dirección -> coordenadas)
   searchAddress() {
     const address = this.casaForm.get('address')?.value;
 

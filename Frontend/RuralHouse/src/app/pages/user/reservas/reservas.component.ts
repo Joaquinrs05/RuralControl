@@ -22,7 +22,7 @@ export class ReservasComponent {
       this.cargarReservasUsuario(this.user.id);
     }
   }
-  /*  loading = signal(true); */
+
   errorMsg = '';
   reservasUsuario = signal<Reservation[]>([]);
 
@@ -36,7 +36,6 @@ export class ReservasComponent {
     this.#reservationService.getReservationsByUser(userId).subscribe({
       next: (reservas) => {
         console.log('[Perfil] Reservas recibidas:', reservas);
-        // Filtrar reservas válidas
         const reservasValidas = (reservas || []).filter(
           (r) => r && r.id !== undefined && r.id !== null
         );

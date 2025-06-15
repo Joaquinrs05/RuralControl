@@ -1,9 +1,6 @@
-<!-- Hero Section con fondo degradado -->
 <div
   class="relative bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 overflow-hidden"
 >
-  <!-- Patrón decorativo de fondo -->
-
   <div class="relative w-full max-w-7xl mx-auto px-4 py-16">
     <!-- Título principal -->
     <div class="text-center mb-12">
@@ -17,7 +14,6 @@
       </p>
     </div>
 
-    <!-- Barra de búsqueda mejorada -->
     <div class="max-w-2xl mx-auto">
       <div
         class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-white/20"
@@ -39,14 +35,12 @@
             (input)="onProvinciaFilterChange($any($event.target).value)"
           />
 
-          <!-- Icono de búsqueda -->
           <div
             class="absolute left-5 top-1/2 transform -translate-y-1/2 text-green-600"
           >
             <i class="fa fa-search" aria-hidden="true"></i>
           </div>
 
-          <!-- Botón de limpiar filtro -->
           @if (provinciaFilter()) {
           <button
             (click)="onProvinciaFilterChange('')"
@@ -61,16 +55,13 @@
     </div>
   </div>
 
-  <!-- Sección de resultados -->
   <div class="bg-gray-50 py-8">
     <div class="w-full max-w-7xl mx-auto px-4">
-      <!-- filtros activos -->
       <div class="mb-6">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <div
             class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
           >
-            <!-- resultados -->
             <div class="flex items-center gap-3">
               <div class="bg-green-100 p-3 rounded-xl">
                 <i class="fa fa-hotel" aria-hidden="true"></i>
@@ -146,7 +137,7 @@
     </div>
   </div>
 
-  <!-- Lista de casas (solo si hay resultados) -->
+  <!-- Lista de casas -->
   @if (filteredHouses().length > 0) {
   <div class="bg-gray-50">
     <div class="w-full max-w-7xl mx-auto px-4">

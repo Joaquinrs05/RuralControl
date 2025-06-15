@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // 🔐 Registro
+    //  Registro
     public function register(Request $request)
     {
         $request->validate([
@@ -43,7 +43,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // 🔑 Login
+    // Login
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -63,7 +63,7 @@ class AuthController extends Controller
         ]);
     }
 
-    // 🚪 Logout
+    // Logout
     public function logout(Request $request)
     {
         try {
@@ -89,7 +89,7 @@ class AuthController extends Controller
         }
     }
 
-    // Perfil del usuario autenticado
+  //perfil
     public function profile()
     {
         return response()->json([

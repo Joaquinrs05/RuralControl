@@ -16,6 +16,6 @@
 
         'max_age' => 0,
 
-        'supports_credentials' => false, // Cambia a true si usas cookies/sesión
+        'supports_credentials' => false,
 
     ];

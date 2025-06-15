@@ -88,7 +88,7 @@ class ReservationController extends Controller
     $reservation = Reservation::create([
         ...$validated,
         'total_price' => $totalPrice,
-        'status' => 'pendiente', // o el estado que quieras por defecto
+        'status' => 'confirmado',
     ]);
 
     return response()->json($reservation, 201);

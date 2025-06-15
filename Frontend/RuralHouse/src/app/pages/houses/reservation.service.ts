@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Ajusta el modelo según tu backend
 export interface Reservation {
   id: number;
   name: string;
@@ -12,29 +11,23 @@ export interface Reservation {
   average_rating: number;
   province: string;
   price_per_night: number;
-  start_date: Date; // fecha de inicio
-  end_date: Date; // fecha de fin
-  num_people: number; // número de personas
+  start_date: Date;
+  end_date: Date;
+  num_people: number;
   createdAt?: string;
   updatedAt?: string;
-  // añade aquí más campos si los necesitas
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
-  /*  private apiUrl = 'http://127.0.0.1:8001/api/users'; */ // Ajusta la URL base según tu backend
+  /*  private apiUrl = 'http://127.0.0.1:8001/api/users'; */
   private apiUrl = 'http://51.38.176.82:8001/api/users';
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Obtiene todas las reservas de un usuario
-   */
   getReservationsByUser(userId: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.apiUrl}/${userId}/houses`);
   }
-
-  // Aquí puedes añadir más métodos para crear, editar o cancelar reservas
 }

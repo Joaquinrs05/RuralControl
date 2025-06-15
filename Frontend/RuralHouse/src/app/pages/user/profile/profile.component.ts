@@ -47,7 +47,6 @@ export class UsersComponent {
   reservasUsuario = signal<Reservation[]>([]);
 
   constructor() {
-    // Efecto reactivo: obtiene el id del usuario del token y carga el usuario completo
     effect(() => {
       const token = this.#authService.getToken();
       if (!token) return;
@@ -57,7 +56,7 @@ export class UsersComponent {
         this.#userService.getProfile().subscribe({
           next: (user) => {
             this.usuarioActual.set(user ?? this.userVacio);
-            // Cargar reservas del usuario
+
             this.cargarReservasUsuario(user?.id);
             this.loading.set(false);
           },
@@ -76,11 +75,7 @@ export class UsersComponent {
     this.#reservationService.getReservationsByUser(userId).subscribe({
       next: (reservas) => {
         console.log('[Perfil] Reservas recibidas:', reservas);
-        // Filtrar reservas válidas
-        const reservasValidas = (reservas || []).filter(
-          (r) => r && r.id !== undefined && r.id !== null
-        );
-        this.reservasUsuario.set(reservasValidas);
+        this.reservasUsuario.set(reservas);
       },
       error: (error) => {
         console.error('[Perfil] Error al cargar reservas:', error);
@@ -101,41 +96,4 @@ export class UsersComponent {
   get isAdmin(): boolean {
     return this.#authService.isAdmin();
   }
-
-  uploadLogo(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const formData = new FormData();
-      formData.append('logo', file);
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      };
-      this.http
-        .post(`${this.apiUrl}/admin/logo`, formData, { headers })
-        .subscribe({
-          next: (res: any) => {
-            console.log('Logo subido con éxito:', res);
-          },
-          error: (err: any) => {
-            console.error('Error al subir el logo:', err);
-          },
-        });
-    }
-  }
-  /* onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      this.uploadLogo(file).subscribe({
-        next: (res) => {
-          console.log('Logo subido con éxito:', res);
-        },
-        error: (err) => {
-          console.error('Error al subir el logo:', err);
-        },
-      });
-    }
-  } */
 }

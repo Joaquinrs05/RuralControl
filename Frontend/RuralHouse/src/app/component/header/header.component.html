@@ -15,7 +15,8 @@
         <span class="hidden sm:inline">Menú</span>
       </button>
       <!-- Submenú -->
-      <div *ngIf="showMenu" class="header-submenu">
+      @if (showMenu) {
+      <div class="header-submenu">
         @if (isAdminRoute) {
 
         <div>
@@ -70,6 +71,7 @@
         </div>
         }
       </div>
+      }
     </div>
   </div>
 </header>

@@ -51,7 +51,6 @@ export class HouseDetailComponent {
   private map: L.Map | null = null;
 
   constructor() {
-    // Cargar usuario actual desde el token
     effect(() => {
       const token = this.#authService.getToken();
       if (!token) return;
@@ -66,7 +65,7 @@ export class HouseDetailComponent {
     // Mostrar mapa cuando haya coordenadas
     effect(() => {
       const h = this.house();
-      // Esperar a que exista el div y no se haya creado el mapa ya
+
       if (h.latitude && h.longitude && !this.map) {
         const mapDiv = document.getElementById('map');
         if (mapDiv) {

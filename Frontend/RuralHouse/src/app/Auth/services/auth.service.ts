@@ -86,10 +86,9 @@ export class AuthService {
     const decoded: any = jwtDecode(token);
 
     return {
-      id: decoded.sub, // O decoded.id si lo tienes así
+      id: decoded.sub,
       name: decoded.name,
       email: decoded.email,
-      // ...otros campos si los tienes
     };
   }
 

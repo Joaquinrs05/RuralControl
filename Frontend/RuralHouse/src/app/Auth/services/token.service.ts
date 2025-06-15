@@ -4,20 +4,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TokenService {
-
   constructor() {}
 
-  // Guarda el token JWT en el almacenamiento local
+  // Guarda el token en localStorage
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // Obtiene el token almacenado
+  // Obtiene el token
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // Elimina el token (al hacer logout)
+  // Elimina el token
   deleteToken(): void {
     localStorage.removeItem('token');
   }
