@@ -10,8 +10,8 @@ import { environment } from '../../../../environment/environment';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://51.38.176.82:8000/api/users';
-  /* private apiUrl = 'http://127.0.0.1:8000/api/users'; */
+  //private apiUrl = 'http://51.38.176.82:8000/api/users';
+  private apiUrl = 'http://127.0.0.1:8000/api/users';
   /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
   // Ajusta la URL según tu backend
 

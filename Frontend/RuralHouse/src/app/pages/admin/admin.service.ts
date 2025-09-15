@@ -13,8 +13,8 @@ import {
   providedIn: 'root',
 })
 export class AdminDashboardService {
-  //private baseUrl = 'http://127.0.0.1:8001/api/admin';
-  private baseUrl = 'http://51.38.176.82:8001/api/admin';
+  private baseUrl = 'http://127.0.0.1:8001/api/admin';
+  //private baseUrl = 'http://51.38.176.82:8001/api/admin';
 
   constructor(private http: HttpClient) {}
 
