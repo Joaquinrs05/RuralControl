@@ -1,6 +1,4 @@
 {
-  "buildCommand": "ng build",
-  "outputDirectory": "dist/RuralControl",
   "rewrites": [
     {
       "source": "/(.*)",
