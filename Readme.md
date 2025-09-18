@@ -103,6 +103,10 @@ Esto permitiría:
 1. Conectar las Apis por separado.
 2. Probar con una arquitectura diferente, ya que hasta ahora todas las aplicaciones han sido monolíticas con un solo backend.
 
+# Despliegue
+
+Para desplegar el proyecto, tienes que descargarlo del respositorio, como el backend esta preparado solo tendras que ejecutar el comando sudo docker-compose up --build y asi arrancaras todo el Backend a la vez. Para el frontend, ademas de hacer el npm install, deberas ejecutar ng serve y todo listo para disfrutar de la aplicacion
+
 # Casos de uso
 
 ![alt text](Docs/Diagrama_casos_de_uso.png)
@@ -125,6 +129,39 @@ Esto permitiría:
 
 ![alt text](Docs/Imagenes/Listado_Casas.png)
 
+<<<<<<< HEAD
+### Formulario para hacer la reserva
+
+![](Docs/Imagenes/Form_Reserva.png)
+
+### Ver la casa y sus caracteristicas
+
+![alt text](Docs/Imagenes/Cliente_Casa.png)
+
+### Historial de reservas que ha hecho el cliente
+
+![alt text](Docs/Imagenes/ReservasCliente.png)
+
+## Vista Administrador
+
+![alt text](Docs/Imagenes/6.png)
+
+### Pantalla de inicio del Admin, aqui aparecera un dashboard con graficas sobre las reservas el dinero total que ha conseguido, etc.
+
+![alt text](Docs/Imagenes/Daashboard.png)
+
+### Las casas que tiene un administrador paraa gestionar
+
+![alt text](Docs/Imagenes/CasasAdmin.png)
+
+### Formulario Para añadir una nueva casa
+
+![alt text](Docs/Imagenes/Form_Casa.png)
+
+### Ver la casa y las reservas que ha tenido
+
+![alt text](Docs/Imagenes/Admin_Casa.png)
+=======
 ### Ver la casa y sus caracteristicas
 
 ![alt text](Docs/Imagenes/Detalle_Casa)
@@ -163,3 +200,4 @@ Esto permitiría:
 ### Editar los datos de una casa
 
 ![alt text](Docs/Imagenes/Form_EditCasa)
+>>>>>>> develop
