@@ -6,7 +6,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:4200'],
+    'allowed_origins' => ['http://localhost:4200','https://*.trycloudflare.com','https://rural-control.vercel.app', ],
 
     'allowed_origins_patterns' => [],
 
