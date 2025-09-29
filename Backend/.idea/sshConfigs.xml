@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="92.112.127.238" id="ed078475-1408-4e2a-9cca-9995b1deb95d" keyPath="$USER_HOME$/.ssh/Vps_Delux" port="22" nameFormat="DESCRIPTIVE" username="root" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>

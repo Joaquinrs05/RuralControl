@@ -8,11 +8,11 @@ import { environment } from '../../../environment/environment';
   providedIn: 'root',
 })
 export class HouseService {
-  private apiUrl = 'http://127.0.0.1:8001/api/houses';
-  //private apiUrl = 'http://51.38.176.82:8001/api/houses';
+  //private apiUrl = 'http://127.0.0.1:8001/api/houses';
+  private apiUrl = 'http://92.112.127.238:8001/api/houses';
   /* private apiUrl = 'http://51.38.176.82/api/houses'; */
 
-  private apiUrlReservation = 'http://51.38.176.82:8001/api/reservations';
+  private apiUrlReservation = 'http://92.112.127.238:8001/api/reservations';
 
   readonly #httpClient = inject(HttpClient);
 

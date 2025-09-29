@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="b1369aa4-ab49-49af-bf9f-55613f2d1320" name="VPS" url="http://92.112.127.238">
-        <fileTransfer rootFolder="/var/www/html" accessType="SFTP" host="92.112.127.238" port="22" sshConfigId="5576e61e-f68a-4d5c-9cac-8f3a75584262" sshConfig="root@92.112.127.238:22 key" keyPair="true">
+      <webServer id="71d5e825-9f68-4b68-82b2-76379fa6ea3d" name="VPS">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="92.112.127.238" port="22" sshConfigId="ed078475-1408-4e2a-9cca-9995b1deb95d" sshConfig="root@92.112.127.238:22 key" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" host="51.38.176.82" id="5576e61e-f68a-4d5c-9cac-8f3a75584262" port="6666" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+      <sshConfig host="92.112.127.238" id="5576e61e-f68a-4d5c-9cac-8f3a75584262" keyPath="$USER_HOME$/.ssh/Vps_Delux" port="22" nameFormat="DESCRIPTIVE" username="root" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>
