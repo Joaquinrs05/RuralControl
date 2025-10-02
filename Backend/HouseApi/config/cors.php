@@ -1,21 +1,21 @@
-    <?php
+<?php
 
-    return [
+return [
 
-        'paths' => ['api/*'/* , 'sanctum/csrf-cookie' */],
+    'paths' => ['api/*', 'register', 'login', 'auth/*'],
 
-        'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'],
 
-        'allowed_origins' => ['http://localhost:4200','https://*.trycloudflare.com',  'http://rural-control.vercel.app'],
+    'allowed_origins' => ['http://localhost:4200','http://92.112.127.238','https://rural-control.vercel.app', ],
 
-        'allowed_origins_patterns' => [ '/https:\/\/.*\.vercel\.app$/'],
+    'allowed_origins_patterns' => [],
 
-        'allowed_headers' => ['*'],
+    'allowed_headers' => ['*'],
 
-        'exposed_headers' => [],
+    'exposed_headers' => [],
 
-        'max_age' => 0,
+    'max_age' => 0,
 
-        'supports_credentials' => false,
+    'supports_credentials' => false,
 
-    ];
+];

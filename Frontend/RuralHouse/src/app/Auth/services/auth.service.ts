@@ -16,8 +16,7 @@ interface User {
 export class AuthService {
   private http = inject(HttpClient);
   //private apiUrl = 'http://127.0.0.1:8000';
-  private apiUrl =
-    'https://describe-agreements-alice-clearly.trycloudflare.com';
+  private apiUrl = 'http://92.112.127.238:8000';
   /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
 
   private currentUserSignal = signal<User | null>(null);

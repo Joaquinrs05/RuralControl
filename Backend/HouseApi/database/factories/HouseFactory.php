@@ -31,8 +31,8 @@ class HouseFactory extends Factory
             ['lat' => 36.7881, 'lng' => -3.8979, 'address' => 'Calle Real, 29788 Frigiliana, Málaga', 'province' => 'Malaga'],
         ];
         $photo_path=[
-            ['url'=> 'houses/mqCNPn1F7R945aQSSSiV4DCNuU4PX9t3f0sVgl8k.jpg'],
-            ['url'=> 'houses/YkIxbvAGnBz306RBP4zqqMzSuGdizbfAbEpjNqPz.jpg'],
+            ['url'=> 'houses/BO2LQFQSHpzbwJZqGs3gQoDHu1B5Wv7iT1QaVQLk.jpg'],
+            ['url'=> 'houses/XfgI1jjqK6Vy3ZHa4KtuTl8muWXzj3iy99rQXyNl.jpg'],
         ];
 
         $location = $this->faker->randomElement($locations);

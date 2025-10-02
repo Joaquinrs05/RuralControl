@@ -124,7 +124,7 @@ export class HouseFormComponent {
   }
 
   private reverseGeocode(lat: number, lng: number) {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`;
+    const url = `http://92.112.127.238:8001/api/geocode/reverse?lat=${lat}&lon=${lng}`;
 
     this.http.get<any>(url).subscribe({
       next: (response) => {
@@ -222,26 +222,28 @@ export class HouseFormComponent {
       Object.fromEntries(formData.entries())
     );
     //this.http.post('http://localhost:8001/api/houses', formData).subscribe({
-    this.http.post('http://51.38.176.82:8001/api/houses', formData).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Casa creada correctamente',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        this.casaForm.reset();
-        this.selectedFile = null;
-        this.router.navigate(['/admin/home']);
-      },
-      error: (err) => {
-        console.error('Error al crear la casa:', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Hubo un problema al crear la casa. Inténtalo más tarde.',
-        });
-      },
-    });
+    this.http
+      .post('http://92.112.127.238:8001/api/houses', formData)
+      .subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Casa creada correctamente',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.casaForm.reset();
+          this.selectedFile = null;
+          this.router.navigate(['/admin/home']);
+        },
+        error: (err) => {
+          console.error('Error al crear la casa:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al crear la casa. Inténtalo más tarde.',
+          });
+        },
+      });
   }
 }

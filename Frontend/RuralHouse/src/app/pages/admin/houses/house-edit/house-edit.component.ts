@@ -69,7 +69,7 @@ export class HouseEditComponent {
       ...this.house(),
       ...this.form.value,
     };
-
+    console.log('📝 Datos del formulario:', this.form.value);
     this.houseService.updateHouse(updatedHouse).subscribe({
       next: (house) => {
         console.log('✅ Casa actualizada', house);

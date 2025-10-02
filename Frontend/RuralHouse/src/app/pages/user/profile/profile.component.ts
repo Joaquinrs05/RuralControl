@@ -20,7 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './profile.component.scss',
 })
 export class UsersComponent {
-  private apiUrl = 'http://51.38.176.82:8000/api';
+  private apiUrl = 'http://92.112.127.238:8000/api';
   readonly router = inject(Router);
   loading = signal(true);
   errorMsg = '';
