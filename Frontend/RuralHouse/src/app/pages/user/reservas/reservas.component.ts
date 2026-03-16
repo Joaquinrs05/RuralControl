@@ -8,11 +8,12 @@ import { User } from '../../../shared/models/user.model';
 import { AuthService } from '../../../Auth/services/auth.service';
 import { House } from '../../../shared/models/house.model';
 import { RouterLink } from '@angular/router';
+import { HouseImagePipe } from '../../../shared/pipes/house-image.pipe';
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, HouseImagePipe],
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.scss',
 })

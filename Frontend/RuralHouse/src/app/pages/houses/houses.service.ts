@@ -9,9 +9,9 @@ import { environment } from '../../../environment/environment';
 })
 export class HouseService {
   //private apiUrl = 'http://127.0.0.1:8001/api/houses';
-  private apiUrl = 'http://92.112.127.238:8001/api/houses';
+  private apiUrl = environment.apiHousesUrl;
 
-  private apiUrlReservation = 'http://92.112.127.238:8001/api/reservations';
+  private apiUrlReservation = `${environment.apiBaseUrlHouses}/api/reservations`;
 
   readonly #httpClient = inject(HttpClient);
 

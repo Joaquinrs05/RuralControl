@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment/environment';
 
 import { AdminStats } from '../../shared/interfaces/adminStats.interface';
 import {
@@ -14,7 +15,7 @@ import {
 })
 export class AdminDashboardService {
   //private baseUrl = 'http://127.0.0.1:8001/api/admin';
-  private baseUrl = 'http://92.112.127.238:8001/api/admin';
+  private baseUrl = `${environment.apiBaseUrlHouses}/api/admin`;
 
   constructor(private http: HttpClient) {}
 

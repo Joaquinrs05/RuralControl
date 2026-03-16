@@ -13,9 +13,10 @@ import { House } from '../../../../shared/models/house.model';
 import { HouseService } from '../../../houses/houses.service';
 import { HouseEditComponent } from '../house-edit/house-edit.component';
 import { User } from '../../../../shared/models/user.model';
+import { HouseImagePipe } from '../../../../shared/pipes/house-image.pipe';
 @Component({
   selector: 'app-house-card',
-  imports: [CommonModule, RouterModule, HouseEditComponent],
+  imports: [CommonModule, RouterModule, HouseEditComponent, HouseImagePipe],
   templateUrl: './house-card.component.html',
   styleUrl: './house-card.component.scss',
 })

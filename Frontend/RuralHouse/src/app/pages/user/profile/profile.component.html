@@ -213,7 +213,7 @@
           >
             <div class="relative h-48 overflow-hidden">
               <img
-                [src]="'http://92.112.127.238:8001/' + casa.photo_path"
+                [src]="casa.photo_path | houseImage"
                 [alt]="casa.name"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
               />

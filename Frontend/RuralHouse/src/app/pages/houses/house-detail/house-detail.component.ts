@@ -10,10 +10,11 @@ import { AuthService } from '../../../Auth/services/auth.service';
 import { User } from '../../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
+import { HouseImagePipe } from '../../../shared/pipes/house-image.pipe';
 
 @Component({
   selector: 'app-house-detail',
-  imports: [RouterLink, HouseFormComponent, CommonModule],
+  imports: [RouterLink, HouseFormComponent, CommonModule, HouseImagePipe],
   templateUrl: './house-detail.component.html',
 })
 export class HouseDetailComponent {

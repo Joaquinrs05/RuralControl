@@ -3,7 +3,7 @@
 >
   <div class="relative overflow-hidden">
     <img
-      [src]="'http://92.112.127.238:8001/' + house().photo_path"
+      [src]="house().photo_path | houseImage"
       [alt]="house().name"
       class="w-full h-48 object-cover transition-transform duration-300"
     />

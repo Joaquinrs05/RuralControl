@@ -11,16 +11,18 @@ import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { environment } from '../../../../environment/environment';
+import { HouseImagePipe } from '../../../shared/pipes/house-image.pipe';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, RouterLink],
+  imports: [CommonModule, FontAwesomeModule, RouterLink, HouseImagePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class UsersComponent {
-  private apiUrl = 'http://92.112.127.238:8000/api';
+  private apiUrl = `${environment.apiBaseUrlUsers}/api`;
   readonly router = inject(Router);
   loading = signal(true);
   errorMsg = '';

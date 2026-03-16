@@ -129,39 +129,6 @@ Para desplegar el proyecto, tienes que descargarlo del respositorio, como el bac
 
 ![alt text](Docs/Imagenes/Listado_Casas.png)
 
-<<<<<<< HEAD
-### Formulario para hacer la reserva
-
-![](Docs/Imagenes/Form_Reserva.png)
-
-### Ver la casa y sus caracteristicas
-
-![alt text](Docs/Imagenes/Cliente_Casa.png)
-
-### Historial de reservas que ha hecho el cliente
-
-![alt text](Docs/Imagenes/ReservasCliente.png)
-
-## Vista Administrador
-
-![alt text](Docs/Imagenes/6.png)
-
-### Pantalla de inicio del Admin, aqui aparecera un dashboard con graficas sobre las reservas el dinero total que ha conseguido, etc.
-
-![alt text](Docs/Imagenes/Daashboard.png)
-
-### Las casas que tiene un administrador paraa gestionar
-
-![alt text](Docs/Imagenes/CasasAdmin.png)
-
-### Formulario Para añadir una nueva casa
-
-![alt text](Docs/Imagenes/Form_Casa.png)
-
-### Ver la casa y las reservas que ha tenido
-
-![alt text](Docs/Imagenes/Admin_Casa.png)
-=======
 ### Ver la casa y sus caracteristicas
 
 ![alt text](Docs/Imagenes/Detalle_Casa)
@@ -200,4 +167,3 @@ Para desplegar el proyecto, tienes que descargarlo del respositorio, como el bac
 ### Editar los datos de una casa
 
 ![alt text](Docs/Imagenes/Form_EditCasa)
->>>>>>> develop

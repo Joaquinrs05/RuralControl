@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../Auth/services/auth.service';
 import { User } from '../../../../shared/models/user.model';
+import { environment } from '../../../../../environment/environment';
 import * as L from 'leaflet';
 import Swal from 'sweetalert2';
 
@@ -124,7 +125,7 @@ export class HouseFormComponent {
   }
 
   private reverseGeocode(lat: number, lng: number) {
-    const url = `http://92.112.127.238:8001/api/geocode/reverse?lat=${lat}&lon=${lng}`;
+    const url = `${environment.apiBaseUrlHouses}/api/geocode/reverse?lat=${lat}&lon=${lng}`;
 
     this.http.get<any>(url).subscribe({
       next: (response) => {
@@ -223,7 +224,7 @@ export class HouseFormComponent {
     );
     //this.http.post('http://localhost:8001/api/houses', formData).subscribe({
     this.http
-      .post('http://92.112.127.238:8001/api/houses', formData)
+      .post(`${environment.apiBaseUrlHouses}/api/houses`, formData)
       .subscribe({
         next: () => {
           Swal.fire({

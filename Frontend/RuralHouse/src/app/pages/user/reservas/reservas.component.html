@@ -118,7 +118,7 @@
                 <div class="flex justify-center">
                   <div class="relative group">
                     <img
-                      [src]="'http://92.112.127.238:8001/' + casa.photo_path"
+                      [src]="casa.photo_path | houseImage"
                       [alt]="casa.name"
                       class="h-16 w-24 object-cover rounded-xl shadow-md group-hover:shadow-lg transition-shadow duration-200 border-2 border-gray-100"
                     />
