@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Auth/services/auth.service';
@@ -31,6 +31,17 @@ export class HeaderComponent {
   get isAdminRoute(): boolean {
     return this.router.url.startsWith('/admin');
   }
+
+  /** El usuario autenticado tiene rol admin */
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  /** Admin navegando en vistas de usuario (puede volver al panel) */
+  get adminInUserView(): boolean {
+    return this.isAdmin && !this.isAdminRoute;
+  }
+
   get buttonText(): string {
     if (this.isAdminRoute) {
       return this.router.url === '/admin/profile' ? 'Panel' : 'Perfil Admin';
@@ -46,8 +57,14 @@ export class HeaderComponent {
     }
   }
 
+  goToPanel() {
+    this.router.navigate(['/admin/home']);
+    this.showMenu = false;
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
   }
 }
+

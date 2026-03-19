@@ -32,96 +32,9 @@
 
 ## 1. 🔴 Seguridad
 
-### 1.1 URLs de API hardcodeadas por todo el proyecto
-**Problema:** Las URLs de la API (`http://92.112.127.238:8000`, `http://92.112.127.238:8001`) están escritas directamente en al menos **7 archivos diferentes** en vez de usar los environments de Angular.
-
-**Archivos afectados:**
-- `Auth/services/auth.service.ts` → línea 19
-- `pages/houses/houses.service.ts` → líneas 12-14
-- `pages/houses/reservation.service.ts` → línea 26
-- `pages/admin/admin.service.ts` → línea 17
-- `pages/user/profile/user.service.ts` → línea 14
-- `pages/user/profile/profile.component.ts` → línea 23
-- `pages/admin/houses/house-form/house-form.component.ts` → línea 226
-- Todas las templates con `[src]="'http://92.112.127.238:8001/' + ..."` (house-card, house-detail, reservas, profile)
-
-**Solución:** Ya existe un archivo `environment.ts` con `apiUsersUrl` y `apiHousesUrl`, pero **no se usa en ningún servicio**. Centralizar todas las URLs ahí y crear un `environment.development.ts` para localhost.
-
-```typescript
-// environment.ts
-export const environment = {
-  production: true,
-  apiUsersUrl: 'http://www.ruralcontrol.com/api/users',
-  apiHousesUrl: 'http://www.ruralcontrol.com/api/houses',
-  apiBaseUrlUsers: 'http://92.112.127.238:8000',
-  apiBaseUrlHouses: 'http://92.112.127.238:8001',
-};
-```
-
-### 1.2 El Interceptor HTTP no se registra en `app.config.ts`
-**Problema:** Existe un `AuthInterceptor` con lógica para adjuntar el token JWT, pero **nunca se registra** como provider en `appConfig`. Esto significa que las peticiones HTTP **no llevan el token `Authorization`** automáticamente.
-
-**Solución:** Registrar el interceptor en `app.config.ts`:
-```typescript
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './Auth/interceptor/auth.interceptor';
-
-providers: [
-  provideHttpClient(withInterceptorsFromDi()),
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-]
-```
-O mejor aún, migrar a la nueva API funcional de interceptores de Angular 19.
-
-### 1.3 Guard de autenticación con bug crítico
-**Problema:** El `auth.guard.ts` **siempre devuelve `false`** y redirige. La línea `return true` (línea 41) es **código muerto** — nunca se alcanza porque tanto el `if` como el `else` hacen `return false`.
-
-```typescript
-// Código actual (BUGGY)
-if (decoded.role === 'admin') {
-  router.navigate(['/admin/home']);
-  return false;  // ← Siempre false
-} else {
-  router.navigate(['/home']);
-  return false;  // ← Siempre false
-}
-return true; // ← NUNCA se ejecuta
-```
-
-**Solución:** El guard debería verificar si el usuario ya está en la ruta correcta para su rol y dejarle pasar, o implementar guards separados para admin y usuario.
-
-### 1.4 Token JWT: no se valida la expiración al cargar desde localStorage
-**Problema:** En `AuthService.constructor()`, al recuperar el token de `localStorage`, no se verifica si ha expirado. Un token caducado se carga como válido hasta que el interceptor (que tampoco está registrado) lo detecte.
-
-**Solución:** Verificar `exp` del token antes de setear `currentUserSignal`.
-
----
 
 ## 2. 🔴 Arquitectura y Calidad de Código
 
-### 2.1 Eliminar el boilerplate de Angular en `app.component.html`
-**Problema:** El archivo `app.component.html` tiene **325 líneas de template de ejemplo de Angular** (el SVG con el logo "Angular", los enlaces de docs, etc.) comentadas con `<!-- ... -->`. Esto añade peso innecesario y dificulta la lectura.
-
-**Solución:** Eliminar todo el contenido comentado y dejar solo:
-```html
-<app-header></app-header>
-<router-outlet></router-outlet>
-```
-
-### 2.2 Duplicación de componentes entre cliente y admin
-**Problema:** Existen componentes duplicados con distintas implementaciones:
-- `pages/houses/house-card/` vs `pages/admin/houses/house-card/`
-- `pages/houses/house-list/` vs `pages/admin/houses/house-list/`
-- `pages/houses/house-form/` vs `pages/admin/houses/house-form/`
-
-**Solución:** Crear componentes compartidos con inputs de configuración (`mode: 'client' | 'admin'`) o usar composición/herencia para evitar duplicar lógica.
-
-### 2.3 Mezcla de estilos SCSS propios con clases Tailwind inline
-**Problema:** La app mezcla estilos SCSS en archivos separados (`.component.scss`) con clases Tailwind inline en los templates. Ejemplo: `house-card.component.scss` define clases como `.house-card`, `.house-image`, etc., pero el template usa exclusivamente clases de Tailwind y **no usa ninguna de las clases SCSS definidas**.
-
-**Solución:** Elegir una estrategia y ser consistente:
-- **Opción A:** Usar Tailwind en todas partes y eliminar los archivos SCSS innecesarios.
-- **Opción B:** Crear clases SCSS con `@apply` para patrones repetidos y usarlas en los templates.
 
 ### 2.4 Inconsistencia en el uso de `any`
 **Problema:** Se usa `any` frecuentemente en vez de interfaces tipadas:
@@ -147,18 +60,6 @@ interface LoginResponse {
   user: User;
 }
 ```
-
-### 2.5 Formulario de registro usa `computed()` incorrectamente
-**Problema:** En `register.component.ts`, `registerForm` se crea con `computed()`, lo que significa que se **recrea en cada tick del change detection**. Un `FormGroup` debería crearse una sola vez.
-
-```typescript
-// ❌ Mal — se recalcula continuamente
-registerForm: Signal<FormGroup> = computed(() => this.formBuilder.group({...}));
-
-// ✅ Bien — se crea una vez
-registerForm = this.formBuilder.group({...});
-```
-
 ### 2.6 Inconsistencia de convenciones de nombrado
 - Carpeta `Auth` con **A mayúscula** (debería ser `auth`).
 - Mezcla de español e inglés en nombres: `reservasUsuario`, `cerrarModal`, `mostrarFormularioAlquiler` vs `showRentalForm`, `loading`, `errorMessage`.
@@ -679,7 +580,8 @@ storage/logs/*
 
 ---
 
-## �📊 Resumen de Impacto (Frontend + Backend)
+
+## 📊 Resumen de Impacto (Frontend + Backend)
 
 | Categoría | Críticas 🔴 | Medias 🟡 | Bajas 🟢 |
 |---|---|---|---|

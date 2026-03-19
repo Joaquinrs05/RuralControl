@@ -1,5 +1,5 @@
 // login.component.ts
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,6 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import jwtDecode from 'jwt-decode';
+import { JwtPayload } from '../../../shared/models/jwt-payload.model';
 
 interface LoginCredentials {
   email: string;
@@ -55,7 +56,7 @@ export class LoginComponent {
         const token = this.authService.getToken();
         if (token) {
           try {
-            const decoded: any = jwtDecode(token);
+            const decoded = jwtDecode<JwtPayload>(token);
             if (decoded.role === 'admin') {
               this.router.navigate(['/admin/home']);
               return;

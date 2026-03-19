@@ -1,6 +1,7 @@
 // app.routes.ts
 import { Routes } from '@angular/router';
 import { authGuard } from './shared/guards/auth.guard';
+import { adminGuard } from './shared/guards/admin.guard';
 import { HouseListComponent } from './pages/houses/house-list/house-list.component';
 import { houseIdMatcher } from './shared/matcher/house-id.matcher';
 export const routes: Routes = [
@@ -63,14 +64,14 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
-  //Rutas de admin
+  //Rutas de admin (solo accesibles con rol 'admin')
   {
     path: 'admin/home',
     loadComponent: () =>
       import('./pages/admin/home/admin-dashboard.component').then(
         (m) => m.DashboardComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [adminGuard],
   },
   {
     path: 'admin/house-form',
@@ -78,7 +79,7 @@ export const routes: Routes = [
       import('./pages/admin/houses/house-form/house-form.component').then(
         (c) => c.HouseFormComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [adminGuard],
   },
   {
     path: 'admin/houses',
@@ -86,7 +87,7 @@ export const routes: Routes = [
       import('./pages/admin/houses/house-list/house-list.component').then(
         (c) => c.HouseListComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [adminGuard],
   },
 
   { path: '**', redirectTo: 'auth/login' },

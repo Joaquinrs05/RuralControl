@@ -207,7 +207,7 @@ export class HouseFormComponent {
     const formData = new FormData();
     formData.append('name', this.casaForm.value.name);
     formData.append('description', this.casaForm.value.description);
-    formData.append('owner_id', user.id);
+    formData.append('owner_id', user.id.toString());
     formData.append('price_per_night', this.casaForm.value.price_per_night);
     formData.append('address', this.casaForm.value.address);
     formData.append('latitude', this.casaForm.value.latitude);

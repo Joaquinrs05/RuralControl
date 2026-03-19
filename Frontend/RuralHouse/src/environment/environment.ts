@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUsersUrl: 'http://92.112.127.238:8000/api/users',
-  apiHousesUrl: 'http://92.112.127.238:8001/api/houses',
-  apiBaseUrlUsers: 'http://92.112.127.238:8000',
-  apiBaseUrlHouses: 'http://92.112.127.238:8001',
+  apiUsersUrl: '/backend-users/api/users',
+  apiHousesUrl: '/backend-houses/api/houses',
+  apiBaseUrlUsers: '/backend-users',
+  apiBaseUrlHouses: '/backend-houses',
 };

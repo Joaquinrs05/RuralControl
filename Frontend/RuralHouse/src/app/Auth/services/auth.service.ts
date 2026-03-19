@@ -4,11 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import jwtDecode from 'jwt-decode';
 import { environment } from '../../../environment/environment';
-interface User {
-  token: string;
-  name?: string;
-  email?: string;
-}
+import { JwtPayload, TokenUser } from '../../shared/models/jwt-payload.model';
+import { AuthResponse, RegisterUser } from '../../shared/models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,21 +16,33 @@ export class AuthService {
   private apiUrl = environment.apiBaseUrlUsers;
   /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
 
-  private currentUserSignal = signal<User | null>(null);
+  private currentUserSignal = signal<TokenUser | null>(null);
   currentUser = computed(() => this.currentUserSignal());
 
   constructor() {
-    // Cargar usuario desde localStorage al iniciar
+    // Cargar usuario desde localStorage al iniciar, validando que el token no haya expirado
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
-      const user = this.getUserFromToken(storedToken);
-      this.currentUserSignal.set(user);
+      try {
+        const decoded = jwtDecode<JwtPayload>(storedToken);
+        const now = Math.floor(Date.now() / 1000);
+        if (decoded.exp && decoded.exp < now) {
+          // Token caducado: limpiar localStorage y no restaurar sesión
+          localStorage.removeItem('token');
+        } else {
+          const user = this.getUserFromToken(storedToken);
+          this.currentUserSignal.set(user);
+        }
+      } catch (e) {
+        // Token corrupto o inválido: limpiar
+        localStorage.removeItem('token');
+      }
     }
   }
 
-  register(userData: any): Observable<any> {
+  register(userData: RegisterUser): Observable<AuthResponse> {
     return this.http
-      .post<any>(`${this.apiUrl}/api/auth/register`, userData)
+      .post<AuthResponse>(`${this.apiUrl}/api/auth/register`, userData)
       .pipe(
         tap((response) => {
           if (response && response.token) {
@@ -43,19 +52,10 @@ export class AuthService {
       );
   }
 
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/auth/login`, credentials).pipe(
-      tap((response: any) => {
+  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/auth/login`, credentials).pipe(
+      tap((response) => {
         if (response && typeof response.token === 'string') {
-          console.log(
-            '[AuthService] Token recibido del backend:',
-            response.token
-          );
-          try {
-            const decoded = jwtDecode(response.token);
-          } catch (e) {
-            console.error('Error al decodificar el token:', e);
-          }
           this.storeToken(response.token);
         } else {
           console.warn('No se recibió un token válido del backend.');
@@ -68,7 +68,7 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return false;
     try {
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode<JwtPayload>(token);
       return decoded.role === 'admin';
     } catch (e) {
       console.error('Error al decodificar el token:', e);
@@ -82,13 +82,13 @@ export class AuthService {
     this.currentUserSignal.set(user);
   }
 
-  getUserFromToken(token: string): any {
-    const decoded: any = jwtDecode(token);
-
+  getUserFromToken(token: string): TokenUser {
+    const decoded = jwtDecode<JwtPayload>(token);
     return {
       id: decoded.sub,
       name: decoded.name,
       email: decoded.email,
+      role: decoded.role,
     };
   }
 

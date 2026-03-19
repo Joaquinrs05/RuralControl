@@ -11,6 +11,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import jwtDecode from 'jwt-decode';
+import { JwtPayload } from '../../shared/models/jwt-payload.model';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.authService.getToken();
 
     if (token) {
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode<JwtPayload>(token);
       const now = Math.floor(Date.now() / 1000);
       if (decoded.exp < now) {
         this.authService.logout();

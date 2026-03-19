@@ -1,13 +1,13 @@
-// auth.guard.ts
-// Verifica únicamente que el usuario está autenticado (token válido y no expirado).
-// Permite el acceso tanto a usuarios normales como a admins.
+// admin.guard.ts
+// Permite el acceso únicamente a usuarios con rol 'admin'.
+// Redirige a /home si el usuario está autenticado pero no es admin.
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../../Auth/services/auth.service';
 import jwtDecode from 'jwt-decode';
 import { JwtPayload } from '../../shared/models/jwt-payload.model';
 
-export const authGuard: CanActivateFn = () => {
+export const adminGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const token = authService.getToken();
@@ -27,8 +27,13 @@ export const authGuard: CanActivateFn = () => {
       return false;
     }
 
-    // Token válido → acceso permitido (admin o user)
-    return true;
+    if (decoded.role === 'admin') {
+      return true;
+    }
+
+    // Usuario normal intentando acceder a rutas de admin → redirigir a home
+    router.navigate(['/home']);
+    return false;
   } catch (e) {
     console.error('Token inválido:', e);
     authService.logout();

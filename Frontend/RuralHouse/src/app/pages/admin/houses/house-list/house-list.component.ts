@@ -4,7 +4,6 @@ import { House } from '../../../../shared/models/house.model';
 import { HouseCardComponent } from '../house-card/house-card.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../Auth/services/auth.service';
-import { HouseEditComponent } from '../house-edit/house-edit.component';
 
 @Component({
   selector: 'app-house-list',
@@ -35,34 +34,26 @@ import { HouseEditComponent } from '../house-edit/house-edit.component';
 })
 export class HouseListComponent {
   private houseService = inject(HouseService);
+  private authService = inject(AuthService);
   public houses = signal<House[]>([]);
-  private authservice = inject(AuthService);
 
   constructor() {
     this.loadHouses();
   }
 
-  getUser() {
-    const token = this.authservice.getToken() as string;
-    if (!token) {
-      return null;
-    }
-    const user = this.authservice.getUserFromToken(token);
-    return user;
-  }
   private loadHouses() {
-    const user = this.getUser();
-    if (!user) {
-      console.error('⚠️ No se pudo obtener el usuario autenticado');
+    const token = this.authService.getToken();
+    if (!token) {
+      console.error('⚠️ No se pudo obtener el token');
       return;
     }
+    const user = this.authService.getUserFromToken(token);
+    // Number() cubre el caso en que Laravel devuelve sub como string en el JWT
+    const adminId = Number(user.id);
 
     this.houseService.load().subscribe({
       next: (data) => {
-        const filtered = data.filter(
-          (house) => house.owner_id === parseInt(user.id)
-        );
-        this.houses.set(filtered);
+        this.houses.set(data.filter(house => house.owner_id === adminId));
       },
       error: (err) => {
         console.error('❌ Error al cargar las casas:', err);

@@ -5,7 +5,7 @@
     <h2 class="text-3xl font-bold mb-6 text-center">Crear una cuenta</h2>
 
     <form
-      [formGroup]="registerForm()"
+      [formGroup]="registerForm"
       (ngSubmit)="onSubmit()"
       class="space-y-5"
     >
@@ -113,7 +113,7 @@
       <div class="flex justify-center">
         <button
           type="submit"
-          [disabled]="registerForm().invalid || loading()"
+          [disabled]="registerForm.invalid || loading()"
           class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full disabled:bg-gray-400"
         >
           @if (loading()) {

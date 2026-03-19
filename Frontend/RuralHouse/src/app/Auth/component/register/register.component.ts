@@ -1,5 +1,5 @@
 // register.component.ts
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,17 +9,8 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { RegisterUser } from '../../../shared/models/auth.model';
 
-interface RegisterUser {
-  name: string;
-  surname1?: string;
-  surname2?: string;
-  alias?: string;
-  birth_date?: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-}
 
 @Component({
   selector: 'app-register',
@@ -36,20 +27,18 @@ export class RegisterComponent {
   loading = signal(false);
   errorMessage = signal('');
 
-  registerForm: Signal<FormGroup> = computed(() =>
-    this.formBuilder.group(
-      {
-        name: ['', Validators.required],
-        surname1: [''],
-        surname2: [''],
-        alias: [''],
-        birth_date: [''],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        password_confirmation: ['', Validators.required],
-      },
-      { validators: this.passwordMatchValidator }
-    )
+  registerForm: FormGroup = this.formBuilder.group(
+    {
+      name: ['', Validators.required],
+      surname1: [''],
+      surname2: [''],
+      alias: [''],
+      birth_date: [''],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      password_confirmation: ['', Validators.required],
+    },
+    { validators: this.passwordMatchValidator }
   );
 
   passwordMatchValidator(form: FormGroup) {
@@ -65,7 +54,7 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm().invalid) {
+    if (this.registerForm.invalid) {
       this.errorMessage.set(
         'Por favor, corrige los errores y vuelve a intentarlo.'
       );
@@ -75,7 +64,7 @@ export class RegisterComponent {
     this.loading.set(true);
     this.errorMessage.set('');
 
-    const userData: RegisterUser = this.registerForm().value;
+    const userData: RegisterUser = this.registerForm.value;
 
     this.authService.register(userData).subscribe({
       next: () => {
