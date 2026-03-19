@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import jwtDecode from 'jwt-decode';
@@ -28,6 +28,7 @@ export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   loading = signal(false);
   errorMessage = signal('');
@@ -53,6 +54,11 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: () => {
         this.loading.set(true);
+        const returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'];
+        if (returnUrl) {
+          this.router.navigateByUrl(returnUrl);
+          return;
+        }
         const token = this.authService.getToken();
         if (token) {
           try {

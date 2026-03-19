@@ -36,7 +36,6 @@ export const routes: Routes = [
             (c) => c.HouseDetailComponent
           ),
         matcher: houseIdMatcher,
-        canActivate: [authGuard],
       },
     ],
   },
@@ -46,7 +45,6 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.component').then((c) => c.HomeComponent),
-    canActivate: [authGuard],
   },
   {
     path: 'reservas',
@@ -90,5 +88,6 @@ export const routes: Routes = [
     canActivate: [adminGuard],
   },
 
-  { path: '**', redirectTo: 'auth/login' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' },
 ];

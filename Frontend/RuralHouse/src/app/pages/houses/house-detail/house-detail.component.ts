@@ -3,7 +3,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { HouseCardComponent } from '../house-card/house-card.component';
 import { HouseService } from '../houses.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HouseFormComponent } from '../house-form/house-form.component';
 import { UserService } from '../../user/profile/user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
@@ -19,6 +19,7 @@ import { HouseImagePipe } from '../../../shared/pipes/house-image.pipe';
 })
 export class HouseDetailComponent {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   showRentalForm = false;
 
   id = computed(() => Number(this.route.snapshot.paramMap.get('id')));
@@ -91,6 +92,12 @@ export class HouseDetailComponent {
   }
 
   mostrarFormularioAlquiler() {
+    if (!this.#authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: this.router.url },
+      });
+      return;
+    }
     this.showRentalForm = true;
   }
 
