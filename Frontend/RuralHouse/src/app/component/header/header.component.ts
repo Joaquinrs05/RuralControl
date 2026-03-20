@@ -42,6 +42,11 @@ export class HeaderComponent {
     return this.isAdmin && !this.isAdminRoute;
   }
 
+  /** El usuario ha iniciado sesión */
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
   get buttonText(): string {
     if (this.isAdminRoute) {
       return this.router.url === '/admin/profile' ? 'Panel' : 'Perfil Admin';
@@ -64,7 +69,7 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/home']);
   }
 }
 

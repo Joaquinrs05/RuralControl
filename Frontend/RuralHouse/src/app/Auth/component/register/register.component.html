@@ -1,131 +1,193 @@
 <div
-  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500"
+  class="w-full h-[calc(100vh-6rem)] flex flex-col items-center justify-center bg-cover bg-center overflow-hidden relative"
+  style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=2070');"
 >
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
-    <h2 class="text-3xl font-bold mb-6 text-center">Crear una cuenta</h2>
+  <!-- Capa oscura de cristal difuminado para el fondo -->
+  <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm z-0"></div>
 
-    <form
-      [formGroup]="registerForm"
-      (ngSubmit)="onSubmit()"
-      class="space-y-5"
-    >
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="name">Nombre:</label>
+  <!-- Tarjeta central -->
+  <div class="relative w-full max-w-2xl bg-black/40 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border border-white/10 z-10 text-white mx-4">
+    
+    <div class="text-center mb-5">
+      <h2 class="text-2xl font-extrabold tracking-tight text-white mb-1">
+        Crear cuenta
+      </h2>
+      <p class="text-xs font-medium text-gray-300">
+        Únete a nosotros y descubre los mejores lugares
+      </p>
+    </div>
+
+    @if (errorMessage()) {
+    <div class="mb-4 flex items-center p-3 text-xs text-red-200 rounded-lg bg-red-900/50 border border-red-500/30 shadow-inner" role="alert">
+      <svg class="flex-shrink-0 inline w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+      </svg>
+      <div>{{ errorMessage() }}</div>
+    </div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Input de Nombre -->
+        <div>
+          <label for="name" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Nombre</label
+          >
           <input
             id="name"
             type="text"
             formControlName="name"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Tu nombre"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
-        </label>
-      </div>
+        </div>
 
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="surname1">Primer apellido:</label>
-          <input
-            id="surname1"
-            type="text"
-            formControlName="surname1"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </label>
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="surname2">Segundo apellido:</label>
-          <input
-            id="surname2"
-            type="text"
-            formControlName="surname2"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </label>
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="alias">Alias:</label>
+        <!-- Input de Alias -->
+        <div>
+          <label for="alias" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Alias</label
+          >
           <input
             id="alias"
             type="text"
             formControlName="alias"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="¿Cómo te llamamos?"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
-        </label>
-      </div>
+        </div>
 
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="birth_date">Fecha de nacimiento:</label>
+        <!-- Input de Primer Apellido -->
+        <div>
+          <label for="surname1" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Primer apellido</label
+          >
           <input
-            id="birth_date"
-            type="date"
-            formControlName="birth_date"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="surname1"
+            type="text"
+            formControlName="surname1"
+            placeholder="Primer apellido"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
-        </label>
-      </div>
+        </div>
 
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="email">Email:</label>
+        <!-- Input de Segundo Apellido -->
+        <div>
+          <label for="surname2" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Segundo apellido</label
+          >
+          <input
+            id="surname2"
+            type="text"
+            formControlName="surname2"
+            placeholder="Segundo apellido"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
+          />
+        </div>
+
+        <!-- Ingreso de Email -->
+        <div class="sm:col-span-2">
+          <label for="email" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Correo electrónico</label
+          >
           <input
             id="email"
             type="email"
             formControlName="email"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="ejemplo@correo.com"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
-        </label>
-      </div>
+          @if (registerForm.get('email')?.dirty && registerForm.get('email')?.invalid) {
+          <div class="mt-1 ml-1 text-[10px] text-red-300 font-medium animate-pulse">
+            @if (registerForm.get('email')?.getError('required')) {
+            <span>El correo es obligatorio.</span>
+            } @if (registerForm.get('email')?.getError('email')) {
+            <span>El formato no es válido.</span>
+            }
+          </div>
+          }
+        </div>
 
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="password">Contraseña:</label>
+        <!-- Fecha de nacimiento -->
+        <div class="sm:col-span-2">
+          <label for="birth_date" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Fecha de nacimiento</label
+          >
+          <input
+            id="birth_date"
+            type="date"
+            formControlName="birth_date"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md [color-scheme:dark]"
+          />
+        </div>
+
+        <!-- Contraseña -->
+        <div>
+          <label for="password" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Contraseña</label
+          >
           <input
             id="password"
             type="password"
             formControlName="password"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="••••••••"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
-        </label>
-      </div>
+          @if (registerForm.get('password')?.dirty && registerForm.get('password')?.invalid) {
+          <div class="mt-1 ml-1 text-[10px] text-red-300 font-medium animate-pulse">
+            @if (registerForm.get('password')?.getError('minlength')) {
+            <span>La contraseña debe tener al menos 6 caracteres.</span>
+            }
+          </div>
+          }
+        </div>
 
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">
-          <label for="password_confirmation">Confirmar contraseña:</label>
+        <!-- Confirmar Contraseña -->
+        <div>
+          <label for="password_confirmation" class="block text-xs font-semibold text-gray-200 mb-1 ml-1"
+            >Confirmar clave</label
+          >
           <input
             id="password_confirmation"
             type="password"
             formControlName="password_confirmation"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="••••••••"
+            class="w-full px-4 py-2 text-sm bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
-        </label>
+          @if (registerForm.get('password_confirmation')?.dirty && registerForm.get('password_confirmation')?.invalid) {
+          <div class="mt-1 ml-1 text-[10px] text-red-300 font-medium animate-pulse">
+            @if (registerForm.get('password_confirmation')?.hasError('passwordMismatch')) {
+            <span>Las contraseñas no coinciden.</span>
+            }
+          </div>
+          }
+        </div>
       </div>
-      @if (errorMessage()) {
-      <div class="mb-4 text-sm text-red-600 bg-red-100 p-3 rounded">
-        {{ errorMessage() }}
-      </div>
-      }
 
-      <div class="flex justify-center">
+      <!-- Botón -->
+      <div class="mt-2">
         <button
           type="submit"
           [disabled]="registerForm.invalid || loading()"
-          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full disabled:bg-gray-400"
+          class="w-full relative flex justify-center items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 border border-emerald-500/50 text-white shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:shadow-[0_0_25px_rgba(52,211,153,0.5)] hover:-translate-y-0.5 font-bold rounded-lg transition-all duration-300 disabled:opacity-50 disabled:hover:-translate-y-0 disabled:hover:shadow-none text-sm"
         >
           @if (loading()) {
-          <span class="spinner"></span>
-          } Registrarse
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          } 
+          <span class="tracking-wide">Completar registro</span>
         </button>
       </div>
 
-      <div class="flex justify-center mt-3">
-        <p>
-          ¿Ya tienes una cuenta? <a routerLink="/auth/login">Iniciar sesión</a>
-        </p>
+      <div class="text-center text-xs text-gray-300 mt-1 font-medium">
+        ¿Ya tienes una cuenta?
+        <a
+          routerLink="/auth/login"
+          class="text-emerald-400 font-bold hover:text-emerald-300 transition-colors hover:underline ml-1"
+          >Inicia sesión aquí</a
+        >
       </div>
     </form>
   </div>
