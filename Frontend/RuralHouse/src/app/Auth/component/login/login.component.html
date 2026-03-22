@@ -1,13 +1,16 @@
 <div
   class="w-full h-[calc(100vh-6rem)] flex flex-col items-center justify-center bg-cover bg-center overflow-hidden relative"
-  style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=2070');"
+  style="
+    background-image: url(&quot;https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=2070&quot;);
+  "
 >
   <!-- Capa oscura de cristal difuminado para el fondo -->
   <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm z-0"></div>
 
   <!-- Tarjeta central -->
-  <div class="relative w-full max-w-md bg-black/40 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border border-white/10 z-10 text-white">
-    
+  <div
+    class="relative w-full max-w-md bg-black/40 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border border-white/10 z-10 text-white"
+  >
     <div class="text-center mb-8">
       <h2 class="text-3xl font-extrabold tracking-tight text-white mb-1">
         Bienvenido
@@ -18,19 +21,33 @@
     </div>
 
     @if (errorMessage()) {
-    <div class="mb-6 flex items-center p-4 text-sm text-red-200 rounded-xl bg-red-900/50 border border-red-500/30 shadow-inner" role="alert">
-      <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-      </svg>
-      <div>{{ errorMessage() }}</div>
-    </div>
+      <div
+        class="mb-6 flex items-center p-4 text-sm text-red-200 rounded-xl bg-red-900/50 border border-red-500/30 shadow-inner"
+        role="alert"
+      >
+        <svg
+          class="flex-shrink-0 inline w-4 h-4 mr-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+          />
+        </svg>
+        <div>{{ errorMessage() }}</div>
+      </div>
     }
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
-      
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-6"
+    >
       <!-- Input de Email -->
       <div>
-        <label for="email" class="block text-sm font-semibold text-gray-200 mb-2 ml-1"
+        <label for="email" class="text-sm font-semibold text-gray-200 mb-2 ml-1"
           >Correo electrónico</label
         >
         <div class="relative">
@@ -44,26 +61,32 @@
             class="w-full px-5 py-3.5 bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
         </div>
-        @if (loginForm.get('email')?.dirty && loginForm.get('email')?.invalid) {
-        <div class="mt-2 ml-1 text-xs text-red-300 font-medium animate-pulse">
-          @if (loginForm.get('email')?.getError('required')) {
-          <span>El correo es obligatorio.</span>
-          } @if (loginForm.get('email')?.getError('email')) {
-          <span>El formato no es válido.</span>
-          }
-        </div>
+        @if (loginForm.get("email")?.dirty && loginForm.get("email")?.invalid) {
+          <div class="mt-2 ml-1 text-xs text-red-300 font-medium animate-pulse">
+            @if (loginForm.get("email")?.getError("required")) {
+              <span>El correo es obligatorio.</span>
+            }
+            @if (loginForm.get("email")?.getError("email")) {
+              <span>El formato no es válido.</span>
+            }
+          </div>
         }
       </div>
 
       <!-- Input de Contraseña -->
       <div>
-        <label for="password" class="block text-sm font-semibold text-gray-200 mb-2 ml-1 flex justify-between"
-          >
+        <label
+          for="password"
+          class="text-sm font-semibold text-gray-200 mb-2 ml-1 flex justify-between"
+        >
           <span>Contraseña</span>
           <!-- Enlace falso para diseño moderno, funcionalmente requeriría ruta -->
-          <a href="#" class="text-emerald-400 hover:text-emerald-300 text-xs font-medium transition-colors">¿Olvidaste la clave?</a>
-        </label
-        >
+          <a
+            href="#"
+            class="text-emerald-400 hover:text-emerald-300 text-xs font-medium transition-colors"
+            >¿Olvidaste la clave?</a
+          >
+        </label>
         <div class="relative">
           <input
             formControlName="password"
@@ -74,12 +97,14 @@
             class="w-full px-5 py-3.5 bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white/20 transition-all outline-none backdrop-blur-md"
           />
         </div>
-        @if (loginForm.get('password')?.dirty && loginForm.get('password')?.invalid) {
-        <div class="mt-2 ml-1 text-xs text-red-300 font-medium animate-pulse">
-          @if (loginForm.get('password')?.getError('required')) {
-          <span>La contraseña es obligatoria.</span>
-          }
-        </div>
+        @if (
+          loginForm.get("password")?.dirty && loginForm.get("password")?.invalid
+        ) {
+          <div class="mt-2 ml-1 text-xs text-red-300 font-medium animate-pulse">
+            @if (loginForm.get("password")?.getError("required")) {
+              <span>La contraseña es obligatoria.</span>
+            }
+          </div>
         }
       </div>
 
@@ -91,11 +116,27 @@
           class="w-full relative flex justify-center items-center gap-2 px-6 py-4 bg-emerald-600 hover:bg-emerald-500 border border-emerald-500/50 text-white shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:shadow-[0_0_25px_rgba(52,211,153,0.5)] hover:-translate-y-0.5 font-bold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:hover:-translate-y-0 disabled:hover:shadow-none"
         >
           @if (loading()) {
-          <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          } 
+            <svg
+              class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          }
           <span class="text-[15px] tracking-wide">Iniciar Sesión</span>
         </button>
       </div>
