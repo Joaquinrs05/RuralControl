@@ -35,12 +35,8 @@ class ReservationController extends Controller
     ]);
 
         $existingReservation = Reservation::where('house_id', $validated['house_id'])
-            ->where(function ($query) use ($validated) {
-                $query->Where(function ($q) use ($validated) {
-                    $q->where('start_date', '>=', $validated['start_date'])
-                        ->where('end_date', '<=', $validated['end_date']);
-                });
-            })
+            ->where('start_date', '<', $validated['end_date'])
+            ->where('end_date', '>', $validated['start_date'])
             ->first();
 
         if ($existingReservation) {
