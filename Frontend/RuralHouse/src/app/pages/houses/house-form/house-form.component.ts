@@ -81,13 +81,22 @@ export class HouseFormComponent {
               this.router.navigate(['/home']);
             });
           },
-          error: () => {
-            Swal.fire({
-              title: 'Error',
-              text: 'No se pudo completar la reserva. Inténtalo más tarde.',
-              icon: 'error',
-              confirmButtonText: 'Cerrar',
-            });
+          error: (err) => {
+            if (err.status === 422 && err.error && err.error.message === 'La casa ya está reservada en esas fechas') {
+              Swal.fire({
+                title: 'Casa no disponible',
+                text: 'La casa ya está reservada en esas fechas. Por favor, elige otras fechas.',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar',
+              });
+            } else {
+              Swal.fire({
+                title: 'Error',
+                text: 'No se pudo completar la reserva. Inténtalo más tarde.',
+                icon: 'error',
+                confirmButtonText: 'Cerrar',
+              });
+            }
           },
         });
       }
