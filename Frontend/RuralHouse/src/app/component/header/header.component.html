@@ -1,13 +1,13 @@
 <header class="header h-20 md:h-24">
   <div class="header-container">
-    <div class="logo-container flex items-center h-16">
+    <div class="logo-container flex items-center h-16 cursor-pointer" (click)="router.navigate(['/home'])">
       <img
         src="images/logo.png"
         class="h-20 md:h-48 w-auto object-contain"
         alt="Logo"
       />
     </div>
-    <div class="company-name md:mr-20 h-auto">
+    <div class="company-name md:mr-20 h-auto cursor-pointer" (click)="router.navigate(['/home'])">
       <h1>{{ companyName }}</h1>
     </div>
     <div *ngIf="!hideMenu" class="relative flex items-center gap-2 md:gap-4">
