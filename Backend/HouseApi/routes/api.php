@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('houses', [HouseController::class, 'index']);
 Route::post('houses', [HouseController::class, 'store']);
@@ -15,6 +16,10 @@ Route::delete('houses/{house}', [HouseController::class, 'destroy']);
 // Reservations
 Route::post('reservations', [ReservationController::class, 'store']);
 Route::get('users/{id}/houses', [ReservationController::class, 'getHousesByUser']);
+
+// Reviews
+Route::get('houses/{id}/reviews', [ReviewController::class, 'index']);
+Route::post('reviews', [ReviewController::class, 'store']);
 
 // Admin Dashboard
 Route::get('admin/{adminId}/stats', [AdminDashboardController::class, 'getAdminStats']);

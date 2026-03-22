@@ -24,7 +24,8 @@ class House extends Model
         'province'
     ];
 
-
-
-
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

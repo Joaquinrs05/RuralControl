@@ -11,6 +11,7 @@ export interface House {
 
   visits: number;
   price_per_night: number;
+  average_rating?: number;
   created_at: string;
   updated_at: string;
 }
