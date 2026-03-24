@@ -187,9 +187,10 @@ export class HouseFormComponent {
     return user;
   }
 
-  onFileChange(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
+  onFileChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.selectedFile = target.files[0];
     }
   }
 

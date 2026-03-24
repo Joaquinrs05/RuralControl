@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { AdminDashboardService } from '../admin.service';
+import { AuthService } from '../../../Auth/services/auth.service';
 import {
   NbCardModule,
   NbSpinnerModule,
@@ -35,7 +36,19 @@ import { rxResource } from '@angular/core/rxjs-interop';
 export class DashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  adminId = 1; // O como obtengas el adminId dinámicamente
+  authService = inject(AuthService);
+  
+  get adminId(): number {
+    const user = this.authService.currentUser();
+    if (user?.id) return user.id;
+    
+    const token = this.authService.getToken();
+    if (token) {
+      const decoded = this.authService.getUserFromToken(token);
+      if (decoded?.id) return Number(decoded.id);
+    }
+    return 1;
+  }
   houseService = inject(HouseService);
   houses = this.houseService.houses;
 

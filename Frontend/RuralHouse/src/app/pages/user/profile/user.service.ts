@@ -37,9 +37,9 @@ export class UserService {
   getProfile(): Observable<User | undefined> {
     const token = this.#authService.getToken();
     if (!token) return of(undefined);
-    const decoded: any = this.#authService.getUserFromToken(token);
+    const decoded = this.#authService.getUserFromToken(token);
     if (decoded && decoded.id) {
-      return this.getUserById(decoded.id);
+      return this.getUserById(Number(decoded.id));
     }
     return of(undefined);
   }

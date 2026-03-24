@@ -15,7 +15,7 @@ export class ReviewService {
     return this.http.get<Review[]>(`${this.apiUrl}/houses/${houseId}/reviews`);
   }
 
-  createReview(reviewData: any): Observable<Review> {
+  createReview(reviewData: Partial<Review>): Observable<Review> {
     return this.http.post<Review>(`${this.apiUrl}/reviews`, reviewData);
   }
 }

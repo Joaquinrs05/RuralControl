@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { House } from '../../shared/models/house.model';
+import { Reservation } from '../../shared/models/reservation.model';
 import { environment } from '../../../environment/environment';
 @Injectable({
   providedIn: 'root',
@@ -59,7 +60,7 @@ export class HouseService {
       });
   }
 
-  createReservation(reservation: any) {
+  createReservation(reservation: Partial<Reservation>) {
     return this.#httpClient.post(this.apiUrlReservation, reservation);
   }
 
