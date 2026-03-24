@@ -46,7 +46,7 @@ export class HouseDetailComponent {
   );
 
   // Usuario actual
-  usuarioActual = signal<User>({
+  private userVacio: User = {
     id: 0,
     name: '',
     surname1: '',
@@ -57,7 +57,9 @@ export class HouseDetailComponent {
     password: '',
     created_at: '',
     updated_at: '',
-  });
+  };
+
+  usuarioActual = computed(() => this.#authService.currentUser() ?? this.userVacio);
 
   private map: L.Map | null = null;
 
@@ -90,17 +92,6 @@ export class HouseDetailComponent {
             });
           });
 
-        });
-      }
-    });
-
-    effect(() => {
-      const token = this.#authService.getToken();
-      if (!token) return;
-      const decoded: any = this.#authService.getUserFromToken(token);
-      if (decoded?.id) {
-        this.#userService.getUserById(decoded.id).subscribe((user) => {
-          this.usuarioActual.set(user ?? this.usuarioActual());
         });
       }
     });

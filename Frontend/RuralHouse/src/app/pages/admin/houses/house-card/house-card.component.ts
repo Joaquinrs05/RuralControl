@@ -47,11 +47,11 @@ export class HouseCardComponent {
   deleteHouse(id: number) {
     this.houseService.deleteHouse(id).subscribe({
       next: () => {
-        console.log('🏠 Casa eliminada correctamente');
+
         this.router.navigate(['/admin/houses']);
       },
       error: (error) => {
-        console.error('❌ Error al eliminar la casa:', error);
+
       },
     });
   }

@@ -57,7 +57,7 @@ export class HouseService {
     this.#httpClient
       .get(`${this.apiUrl}/${id}/rental-form`)
       .subscribe((result) => {
-        console.log('Mostrar formulario de alquiler', result);
+
       });
   }
 

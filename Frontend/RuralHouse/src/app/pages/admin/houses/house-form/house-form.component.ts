@@ -136,7 +136,7 @@ export class HouseFormComponent {
         }
       },
       error: (err) => {
-        console.error('Error en geocodificación inversa:', err);
+
       },
     });
   }
@@ -171,20 +171,19 @@ export class HouseFormComponent {
         }
       },
       error: (err) => {
-        console.error('Error en la búsqueda:', err);
+
         alert('Error al buscar la dirección');
       },
     });
   }
 
   getUser() {
-    const token = this.authservice.getToken() as string;
-    if (!token) {
-      console.error('No token found');
-      return null; // o lanzar un error si prefieres
+    const user = this.authservice.currentUser();
+    if (!user) {
+
+      return null;
     }
-    const user = this.authservice.getUserFromToken(token);
-    console.log('Usuario obtenido del token:', user);
+
     return user;
   }
 
@@ -218,10 +217,7 @@ export class HouseFormComponent {
       formData.append('photo', this.selectedFile);
     }
 
-    console.log(
-      '📤 Datos que se envían a la API:',
-      Object.fromEntries(formData.entries())
-    );
+
     //this.http.post('http://localhost:8001/api/houses', formData).subscribe({
     this.http
       .post(`${environment.apiBaseUrlHouses}/api/houses`, formData)
@@ -238,7 +234,7 @@ export class HouseFormComponent {
           this.router.navigate(['/admin/home']);
         },
         error: (err) => {
-          console.error('Error al crear la casa:', err);
+
           Swal.fire({
             icon: 'error',
             title: 'Error',

@@ -27,7 +27,7 @@ export class UserService {
         this.#usersSignal.set(result);
       }),
       catchError((error) => {
-        console.error('Failed to load users', error);
+
         return throwError(() => error);
       })
     );

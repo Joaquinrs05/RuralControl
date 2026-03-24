@@ -74,7 +74,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.log(error);
+
         this.loading.set(false);
         this.errorMessage.set(
           error.error.message || 'Credenciales inválidas. Inténtalo de nuevo.'

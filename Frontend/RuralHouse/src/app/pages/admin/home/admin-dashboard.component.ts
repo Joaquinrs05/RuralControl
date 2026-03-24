@@ -86,20 +86,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: ({ statsResponse, reservationsResponse }) => {
           if (statsResponse.success) {
             this.stats = statsResponse.data;
-            console.log('Admin Stats:', this.stats);
+
             this.loadingStats = false;
             this.setupOccupancyChart();
           }
           if (reservationsResponse.success) {
             this.reservationsByMonth = reservationsResponse.data;
-            console.log('Reservations by Month:', this.reservationsByMonth);
+
             this.loadingReservations = false;
             this.setupReservationsChart();
             this.setupOrdersChart();
           }
         },
         error: (err) => {
-          console.error('Error loading dashboard data:', err);
+
           this.loadingStats = false;
           this.loadingReservations = false;
         },

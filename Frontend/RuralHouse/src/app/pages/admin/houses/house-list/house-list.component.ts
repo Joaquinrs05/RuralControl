@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { HouseService } from '../../../houses/houses.service';
 import { House } from '../../../../shared/models/house.model';
 import { HouseCardComponent } from '../house-card/house-card.component';
@@ -38,25 +38,21 @@ export class HouseListComponent {
   public houses = signal<House[]>([]);
 
   constructor() {
-    this.loadHouses();
+    effect(() => {
+      const user = this.authService.currentUser();
+      if (user?.id) {
+        this.loadHouses(Number(user.id));
+      }
+    });
   }
 
-  private loadHouses() {
-    const token = this.authService.getToken();
-    if (!token) {
-      console.error('⚠️ No se pudo obtener el token');
-      return;
-    }
-    const user = this.authService.getUserFromToken(token);
-    // Number() cubre el caso en que Laravel devuelve sub como string en el JWT
-    const adminId = Number(user.id);
-
+  private loadHouses(adminId: number) {
     this.houseService.load().subscribe({
       next: (data) => {
         this.houses.set(data.filter(house => house.owner_id === adminId));
       },
       error: (err) => {
-        console.error('❌ Error al cargar las casas:', err);
+
         this.houses.set([]);
       },
     });
@@ -70,7 +66,7 @@ export class HouseListComponent {
         );
       },
       error: (err) => {
-        console.error('❌ Error al eliminar la casa:', err);
+
       },
     });
   }

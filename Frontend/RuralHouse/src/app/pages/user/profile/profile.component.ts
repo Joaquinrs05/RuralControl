@@ -1,4 +1,4 @@
-import { Component, effect, Inject, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from './user.service';
 import { AuthService } from '../../../Auth/services/auth.service';
@@ -45,47 +45,39 @@ export class UsersComponent {
     updated_at: '',
   };
 
-  usuarioActual = signal<User>(this.userVacio);
+  usuarioActual = computed(() => this.#authService.currentUser() ?? this.userVacio);
   reservasUsuario = signal<Reservation[]>([]);
 
   constructor() {
     effect(() => {
-      const token = this.#authService.getToken();
-      if (!token) return;
-      const decoded: any = this.#authService.getUserFromToken(token);
-      if (decoded && decoded.id) {
-        this.loading.set(true);
-        this.#userService.getProfile().subscribe({
-          next: (user) => {
-            this.usuarioActual.set(user ?? this.userVacio);
-
-            this.cargarReservasUsuario(user?.id);
-            this.loading.set(false);
-          },
-          error: (error) => {
-            console.error('Error al cargar el usuario:', error);
-            this.loading.set(false);
-          },
-        });
+      const user = this.#authService.currentUser();
+      if (user && user.id) {
+        this.cargarReservasUsuario(user.id);
+        this.loading.set(false);
+      } else {
+        // if user is strictly null we might still be loading, but if !token we aren't
+        if (!this.#authService.getToken()) {
+           this.loading.set(false);
+        }
       }
-    });
+    }, { allowSignalWrites: true });
   }
 
   private cargarReservasUsuario(userId?: number) {
-    console.log('[Perfil] userId para reservas:', userId);
+
     if (!userId) return;
     this.#reservationService.getReservationsByUser(userId).subscribe({
       next: (reservas) => {
-        console.log('[Perfil] Reservas recibidas:', reservas);
+
         this.reservasUsuario.set(reservas);
       },
       error: (error) => {
-        console.error('[Perfil] Error al cargar reservas:', error);
+
       },
     });
   }
 
-  formatDate(dateString: string): string {
+  formatDate(dateString: string | undefined): string {
     if (!dateString) return 'No especificada';
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', {

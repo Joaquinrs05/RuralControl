@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode';
 import { environment } from '../../../environment/environment';
 import { JwtPayload, TokenUser } from '../../shared/models/jwt-payload.model';
 import { AuthResponse, RegisterUser } from '../../shared/models/auth.model';
+import { User } from '../../shared/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class AuthService {
   private apiUrl = environment.apiBaseUrlUsers;
   /* private apiUrl = 'http://www.ruralcontrol.com/api/users'; */
 
-  private currentUserSignal = signal<TokenUser | null>(null);
+  private currentUserSignal = signal<User | null>(null);
   currentUser = computed(() => this.currentUserSignal());
 
   constructor() {
@@ -30,8 +31,7 @@ export class AuthService {
           // Token caducado: limpiar localStorage y no restaurar sesión
           localStorage.removeItem('token');
         } else {
-          const user = this.getUserFromToken(storedToken);
-          this.currentUserSignal.set(user);
+          this.loadUserFromApi(storedToken);
         }
       } catch (e) {
         // Token corrupto o inválido: limpiar
@@ -71,15 +71,30 @@ export class AuthService {
       const decoded = jwtDecode<JwtPayload>(token);
       return decoded.role === 'admin';
     } catch (e) {
-      console.error('Error al decodificar el token:', e);
+
       return false;
     }
   }
 
   private storeToken(token: string) {
     localStorage.setItem('token', token);
-    const user = this.getUserFromToken(token);
-    this.currentUserSignal.set(user);
+    this.loadUserFromApi(token);
+  }
+
+  private loadUserFromApi(token: string) {
+    const userFromToken = this.getUserFromToken(token);
+    if (!userFromToken || !userFromToken.id) return;
+    // Obtenemos el usuario completo desde la API para el signal centralizado
+    // Usamos setTimeout para evitar un ciclo de dependencias en el constructor
+    setTimeout(() => {
+      this.http.get<User>(`${this.apiUrl}/api/users/${userFromToken.id}`).subscribe({
+        next: (user) => {
+          user.role = userFromToken.role; // Asignar rol desde el JWT si lo necesitamos
+          this.currentUserSignal.set(user);
+        },
+
+      });
+    }, 0);
   }
 
   getUserFromToken(token: string): TokenUser {

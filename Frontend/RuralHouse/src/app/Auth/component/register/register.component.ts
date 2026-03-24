@@ -72,7 +72,7 @@ export class RegisterComponent {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.log(error);
+
         this.loading.set(false);
         this.errorMessage.set(
           error.error.message || 'Error en el registro. Intente nuevamente.'

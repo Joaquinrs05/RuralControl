@@ -55,7 +55,7 @@ export class HouseFormComponent {
       user_id: this.user().id,
       house_id: this.house().id,
     };
-    console.log('📤 Datos que se envían a la API:', datosReserva);
+
     Swal.fire({
       title: '¿Confirmar reserva?',
       text: `Estás a punto de reservar esta casa rural por ${

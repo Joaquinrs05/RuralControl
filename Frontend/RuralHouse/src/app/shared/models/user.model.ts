@@ -6,7 +6,8 @@ export interface User {
   alias: string;
   birth_date: string;
   email: string;
-  password: string;
-  created_at: string;
-  updated_at: string;
+  password?: string;
+  created_at?: string;
+  updated_at?: string;
+  role?: string;
 }

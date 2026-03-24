@@ -18,32 +18,34 @@ import { HouseImagePipe } from '../../../shared/pipes/house-image.pipe';
   styleUrl: './reservas.component.scss',
 })
 export class ReservasComponent {
-  constructor() {
-    if (this.user?.id) {
-      this.cargarReservasUsuario(this.user.id);
-    }
-  }
-
   errorMsg = '';
   reservasUsuario = signal<Reservation[]>([]);
 
   house = input.required<House>();
   #authService = inject(AuthService);
   #reservationService = inject(ReservationService);
-  user = this.#authService.getUserFromToken(this.#authService.getToken()!);
+
+  constructor() {
+    effect(() => {
+      const user = this.#authService.currentUser();
+      if (user?.id) {
+        this.cargarReservasUsuario(user.id);
+      }
+    });
+  }
   private cargarReservasUsuario(userId?: number) {
-    console.log('[Perfil] userId para reservas:', userId);
+
     if (!userId) return;
     this.#reservationService.getReservationsByUser(userId).subscribe({
       next: (reservas) => {
-        console.log('[Perfil] Reservas recibidas:', reservas);
+
         const reservasValidas = (reservas || []).filter(
           (r) => r && r.id !== undefined && r.id !== null
         );
         this.reservasUsuario.set(reservasValidas);
       },
       error: (error) => {
-        console.error('[Perfil] Error al cargar reservas:', error);
+
       },
     });
   }
