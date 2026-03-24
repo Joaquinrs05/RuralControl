@@ -25,19 +25,13 @@ export class UserService {
     return this.#httpClient.get<User[]>(this.apiUrl).pipe(
       tap((result) => {
         this.#usersSignal.set(result);
-      }),
-      catchError((error) => {
-
-        return throwError(() => error);
       })
     );
   }
 
   getUserById(id: number): Observable<User | undefined> {
     const url = `${this.apiUrl}/${id}`;
-    return this.#httpClient
-      .get<User>(url)
-      .pipe(catchError(this.handleError<User>(`getUser id=${id}`)));
+    return this.#httpClient.get<User>(url);
   }
 
   getProfile(): Observable<User | undefined> {
@@ -50,11 +44,5 @@ export class UserService {
     return of(undefined);
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      // Devuelve un resultado vacío para seguir ejecutando la aplicación
-      return of(result as T);
-    };
-  }
+
 }

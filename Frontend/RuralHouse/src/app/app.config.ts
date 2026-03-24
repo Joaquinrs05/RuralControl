@@ -14,6 +14,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AuthInterceptor } from './Auth/interceptor/auth.interceptor';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import {
@@ -39,6 +40,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     provideAnimations(),
     importProvidersFrom(
       NbThemeModule.forRoot({ name: 'default' }),

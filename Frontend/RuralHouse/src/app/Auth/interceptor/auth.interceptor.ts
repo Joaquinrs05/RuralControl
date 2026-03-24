@@ -38,15 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
         headers: request.headers.set('Authorization', `Bearer ${token}`),
       });
 
-      return next.handle(cloned).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            authService.logout();
-            this.router.navigate(['/auth/login']);
-          }
-          return throwError(() => error);
-        })
-      );
+      return next.handle(cloned);
     }
 
     return next.handle(request);

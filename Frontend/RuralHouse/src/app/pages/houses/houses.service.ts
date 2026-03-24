@@ -32,9 +32,7 @@ export class HouseService {
 
   getHouseById(id: number): Observable<House | undefined> {
     const url = `${this.apiUrl}/${id}`;
-    return this.#httpClient
-      .get<House>(url)
-      .pipe(catchError(this.handleError<House>(`getHouse id=${id}`)));
+    return this.#httpClient.get<House>(url);
   }
 
   readonly defaulHouse: House = {
@@ -73,8 +71,7 @@ export class HouseService {
         this.#housesSignal.set(
           this.#housesSignal().filter((house) => house.id !== id)
         );
-      }),
-      catchError(this.handleError<void>(`deleteHouse id=${id}`))
+      })
     );
   }
 
@@ -89,14 +86,8 @@ export class HouseService {
           currentHouses[index] = updatedHouse;
           this.#housesSignal.set([...currentHouses]);
         }
-      }),
-      catchError(this.handleError<House>(`updateHouse id=${house.id}`))
+      })
     );
   }
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
+
 }
