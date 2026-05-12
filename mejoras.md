@@ -30,39 +30,6 @@
 
 # FRONTEND
 
----
-
-## 1. 🔴 Seguridad
-
-## 2. 🔴 Arquitectura y Calidad de Código
-
-### 2.4 Inconsistencia en el uso de `any`
-
-**Problema:** Se usa `any` frecuentemente en vez de interfaces tipadas:
-
-- `registerForm(): Observable<any>` en `auth.service.ts`
-- `login(): Observable<any>`
-- `decoded: any` en múltiples archivos
-- `createReservation(reservation: any)` en `houses.service.ts`
-
-**Solución:** Crear interfaces para todas las respuestas de API y los datos del JWT.
-
-```typescript
-interface JwtPayload {
-  sub: number;
-  name: string;
-  email: string;
-  role: 'admin' | 'user';
-  exp: number;
-  iat: number;
-}
-
-interface LoginResponse {
-  token: string;
-  user: User;
-}
-```
-
 ### 2.6 Inconsistencia de convenciones de nombrado
 
 - Carpeta `Auth` con **A mayúscula** (debería ser `auth`).
